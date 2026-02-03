@@ -1,0 +1,121 @@
+.my_language{
+    padding: 15px;
+    padding-top: 5px;
+}
+.my_language section{
+    text-align: center;
+    font-size: 16px;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    background-color: rgba(255, 255, 255, 0.6);
+    border-radius: 3px;
+    padding: 10px;
+    margin: 10px 0;
+    -webkit-box-shadow: 0 1px 6px 0 rgba(0, 0, 0, 0.1);
+            box-shadow: 0 1px 6px 0 rgba(0, 0, 0, 0.1);
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+}
+.my_language section img{
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+.my_language section span {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    color: var(--t3);
+}
+.my_language section span i{
+    font-size: 20px;
+    font-weight: 300;
+    margin-right: 3px;
+}
+.my_language small{
+    width: 20px;
+    height: 20px;
+    border: 1px solid #949494;
+    margin-left: auto;
+    border-radius: 3px;
+}
+.my_language section:hover{
+    cursor: pointer;
+}
+.my_language_active{
+    background: rgba(255, 255, 255, 1) !important;
+}
+.my_language_active small{
+    background: #2bb673 url(../icon/check2.png);
+    background-size: contain;
+    border: none;
+}
+
+
+
+
+.se_faq{
+	overflow:hidden;
+	/* background:#FFF; */
+	padding:10px;
+}
+.se_faq_box{
+    -webkit-box-shadow: 0px 2px 5px 0.05px rgb(0 0 0 / 6%);
+            box-shadow: 0px 2px 5px 0.05px rgb(0 0 0 / 6%);
+	margin:10px 0px;
+    border: 1px solid #8BC34A;
+    border-radius: 10px;
+    background: #fff;
+}
+.se_faq dt{
+	font-weight:500;
+	background:url(../icon/q.png) 10px 13px no-repeat;
+	text-align:left;
+	padding:3px 0 15px 30px;
+	position:relative;
+	font-size:14px;
+	line-height:20px;
+    padding: 10px 40px;
+	color:var(--t3);
+	position:relative;
+    background-size: 18px;
+    /* border-radius: 7px; */
+}
+.se_faq dt:hover{
+	cursor:pointer;
+	background-color:rgba(255, 255, 255, 0.1);
+	color:var(--y);
+}
+.se_faq dt em{
+	position:absolute;
+	color:#999;
+	right:10px;
+	top:10px;
+	font-size:18px;
+}
+.se_faq dd{
+	background:url(../icon/a.png) 10px 10px no-repeat;
+	padding:15px 30px;
+	text-align:left;
+	position:relative;
+	color:var(--t6);
+	font-size:12px;
+	line-height:16px;
+    padding: 10px 40px;
+    background-size: 18px;
+}
+.faqs .hover{
+	color:#990000;
+	text-decoration:underline;
+}
+.hover em{
+    transition: ease-in-out 0.2s all;
+    transform: rotate(90deg);
+
+}

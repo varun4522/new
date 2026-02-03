@@ -1,0 +1,813 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Login/Register - Chicken Road Game</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+    
+    * {
+      font-family: 'Poppins', sans-serif;
+    }
+    
+    .gradient-bg {
+      background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .gradient-bg::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle at center, rgba(139, 92, 246, 0.15) 0%, transparent 70%);
+      animation: rotate-gradient 30s linear infinite;
+      z-index: 0;
+    }
+    
+    @keyframes rotate-gradient {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    
+    .glass-effect {
+      background: rgba(15, 23, 42, 0.8);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+      z-index: 10;
+      position: relative;
+    }
+    
+    .input-glow:focus {
+      box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.4);
+      border-color: rgba(139, 92, 246, 0.6);
+    }
+    
+    .btn-gradient {
+      background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #a855f7 100%);
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
+    }
+    
+    .btn-gradient:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 15px 30px rgba(99, 102, 241, 0.5);
+      background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #a855f7 100%);
+    }
+    
+    .btn-gradient:active {
+      transform: translateY(0);
+    }
+    
+    .btn-gradient::after {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -60%;
+      width: 200%;
+      height: 200%;
+      background: linear-gradient(
+        to right,
+        rgba(255, 255, 255, 0) 0%,
+        rgba(255, 255, 255, 0.2) 50%,
+        rgba(255, 255, 255, 0) 100%
+      );
+      transform: rotate(30deg);
+      transition: all 0.7s ease;
+    }
+    
+    .btn-gradient:hover::after {
+      left: 100%;
+    }
+    
+    .floating {
+      animation: floating 6s ease-in-out infinite;
+    }
+    
+    @keyframes floating {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-15px); }
+    }
+    
+    .pulse-glow {
+      animation: pulse-glow 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+    }
+    
+    @keyframes pulse-glow {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(139, 92, 246, 0.5); }
+      50% { box-shadow: 0 0 25px 15px rgba(139, 92, 246, 0); }
+    }
+    
+    .particle {
+      position: absolute;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.5);
+      pointer-events: none;
+      z-index: 1;
+    }
+    
+    .form-transition {
+      transition: all 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    }
+    
+    .shake {
+      animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) both;
+    }
+    
+    @keyframes shake {
+      10%, 90% { transform: translateX(-1px); }
+      20%, 80% { transform: translateX(2px); }
+      30%, 50%, 70% { transform: translateX(-4px); }
+      40%, 60% { transform: translateX(4px); }
+    }
+    
+    .text-gradient {
+      background: linear-gradient(135deg, #8b5cf6 0%, #ec4899 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    
+    .input-icon {
+      transition: all 0.3s ease;
+    }
+    
+    input:focus ~ .input-icon {
+      transform: scale(1.2);
+      color: #a855f7;
+    }
+    
+    .toggle-form {
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .toggle-form::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, #8b5cf6, transparent);
+      transform: scaleX(0);
+      transition: transform 0.3s ease;
+    }
+    
+    .toggle-form:hover::after {
+      transform: scaleX(1);
+    }
+    
+    .logo-container {
+      position: relative;
+      width: 90px;
+      height: 90px;
+      margin: 0 auto 1.5rem;
+    }
+    
+    .logo-container::before {
+      content: '';
+      position: absolute;
+      inset: -5px;
+      background: linear-gradient(135deg, #8b5cf6, #ec4899, #6366f1);
+      border-radius: 20px;
+      z-index: -1;
+      filter: blur(10px);
+      opacity: 0.7;
+      animation: rotate-hue 6s linear infinite;
+    }
+    
+    @keyframes rotate-hue {
+      0% { filter: blur(10px) hue-rotate(0deg); }
+      100% { filter: blur(10px) hue-rotate(360deg); }
+    }
+    
+    .logo-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 16px;
+      box-shadow: 0 8px 32px rgba(139, 92, 246, 0.3);
+    }
+    
+    .sparkle {
+      position: absolute;
+      width: 4px;
+      height: 4px;
+      background: white;
+      border-radius: 50%;
+      opacity: 0;
+      animation: sparkle 2s infinite;
+    }
+    
+    @keyframes sparkle {
+      0% { transform: scale(0); opacity: 0; }
+      50% { transform: scale(1); opacity: 0.8; }
+      100% { transform: scale(0); opacity: 0; }
+    }
+    
+    .glow-line {
+      position: absolute;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(139, 92, 246, 0.6), transparent);
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      animation: glow-line 4s ease-in-out infinite;
+    }
+    
+    @keyframes glow-line {
+      0%, 100% { opacity: 0.3; }
+      50% { opacity: 1; }
+    }
+    
+    .referral-badge {
+      position: absolute;
+      top: -10px;
+      right: -10px;
+      background: linear-gradient(135deg, #ec4899, #8b5cf6);
+      color: white;
+      font-size: 10px;
+      padding: 2px 6px;
+      border-radius: 10px;
+      font-weight: bold;
+      z-index: 20;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    }
+    
+    .referral-field {
+      position: relative;
+    }
+    /* Improve mobile sizing and prevent overflow */
+    html, body {
+      height: 100%;
+      margin: 0;
+      overflow-x: hidden;
+    }
+
+    .gradient-bg::before {
+      pointer-events: none;
+    }
+
+    #particles-js, #sparkles-container {
+      pointer-events: none;
+      touch-action: none;
+    }
+
+    @media (max-width: 640px) {
+      .gradient-bg::before {
+        top: -40%;
+        left: -40%;
+        width: 180%;
+        height: 180%;
+      }
+
+      /* Reduce container padding and margins on small screens */
+      .glass-effect {
+        padding: 1rem;
+        margin: 0.5rem;
+        border-radius: 1rem;
+      }
+
+      .logo-container {
+        width: 72px;
+        height: 72px;
+      }
+
+      .logo-img {
+        border-radius: 12px;
+      }
+
+      /* Hide sparkles and particles on small screens to save space/perf */
+      #particles-js, #sparkles-container, .sparkle, .glow-line {
+        display: none !important;
+      }
+
+      /* Slightly smaller inputs/buttons on mobile */
+      input, button {
+        font-size: 15px;
+      }
+
+      body {
+        padding: 0;
+      }
+    }
+    /* Desktop: make register form box smaller and content tighter */
+    @media (min-width: 1024px) {
+      #mainContainer.is-register {
+        max-width: 420px;
+        padding: 1.25rem;
+      }
+
+      #mainContainer.is-register .logo-container {
+        width: 64px;
+        height: 64px;
+        margin-bottom: 1rem;
+      }
+
+      #mainContainer.is-register h1 {
+        font-size: 1.25rem; /* reduce title size */
+      }
+
+      #mainContainer.is-register h2 {
+        font-size: 1rem;
+      }
+
+      #mainContainer.is-register input {
+        padding-top: .6rem;
+        padding-bottom: .6rem;
+      }
+
+      #mainContainer.is-register .btn-gradient {
+        padding-top: .6rem;
+        padding-bottom: .6rem;
+      }
+    }
+  </style>
+  <style>
+    /* Splash screen styles */
+    #splash {
+      transition: opacity 300ms ease, visibility 300ms ease;
+      background-size: cover;
+      backdrop-filter: blur(8px);
+    }
+
+    #splash.hidden {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+  </style>
+</head>
+<body class="gradient-bg min-h-screen flex items-center justify-center p-4 overflow-hidden">
+  <!-- Splash Screen -->
+  <div id="splash" class="fixed inset-0 z-50 flex items-center justify-center bg-gradient-to-b from-purple-900 via-indigo-900 to-transparent">
+    <div class="text-center p-6 rounded-xl glass-effect" style="max-width:320px;">
+      <div class="logo-container" style="margin-bottom:0.75rem;">
+        <img src="images/REG.jpg" alt="Logo" class="logo-img" style="width:68px;height:68px;" />
+      </div>
+      <h2 class="text-white font-semibold text-lg">Chicken Road</h2>
+      <p class="text-gray-300 text-sm mt-2">Welcome — loading the app</p>
+      <div class="mt-4">
+      </div>
+    </div>
+  </div>
+  <!-- Animated Background Particles -->
+  <div id="particles-js" class="fixed inset-0 pointer-events-none z-0"></div>
+  
+  <!-- Floating Sparkles -->
+  <div id="sparkles-container" class="fixed inset-0 pointer-events-none z-0"></div>
+  
+  <!-- Main Container -->
+  <div id="mainContainer" class="glass-effect rounded-2xl p-4 sm:p-8 w-full max-w-md relative z-10 animate__animated animate__fadeIn">
+    <!-- Glow line decoration -->
+    <div class="glow-line"></div>
+    
+    <!-- Logo/Header -->
+    <div class="text-center mb-8 floating">
+      <div class="logo-container">
+        <img src="images/REG.jpg" alt="Chicken Road Logo" class="logo-img">
+      </div>
+      <h1 class="text-2xl sm:text-4xl font-bold text-white mb-2"><span class="text-gradient">Chicken</span> Road</h1>
+      <p class="text-gray-400 text-xs sm:text-sm font-medium tracking-wider">Login or register to start your adventure</p>
+    </div>
+    
+    <!-- Login Form -->
+    <div id="loginForm" class="space-y-6 form-transition">
+      <h2 class="text-xl sm:text-2xl font-semibold text-center text-white mb-6">Welcome Back</h2>
+      
+      <div class="space-y-5">
+        <div class="relative">
+          <input type="text" id="loginUsername" placeholder="Username or Phone" 
+                 class="w-full px-5 py-3.5 rounded-xl bg-white/5 border border-white/10 text-white placeholder-gray-400 input-glow focus:outline-none transition-all duration-300" />
+          <div class="absolute right-4 top-3.5 text-gray-400 input-icon">👤</div>
+        </div>
+        
+        <div class="relative">
+          <input type="password" id="loginPassword" placeholder="Password" 
+                 class="w-full px-5 py-3.5 rounded-xl bg-white/5 border border-white/10 text-white placeholder-gray-400 input-glow focus:outline-none transition-all duration-300" />
+          <div class="absolute right-4 top-3.5 text-gray-400 input-icon">🔒</div>
+        </div>
+      </div>
+      
+      <div class="flex justify-between items-center">
+        <div class="flex items-center">
+          <input type="checkbox" id="rememberMe" class="w-4 h-4 rounded bg-white/10 border-white/20 focus:ring-indigo-500">
+          <label for="rememberMe" class="ml-2 text-sm text-gray-400">Remember me</label>
+        </div>
+        <button class="text-sm text-indigo-400 hover:text-indigo-300 transition-colors">Forgot password?</button>
+      </div>
+      
+      <button onclick="login()" class="w-full btn-gradient text-white font-semibold py-3.5 px-4 sm:px-0 rounded-xl text-base sm:text-lg relative overflow-hidden">
+        <span class="relative z-10">Login</span>
+      </button>
+
+      <p class="text-center text-sm sm:text-base text-gray-400">
+        <span class="inline">Don't have an account?</span>
+        <button onclick="showRegister()" class="inline-block text-indigo-400 hover:text-indigo-300 font-medium transition-colors toggle-form ml-2">Create one</button>
+      </p>
+    </div>
+    
+    <!-- Register Form -->
+    <div id="registerForm" class="space-y-6 hidden form-transition">
+      <h2 class="text-xl sm:text-2xl font-semibold text-center text-white mb-6">Join Us</h2>
+      
+      <div class="space-y-5">
+        <div class="relative">
+          <input type="text" id="regUsername" placeholder="Username" 
+                 class="w-full px-5 py-3.5 rounded-xl bg-white/5 border border-white/10 text-white placeholder-gray-400 input-glow focus:outline-none transition-all duration-300" />
+          <div class="absolute right-4 top-3.5 text-gray-400 input-icon">👤</div>
+        </div>
+        
+        <div class="relative">
+          <input type="tel" id="regPhone" placeholder="Phone Number" 
+                 class="w-full px-5 py-3.5 rounded-xl bg-white/5 border border-white/10 text-white placeholder-gray-400 input-glow focus:outline-none transition-all duration-300" />
+          <div class="absolute right-4 top-3.5 text-gray-400 input-icon">📱</div>
+        </div>
+        
+        <div class="relative">
+          <input type="password" id="regPassword" placeholder="Password (min 6 characters)" 
+                 class="w-full px-5 py-3.5 rounded-xl bg-white/5 border border-white/10 text-white placeholder-gray-400 input-glow focus:outline-none transition-all duration-300" />
+          <div class="absolute right-4 top-3.5 text-gray-400 input-icon">🔒</div>
+        </div>
+        
+        <div class="relative referral-field">
+          <input type="text" id="referralCode" placeholder="Referral Code (Optional)" 
+                 class="w-full px-5 py-3.5 rounded-xl bg-white/5 border border-white/10 text-white placeholder-gray-400 input-glow focus:outline-none transition-all duration-300" />
+          <div class="absolute right-4 top-3.5 text-gray-400 input-icon">🎁</div>
+          <div id="referralBadge" class="referral-badge hidden">REFERRAL</div>
+        </div>
+      </div>
+      
+      <div class="flex items-start">
+        <input type="checkbox" id="termsAgree" class="mt-1 w-4 h-4 rounded bg-white/10 border-white/20 focus:ring-indigo-500">
+        <label for="termsAgree" class="ml-2 text-sm text-gray-400">
+          I agree to the <a href="#" class="text-indigo-400 hover:underline">Terms of Service</a> and <a href="#" class="text-indigo-400 hover:underline">Privacy Policy</a>
+        </label>
+      </div>
+      
+      <button onclick="register()" class="w-full btn-gradient text-white font-semibold py-3.5 px-4 sm:px-0 rounded-xl text-base sm:text-lg relative overflow-hidden">
+        <span class="relative z-10">Register</span>
+      </button>
+
+      <p class="text-center text-sm sm:text-base text-gray-400">
+        <span class="inline">Already have an account?</span>
+        <button onclick="showLogin()" class="inline-block text-indigo-400 hover:text-indigo-300 font-medium transition-colors toggle-form ml-2">Sign in</button>
+      </p>
+    </div>
+    
+    <!-- Status Message -->
+    <div id="message" class="mt-6 p-4 rounded-xl hidden animate__animated animate__fadeIn"></div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+  <script>
+    // Splash helpers
+    function showSplash() {
+      const splash = document.getElementById('splash');
+      if (splash) {
+        splash.classList.remove('hidden');
+        splash.style.opacity = '1';
+      }
+    }
+
+    function hideSplash() {
+      const splash = document.getElementById('splash');
+      if (splash) {
+        splash.classList.add('hidden');
+      }
+    }
+
+    // Initialize particles.js with more premium settings
+    document.addEventListener('DOMContentLoaded', function() {
+      showSplash();
+      particlesJS('particles-js', {
+        particles: {
+          number: { value: 80, density: { enable: true, value_area: 1000 } },
+          color: { value: "#a855f7" },
+          shape: { type: "circle" },
+          opacity: { 
+            value: 0.7, 
+            random: true,
+            anim: { enable: true, speed: 1, opacity_min: 0.1, sync: false }
+          },
+          size: { 
+            value: 3, 
+            random: true,
+            anim: { enable: true, speed: 2, size_min: 0.1, sync: false }
+          },
+          line_linked: { 
+            enable: true, 
+            distance: 150, 
+            color: "#a855f7", 
+            opacity: 0.3, 
+            width: 1,
+            shadow: {
+              enable: true,
+              color: "#8b5cf6",
+              blur: 5
+            }
+          },
+          move: {
+            enable: true,
+            speed: 1.5,
+            direction: "none",
+            random: true,
+            straight: false,
+            out_mode: "out",
+            bounce: false,
+            attract: { enable: true, rotateX: 600, rotateY: 1200 }
+          }
+        },
+        interactivity: {
+          detect_on: "canvas",
+          events: {
+            onhover: { enable: true, mode: "repulse" },
+            onclick: { enable: true, mode: "push" },
+            resize: true
+          },
+          modes: {
+            repulse: { distance: 100, duration: 0.4 },
+            push: { particles_nb: 4 }
+          }
+        },
+        retina_detect: true
+      });
+      
+      // Create floating sparkles
+      createSparkles();
+
+      // Check URL for referral code
+      checkForReferral();
+
+      // Hide splash after 4 seconds and then run auth check
+      const splashTimeout = 4000;
+      const timeoutId = setTimeout(() => {
+        hideSplash();
+        try { checkAuthStatus(); } catch (e) { console.error(e); }
+      }, splashTimeout);
+    });
+    
+    function checkForReferral() {
+      const urlParams = new URLSearchParams(window.location.search);
+      const refCode = urlParams.get('ref');
+      
+      if (refCode) {
+        // Show register form directly
+        showRegister();
+        
+        // Set the referral code in the input
+        document.getElementById('referralCode').value = refCode;
+        
+        // Show the referral badge
+        document.getElementById('referralBadge').classList.remove('hidden');
+        
+        // Show a message
+        showMessage('Referral code applied! You and your referrer will get bonuses.', false);
+      }
+    }
+    
+    function createSparkles() {
+      const container = document.getElementById('sparkles-container');
+      const count = 20;
+      
+      for (let i = 0; i < count; i++) {
+        const sparkle = document.createElement('div');
+        sparkle.classList.add('sparkle');
+        
+        // Random position
+        sparkle.style.left = `${Math.random() * 100}%`;
+        sparkle.style.top = `${Math.random() * 100}%`;
+        
+        // Random delay
+        sparkle.style.animationDelay = `${Math.random() * 5}s`;
+        
+        // Random size
+        const size = Math.random() * 3 + 2;
+        sparkle.style.width = `${size}px`;
+        sparkle.style.height = `${size}px`;
+        
+        container.appendChild(sparkle);
+      }
+    }
+    
+    function showRegister() {
+      document.getElementById('loginForm').classList.add('hidden');
+      document.getElementById('registerForm').classList.remove('hidden');
+      document.getElementById('registerForm').classList.add('animate__fadeIn');
+      // add class to reduce container size for desktop register view
+      const main = document.getElementById('mainContainer');
+      if (main) main.classList.add('is-register');
+      hideMessage();
+    }
+    
+    function showLogin() {
+      document.getElementById('registerForm').classList.add('hidden');
+      document.getElementById('loginForm').classList.remove('hidden');
+      document.getElementById('loginForm').classList.add('animate__fadeIn');
+      // remove reduced size class when returning to login
+      const main = document.getElementById('mainContainer');
+      if (main) main.classList.remove('is-register');
+      hideMessage();
+    }
+    
+    function showMessage(text, isError = false) {
+      const messageDiv = document.getElementById('message');
+      messageDiv.textContent = text;
+      messageDiv.className = `mt-6 p-4 rounded-xl animate__animated animate__fadeIn ${isError ? 'bg-red-900/30 border border-red-700/50 text-red-200' : 'bg-green-900/30 border border-green-700/50 text-green-200'}`;
+      messageDiv.classList.remove('hidden');
+      
+      // Auto-hide after 5 seconds
+      setTimeout(hideMessage, 5000);
+    }
+    
+    function hideMessage() {
+      const messageDiv = document.getElementById('message');
+      messageDiv.classList.add('animate__fadeOut');
+      setTimeout(() => {
+        messageDiv.classList.add('hidden');
+        messageDiv.classList.remove('animate__fadeOut');
+      }, 500);
+    }
+    
+    function addRippleEffect(event) {
+      const button = event.currentTarget;
+      const ripple = document.createElement('span');
+      const rect = button.getBoundingClientRect();
+      const size = Math.max(rect.width, rect.height);
+      const x = event.clientX - rect.left - size / 2;
+      const y = event.clientY - rect.top - size / 2;
+      
+      ripple.style.width = ripple.style.height = `${size}px`;
+      ripple.style.left = `${x}px`;
+      ripple.style.top = `${y}px`;
+      ripple.classList.add('ripple-effect');
+      
+      button.appendChild(ripple);
+      
+      setTimeout(() => {
+        ripple.remove();
+      }, 600);
+    }
+    
+    async function login() {
+      const username = document.getElementById('loginUsername').value.trim();
+      const password = document.getElementById('loginPassword').value;
+      const rememberMe = document.getElementById('rememberMe').checked;
+      
+      if (!username || !password) {
+        showMessage('Please fill in all fields', true);
+        document.getElementById('loginForm').classList.add('shake');
+        setTimeout(() => {
+          document.getElementById('loginForm').classList.remove('shake');
+        }, 500);
+        return;
+      }
+      
+      try {
+        // Show loading state
+        const loginBtn = document.querySelector('#loginForm button');
+        loginBtn.innerHTML = '<span class="relative z-10">Authenticating...</span>';
+        loginBtn.disabled = true;
+        
+        const response = await fetch('api/login.php', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ username, password, remember_me: rememberMe })
+        });
+        
+        const data = await response.json();
+        
+        // Reset button state
+        loginBtn.innerHTML = '<span class="relative z-10">Login</span>';
+        loginBtn.disabled = false;
+        
+        if (data.success) {
+          showMessage('Login successful! Redirecting...');
+          setTimeout(() => {
+            if (data.user && data.user.is_admin == 1) {
+              window.location.href = 'agent/index.php';
+            } else {
+              window.location.href = 'index.php';
+            }
+          }, 1500);
+        } else {
+          showMessage(data.error || 'Invalid credentials', true);
+          document.getElementById('loginForm').classList.add('shake');
+          setTimeout(() => {
+            document.getElementById('loginForm').classList.remove('shake');
+          }, 500);
+        }
+      } catch (error) {
+        showMessage('Network error. Please try again.', true);
+        const loginBtn = document.querySelector('#loginForm button');
+        loginBtn.innerHTML = '<span class="relative z-10">Login</span>';
+        loginBtn.disabled = false;
+      }
+    }
+    
+    async function register() {
+      const username = document.getElementById('regUsername').value.trim();
+      const phone = document.getElementById('regPhone').value.trim();
+      const password = document.getElementById('regPassword').value;
+      const referralCode = document.getElementById('referralCode').value.trim();
+      const termsAgree = document.getElementById('termsAgree').checked;
+      
+      if (!username || !phone || !password) {
+        showMessage('Please fill in all required fields', true);
+        document.getElementById('registerForm').classList.add('shake');
+        setTimeout(() => {
+          document.getElementById('registerForm').classList.remove('shake');
+        }, 500);
+        return;
+      }
+      
+      if (!termsAgree) {
+        showMessage('You must agree to the terms and conditions', true);
+        return;
+      }
+      
+      if (password.length < 6) {
+        showMessage('Password must be at least 6 characters', true);
+        return;
+      }
+      
+      try {
+        // Show loading state
+        const registerBtn = document.querySelector('#registerForm button');
+        registerBtn.innerHTML = '<span class="relative z-10">Creating account...</span>';
+        registerBtn.disabled = true;
+        
+        const response = await fetch('api/register.php', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ 
+            username, 
+            phone, 
+            password, 
+            referral_code: referralCode 
+          })
+        });
+        
+        const data = await response.json();
+        
+        // Reset button state
+        registerBtn.innerHTML = '<span class="relative z-10">Register</span>';
+        registerBtn.disabled = false;
+        
+        if (data.success) {
+          showMessage('Registration successful! Welcome to Chicken Road.');
+          
+          // If registered with referral, show special message
+          if (referralCode) {
+            showMessage('Registration successful! You and your referrer got bonuses.', false);
+          }
+          
+          setTimeout(() => {
+            window.location.href = 'index.php';
+          }, );
+        } else {
+          showMessage(data.error || 'Registration failed. Please try again.', true);
+          document.getElementById('registerForm').classList.add('shake');
+          setTimeout(() => {
+            document.getElementById('registerForm').classList.remove('shake');
+          }, 500);
+        }
+      } catch (error) {
+        showMessage('Network error. Please try again.', true);
+        const registerBtn = document.querySelector('#registerForm button');
+        registerBtn.innerHTML = '<span class="relative z-10">Register</span>';
+        registerBtn.disabled = false;
+      }
+    }
+    
+    async function checkAuthStatus() {
+      try {
+        const response = await fetch('api/check_auth.php');
+        const data = await response.json();
+        
+        if (data.authenticated) {
+          window.location.href = 'index.php';
+        }
+      } catch (error) {
+        console.error('Auth check failed:', error);
+      }
+    }
+    
+    // Add ripple effects to buttons
+    document.querySelectorAll('button').forEach(button => {
+      button.addEventListener('click', addRippleEffect);
+    });
+  </script>
+</body>
+</html> 

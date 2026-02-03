@@ -1,0 +1,97 @@
+
+
+
+        .balance[data-v-17ac100e] {
+            width: 343px;
+            height: 122px;
+            background: url('/public/static/withdraw-edb22276.png') no-repeat;
+            background-size: 100% 100%;
+            margin-top: 9px;
+            padding: 0 19px;
+            box-sizing: border-box
+        }
+
+        .balance .title[data-v-17ac100e] {
+            height: 46px;
+            line-height: 46px;
+            color: #fff;
+            font-size: 14px;
+            font-weight: 500
+        }
+
+        .balance .amount[data-v-17ac100e] {
+            height: 75px;
+            line-height: 75px
+        }
+
+        .balance .record[data-v-17ac100e] {
+            width: 73px;
+            height: 29px;
+            line-height: 29px;
+            background: #6ab84e;
+            font-size: 13px;
+            text-align: center;
+            border-radius: 29px;
+            color: #fff
+        }
+
+        .box[data-v-17ac100e] {
+            width: 343px;
+            padding: 14px;
+            box-sizing: border-box;
+            background: #fff;
+            border-radius: 7px;
+            margin-top: 14px
+        }
+
+        .box .label[data-v-17ac100e] {
+            font-size: 14px;
+            font-weight: 600
+        }
+
+        .recharge-amount[data-v-17ac100e] {
+            width: 100%;
+            height: 44px;
+            line-height: 44px;
+            border: 1px solid #eee;
+            border-radius: 7px;
+            margin-top: 9px;
+            padding: 0 9px;
+            box-sizing: border-box
+        }
+
+        .common-btn[data-v-17ac100e] {
+            margin-top: 24px
+        }
+
+        .plan-list[data-v-17ac100e] {
+            width: 314px;
+            display: grid;
+            grid-gap: 14px;
+            grid-template-columns: 1fr 1fr 1fr;
+            margin-top: 14px
+        }
+
+        .plan-list .plan-item[data-v-17ac100e] {
+            height: 34px;
+            border: 1px solid #dbdbdb;
+            text-align: center;
+            line-height: 34px;
+            border-radius: 39px;
+            box-sizing: border-box
+        }
+
+        .plan-list .active[data-v-17ac100e] {
+            border-color: #6ab84e;
+            color: #6ab84e
+        }
+
+        .method-wrap[data-v-17ac100e] {
+            width: 314px
+        }
+
+        .method-wrap .method-item[data-v-17ac100e] {
+            width: 314px;
+            height: 39px;
+            border-bottom: 1px solid #f1f2f3
+        }

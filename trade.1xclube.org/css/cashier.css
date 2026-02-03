@@ -1,0 +1,368 @@
+.mui-content > .mui-card:first-child {
+    margin-top: 6px;
+}
+.mui-input-row label {
+    font-family: 'Helvetica Neue', Helvetica, sans-serif;
+    line-height: 1.1;
+    float: left;
+    width: 40%;
+    padding: 11px 15px;
+}
+.mui-input-row h2{
+    font-size: 20px;
+    color: red;
+    line-height: 1.4;
+    text-align: center;
+    font-weight: bold;
+}
+h3{
+    font-size: 18px;
+    color: red;
+    line-height: 1.4;
+    text-align: center;
+    font-weight: bold;
+}
+#secondStepId h4{
+    font-size: 14px;
+    line-height: 1.4;
+    text-align: center;
+    font-weight: bold;
+}
+#walletChannelId h4{
+    font-size: 14px;
+    line-height: 1.4;
+    text-align: center;
+    font-weight: bold;
+}
+h4 span{
+    font-size: 16px;
+    color: red;
+}
+.radio-container {
+    display: flex; /* 设置为 Flexbox 容器 */
+    flex-wrap: nowrap; /* 防止子元素换行 */
+}
+
+.radio-container > .mui-input-row {
+    flex: 1; /* 子元素各占相等份额的空间，这里设置为1，意味着各占50% */
+    box-sizing: border-box; /* 包括内边距和边框在内计算元素的总宽度和高度 */
+    /*padding: 0 20px; !* 可选：为子元素添加一些内边距 *!*/
+}
+
+/* 可选：为了美观，你可能还想为 label 和 input 添加一些样式 */
+.radio-container label {
+    display: flex; /* 使 label 内的文本和图像能够灵活布局 */
+    align-items: center; /* 垂直居中 */
+}
+
+.radio-container img {
+    margin-left: 1px; /* 可选：为图像添加一些左边距，使其与文本分开 */
+}
+.mui-radio input[type="radio"] {
+    border-bottom: none !important; /* 使用 !important 来确保覆盖其他样式 */
+}
+.mui-radio label{
+    font-size: 1.2rem;
+    margin-top: 8px;
+}
+label{
+    font-size: 1.2rem;
+}
+
+/*	下拉样式*/
+.custom-dropdown {
+    position: relative;
+    display: inline-block;
+    width: 100%; /* 或者你需要的宽度 */
+}
+.custom-dropdown-button {
+    width: 100%;
+    padding: 10px;
+    text-align: left;
+    /*border: 1px solid #ccc;*/
+    background-color: #fff;
+    cursor: pointer;
+    position: relative;
+    display: inline-block;
+}
+
+/* 初始状态下的下拉箭头 */
+.custom-dropdown-button::after {
+    content: '▼'; /* 初始状态为下拉箭头 */
+    position: absolute;
+    right: 10px; /* 根据需要调整位置 */
+    top: 50%;
+    transform: translateY(-50%); /* 垂直居中 */
+    transition: transform 0.3s ease; /* 添加过渡效果 */
+}
+
+
+.custom-dropdown-button.expanded::after {
+    /*transform: rotate(180deg); !* 旋转180度并保持垂直居中 *!*/
+    content: '▲';
+}
+
+.custom-dropdown-menu {
+    display: none;
+    left: 0;
+    margin-top: 1px;
+    width: 100%;
+    border: 1px solid #ccc;
+    background-color: #fff;
+    z-index: 1000;
+    max-height: 200px; /* 可选，限制下拉列表的高度 */
+    overflow-y: auto; /* 可选，添加滚动条 */
+}
+
+.custom-dropdown-menu li {
+    padding: 10px;
+    border-bottom: 1px solid #eee;
+    display: flex;
+    align-items: center;
+}
+
+.custom-dropdown-menu li img {
+    width: 30px;
+    height: 30px;
+    margin-right: 10px;
+}
+/* 当鼠标悬停或选中时，改变背景色为红色 */
+.custom-dropdown-menu li:hover,
+.custom-dropdown-menu li.selected {
+    background-color: #00a2d4;
+    color: white; /* 改变文本颜色以确保可读性 */
+}
+
+.custom-dropdown-button.selected {
+    background-color: #00a2d4; /* 选中后的背景色 */
+}
+
+.custom-dropdown-menu li:hover {
+    background-color: #007BFF;
+}
+#dropdownButton span{
+    font-size: 18px;
+    margin-left: 6px;
+    color: #999;
+}
+#customDropdownMenu li{
+    margin-left: -30px;
+}
+
+/*	下拉样式结束 */
+.mui-button-row button {
+    width: 90%;
+    font-size: 18px;
+}
+/*提示框样式开始*/
+.hiddenFirstStep {
+    display: none;
+}
+#customAlertFirstStep {
+    position: fixed;
+    top: 30%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 80%;
+    max-width: 500px; /* 可选：设置一个最大宽度以限制在小屏幕上的大小 */
+    background-color: white;
+    border: 2px solid  #ccc;
+    border-radius: 5px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+}
+#customAlertFirstStepTips {
+    position: fixed;
+    top: 10%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 80%;
+    max-width: 500px; /* 可选：设置一个最大宽度以限制在小屏幕上的大小 */
+    background-color: white;
+    border: 4px solid  #ccc;
+    border-radius: 5px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+}
+.alert-box-FirstStep {
+    padding: 20px;
+    text-align: center;
+    word-wrap: break-word; /* 确保长单词或URL可以换行 */
+    overflow-wrap: break-word; /* 同上，现代浏览器的兼容性写法 */
+}
+.alert-box-FirstStep h2 {
+    line-height: 1.2;
+    font-size: 16px; /* 稍微减小字体大小以更好地适应内容 */
+    margin-top: 0;
+    font-weight: bold; /* 可选：使标签加粗 */
+    white-space: normal; /* 确保文字根据容器自动换行 */
+}
+.alert-box-FirstStep button:hover {
+    background-color: #0056b3;
+}
+/*提示框样式结束*/
+
+
+/*第二个中间内容页面样式*/
+.walletType-select {
+    display: flex; /* 使用Flexbox布局 */
+    align-items: center; /* 垂直居中对齐子元素 */
+    justify-content: space-between; /* 子元素之间的水平间距 */
+    width: 100%; /* 确保容器占据其父元素的全部宽度 */
+    /*border: 1px solid #ccc; !* 可选：为容器添加边框 *!*/
+    padding: 5px 0; /* 可选：为容器添加内边距 */
+}
+.label-content-walletType {
+    flex: 1; /* 占据剩余空间的一半（因为有两个子元素，且都设置了flex: 1） */
+    text-align: left; /* 文本左对齐 */
+    padding-left: 10px; /* 可选：为标签添加左内边距 */
+    box-sizing: border-box; /* 包括内边距和边框在内计算元素的总宽度 */
+}
+.custom-dropdown-button-walletType {
+    flex: 1; /* 同样占据剩余空间的一半 */
+    text-align: right; /* 文本右对齐，以便与下拉菜单图标对齐 */
+    position: relative; /* 为下拉菜单图标提供定位上下文 */
+    cursor: pointer; /* 指示这是一个可点击的元素 */
+    box-sizing: border-box; /* 包括内边距和边框在内计算元素的总宽度 */
+}
+.dropdown-arrow {
+    /* 下拉箭头图标的样式 */
+    vertical-align: middle; /* 垂直居中对齐图标 */
+}
+
+/* 下拉菜单的样式 */
+.custom-dropdown-menu-walletType {
+    list-style: none; /* 移除列表项的默认样式 */
+    padding: 0; /* 移除内边距 */
+    margin: 0; /* 移除外边距 */
+    position: absolute; /* 绝对定位下拉菜单 */
+    top: 100%; /* 放置在父元素的下方 */
+    left: 0; /* 根据需要调整位置 */
+    width: 100%; /* 根据需要调整宽度，这里设置为与父元素同宽 */
+    border: 1px solid #ccc; /* 可选：为下拉菜单添加边框 */
+    background-color: #fff; /* 可选：为下拉菜单设置背景色 */
+    z-index: 1000; /* 确保下拉菜单在其他内容之上显示 */
+}
+
+.custom-dropdown-menu-walletType li {
+    padding: 10px; /* 为列表项添加内边距 */
+    cursor: pointer; /* 指示列表项是可点击的 */
+}
+
+.custom-dropdown-menu-walletType li:hover {
+    background-color: #f0f0f0; /* 可选：为悬停的列表项设置背景色 */
+}
+.content_div{
+    border: 2px solid  #ccc;
+    width: 94%;
+    margin-left: auto;
+    margin-right: auto;
+}
+.content_div_agency{
+    border: 2px solid  #EFEFEF;
+    width: 88%;
+    margin-left: auto;
+    margin-right: auto;
+}
+.accountPhone-input-row {
+    display: flex; /* 使用flex布局来更容易地控制子元素的排列 */
+    align-items: center; /* 垂直居中对齐子元素 */
+}
+
+.accountPhone-clear {
+    font-size: 12px;
+    font-weight: bold;
+    flex: 1; /* 输入框占据剩余空间 */
+}
+
+.requestAmount-clear {
+    display: flex;
+    align-items: center; /* 垂直方向居中对齐 */
+    font-size: 12px;
+    font-weight: bold;
+    flex: 1; /* 输入框占据剩余空间 */
+    /* 确保span有足够的空间显示文本，并防止文本溢出 */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis; /* 如果文本太长，则显示省略号 */
+    /* 可以根据需要设置宽度、边距等 */
+    margin-right: 10px; /* 与图片之间的间距 */
+}
+
+.copy_commit_accountPhone {
+    width: 24px;
+    height: 20px;
+    margin-left: 4px;
+    align-items: center;
+    cursor: pointer; /* 指示这是一个可点击的元素 */
+}
+.copy_commit_accountPhoneAgency {
+    width: 24px;
+    height: 20px;
+    margin-left: 4px;
+    align-items: center;
+    cursor: pointer; /* 指示这是一个可点击的元素 */
+}
+.copy_commit_requestAmount {
+    width: 26px;
+    height: 20px;
+    margin-left: 4px;
+    cursor: pointer; /* 指示这是一个可点击的元素 */
+}
+.copy_commit_requestAmountAgency {
+    width: 26px;
+    height: 20px;
+    margin-left: 4px;
+    cursor: pointer; /* 指示这是一个可点击的元素 */
+}
+#secondStepId .label-content{
+    font-weight: bold; /* 可选：使标签加粗 */
+    display: inline-block;
+    font-size: 12px;
+    /*width: 18.2rem; !* 根据需要调整宽度 *!*/
+    text-align: right;
+}
+#walletChannelId .label-content{
+    font-weight: bold; /* 可选：使标签加粗 */
+    display: inline-block;
+    font-size: 12px;
+    /*width: 18.2rem; !* 根据需要调整宽度 *!*/
+    text-align: right;
+}
+#customDropdownMenuWalletType li{
+    margin-left: -30px;
+}
+h5{
+    margin-top: 10px;
+    color: red;
+    line-height: 1.4;
+    text-align: center;
+    font-weight: bold;
+    font-size: 15px;
+}
+.mui-button-row button{
+    background-color: #006A3D
+}
+.agency button{
+    color: #FFFFFF;
+    background-color: #FF928B;
+}
+#walletSerialNo{
+    width: 90%;
+    margin: 0 auto;
+    display: block;
+}
+#submitId{
+    width: 70%;
+    margin: 0 auto;
+    display: block;
+    top: 8px;
+    font-size: 14px;
+}
+#firstStepSubmitId{
+    width: 70%;
+    margin: 0 auto;
+    display: block;
+    top: 8px;
+    font-size: 14px;
+}

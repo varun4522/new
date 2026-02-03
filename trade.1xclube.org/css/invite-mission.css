@@ -1,0 +1,193 @@
+.pte_m_t{
+	overflow:hidden;
+	padding:5px 10px;
+	text-align:left;
+    display: flex;
+    align-items: center;
+}
+.pte_m_t a{
+    margin-left: auto;
+	border: none;
+    outline: none;
+    font-size: 14px;
+    padding: 7px 20px;
+    /* overflow: hidden; */
+    position: relative;
+    cursor: pointer;
+    color: #fff;
+    -webkit-box-shadow: 0px 2px 5px 0.05px rgb(0 0 0 / 20%);
+    box-shadow: 2px 2px 5px 0.05px rgb(0 0 0 / 20%);
+    background: url(../clipimg/btn2.png) center;
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    border-radius: 12px;
+}
+.pte_m_t span{
+	color:var(--t6);
+	font-size:20px;
+	display:inline-block;
+	padding-right:4px;
+	padding-top:8px;
+}
+.pte_m_t b{
+	color:var(--t3);
+	font-size:20px;
+	display:inline-block;
+	padding-top:8px;
+}
+
+
+.pte_m_lv{
+	padding:0px 10px;
+	padding-bottom:20px;
+}
+.pte_m_tab{
+	margin-top: 10px;
+    width: 100%;
+    min-height: 51px;
+    height: auto!important;
+    height: 63px;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+    -webkit-flex-direction: row;
+    flex-direction: row;
+    -webkit-box-pack: justify;
+    -webkit-justify-content: space-between;
+    justify-content: space-between;
+    border-radius: 10px;
+    background: var(--pb3);
+    align-items: center;
+	overflow:hidden;
+    border: 1px solid var(--t3);
+}
+.pte_m4{
+	width:70px;
+}
+.pte_m4 button{
+    border: 1px solid #fff;
+    border-radius: 8px;
+    outline: none;
+    padding: 6px 8px;
+    font-size: 14px;
+    color: #FFF;
+    background: #800000;
+    display: block;
+    background: #FF8000;
+    background-image: -moz-linear-gradient(0deg,#004080 0%,#006CD9 100%);
+    background-image: -webkit-linear-gradient(0deg,#004080 0%,#006CD9 100%);
+    background-image: -ms-linear-gradient(0deg,#004080 0%,#006CD9 100%);
+    /*-webkit-box-shadow: 0px 2px 8px 0px rgba(0,94,187,0.4);
+    -moz-box-shadow: 0px 2px 8px 0px rgba(0,94,187,0.4);
+    box-shadow: 0px 1px 2px 0px rgba(0,94,187,0.4);*/
+    text-shadow: 1px 1px #033e77;
+    border-radius: 20px;
+	margin-right:5px;
+	
+	margin-right:inherit;
+	border-radius:7px;
+	height:35px;
+    float: right;
+	border:none;
+	margin-right:5px;
+}
+.pte_m4 button[disabled]{
+    background-image: -webkit-linear-gradient(0deg,#999 0%,#333333 100%);
+}
+.pte_m4 button:active{
+    background-image: -webkit-linear-gradient(0deg,#cccccc 0%,#333333 100%);
+	cursor:pointer;
+}
+.pte_m1{
+	width: 50px;
+    background: #333;
+    height: 51px;
+    justify-content: center;
+    color: #fff;
+    display: flex;
+    font-size: 25px;
+    align-items: center;
+	font-weight:800;
+	margin-right:5px;
+    background: var(--t3);
+    position: relative;
+}
+.pte_m1:before {
+    border-color: transparent var(--pb3) transparent transparent;
+    content: "";
+    width: 0;
+    height: 0;
+    border-width: 10px;
+    border-style: solid;
+    position: absolute;
+    right: 0;
+    top: 50%;
+    -webkit-transform: translateY(-50%);
+    -ms-transform: translateY(-50%);
+    transform: translateY(-50%);
+}
+.pte_m2{
+	text-align:left;
+}
+.pte_m2 h3{
+	font-size:12px;
+	color:#666;
+	font-weight:300;
+}
+.pte_m2 h2{
+	font-size:12px;
+	color:var(--t3);
+	padding-top:3px;
+	font-weight:600;
+}
+.pte_m2 h2 i{
+    font-size: 8px;
+}
+.pte_m3{
+	width:70px;
+	margin:0px 5px;
+}
+.pte_m3 h3{
+	font-size:14px;
+	color:#333;
+	padding-bottom:5px;
+	font-weight:600;
+}
+.pte_m3 aside{
+	overflow:hidden;
+	background:#CCC;
+	border-radius:10px;
+}
+.pte_m3 dd{
+	border-radius:10px;
+	background:var(--t3);
+	height:10px;
+	background-image: -webkit-linear-gradient(45deg,rgba(255,255,255,.15) 25%,transparent 25%,transparent 50%,rgba(255,255,255,.15) 50%,rgba(255,255,255,.15) 75%,transparent 75%,transparent);
+    background-image: -o-linear-gradient(45deg,rgba(255,255,255,.15) 25%,transparent 25%,transparent 50%,rgba(255,255,255,.15) 50%,rgba(255,255,255,.15) 75%,transparent 75%,transparent);
+    background-image: linear-gradient(45deg,rgba(255,255,255,.15) 25%,transparent 25%,transparent 50%,rgba(255,255,255,.15) 50%,rgba(255,255,255,.15) 75%,transparent 75%,transparent);
+    -webkit-background-size: 40px 40px;
+    background-size: 40px 40px;
+	width:0%;
+	-webkit-animation: progress-bar-stripes 2s linear infinite;
+    -o-animation: progress-bar-stripes 2s linear infinite;
+    animation: progress-bar-stripes 2s linear infinite;
+	overflow:hidden;
+}
+
+@-webkit-keyframes progress-bar-stripes {
+  from  { background-position: 40px 0; }
+  to    { background-position: 0 0; }
+}
+
+@keyframes progress-bar-stripes {
+  from  { background-position: 40px 0; }
+  to    { background-position: 0 0; }
+}
+.pte_m4 i{
+	color: #51f351;
+	font-size:30px;		
+}
+
+

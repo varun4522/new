@@ -1,0 +1,32 @@
+ .tabbar[data-v-5249c4ac] {
+     width: 100%;
+     height: 49px;
+     line-height: 49px;
+     text-align: center;
+     margin-top: 9px
+ }
+
+ .tabbar .title[data-v-5249c4ac] {
+     font-size: 21px;
+     width: 100%;
+     font-weight: 500
+ }
+
+ .tabbar .back-wrap[data-v-5249c4ac] {
+     position: absolute;
+     height: 49px;
+     width: 39px;
+     display: flex;
+     justify-content: center;
+     align-items: center;
+     left: 0;
+     top: 0
+ }
+
+ .tabbar .right[data-v-5249c4ac] {
+     position: absolute;
+     height: 49px;
+     margin-right: 9px;
+     right: 0;
+     top: 0
+ }

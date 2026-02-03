@@ -1,0 +1,1090 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Deposit - Chicken Road Game</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+    
+    * {
+      font-family: 'Poppins', sans-serif;
+    }
+    
+    .gradient-bg {
+      background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+    }
+    
+    .glass-effect {
+      background: rgba(15, 23, 42, 0.7);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+    }
+    
+    .btn-gradient {
+      background: linear-gradient(135deg, #3b82f6 0%, #6366f1 100%);
+      transition: all 0.3s ease;
+    }
+    
+    .btn-gradient:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 25px rgba(59, 130, 246, 0.3);
+    }
+    
+    .btn-shine {
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .btn-shine:after {
+      content: "";
+      position: absolute;
+      top: -50%;
+      left: -60%;
+      width: 40%;
+      height: 200%;
+      background: rgba(255, 255, 255, 0.13);
+      transform: rotate(30deg);
+      animation: shine 3s infinite;
+    }
+    
+    @keyframes shine {
+      0% { left: -60%; }
+      20% { left: 100%; }
+      100% { left: 100%; }
+    }
+    
+    .slide-in {
+      animation: slideIn 0.5s ease-out;
+    }
+    
+    @keyframes slideIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 0.25rem 0.75rem;
+      border-radius: 9999px;
+      font-size: 0.75rem;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    
+    .scrollbar-hide::-webkit-scrollbar {
+      display: none;
+    }
+    
+    .fade-in {
+      animation: fadeIn 0.3s ease-out;
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    
+    
+    .dropdown-enter {
+      animation: dropdownEnter 0.2s ease-out;
+    }
+    
+    @keyframes dropdownEnter {
+      from { opacity: 0; transform: translateY(-10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    .qr-animation {
+      animation: pulse 2s infinite;
+    }
+    
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+      100% { transform: scale(1); }
+    }
+    
+    .floating-btn {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 10px 25px rgba(59, 130, 246, 0.3);
+      z-index: 20;
+      transition: all 0.3s ease;
+    }
+    
+    .floating-btn:hover {
+      transform: translateY(-5px) scale(1.05);
+      box-shadow: 0 15px 30px rgba(59, 130, 246, 0.4);
+    }
+    
+    .particle {
+      position: absolute;
+      background: rgba(255, 255, 255, 0.5);
+      border-radius: 50%;
+      pointer-events: none;
+    }
+    
+    .glow {
+      animation: glow 2s infinite alternate;
+    }
+    @keyframes glow {
+      from {
+        box-shadow: 0 0 5px rgba(59, 130, 246, 0.5);
+      }
+      to {
+        box-shadow: 0 0 20px rgba(59, 130, 246, 0.8);
+      }
+    }
+    
+    .border-gradient {
+      border: 2px solid transparent;
+      background: linear-gradient(#0f172a, #0f172a) padding-box,
+                  linear-gradient(135deg, #3b82f6, #6366f1) border-box;
+    }
+    
+    .hover-scale {
+      transition: transform 0.3s ease;
+    }
+    
+    .hover-scale:hover {
+      transform: scale(1.02);
+    }
+  </style>
+</head>
+<body class="gradient-bg min-h-screen flex items-center justify-center p-4 overflow-x-hidden">
+  <!-- Animated Background Particles -->
+  <div id="particles-js" class="fixed inset-0 overflow-hidden pointer-events-none"></div>
+  
+  <!-- Floating Action Button -->
+  <button id="historyFAB" class="floating-btn btn-gradient text-white animate__animated animate__bounceIn">
+    <i class="fas fa-history text-xl"></i>
+  </button>
+
+  <div class="glass-effect rounded-3xl shadow-2xl w-full max-w-md relative z-10 slide-in overflow-hidden hover-scale">
+    <!-- Tabs -->
+    <div class="flex border-b border-white/10">
+      <button id="depositTab" class="flex-1 py-4 font-semibold text-white border-b-2 border-blue-400">
+        <i class="fas fa-money-bill-wave mr-2"></i> Deposit
+      </button>
+<button id="historyTab" class="flex-1 py-4 font-semibold text-white" onclick="window.location.href='transactions.html'">
+  <i class="fas fa-history mr-2"></i> History
+</button>
+</div>
+
+    
+    <!-- Deposit Form -->
+    <div id="depositContent" class="p-6">
+      <div class="flex justify-between items-center mb-6">
+        <h2 class="text-2xl font-bold text-left text-white">Deposit Funds</h2>
+        <button onclick="window.location.href='index.php'" class="text-gray-300 hover:text-white text-2xl font-bold transition-colors">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+      
+      <!-- Amount Input -->
+     <div class="mb-6">
+  <label class="block mb-3 font-semibold text-white">Amount (₹)</label>
+  <div class="relative">
+    <input id="depositAmount" 
+           type="number" 
+           value="500" 
+           min="500"
+           class="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/20 text-white font-bold text-xl outline-none focus:border-blue-500 transition-all" 
+           placeholder="Min 500" />
+    <div class="absolute right-4 top-3.5 text-blue-400 font-bold text-lg">₹</div>
+  </div>
+  <div id="minMaxInfo" class="text-[11px] text-yellow-500 mt-3 flex items-center">
+    <i class="fas fa-exclamation-triangle mr-2"></i> 
+    Minimum deposit amount ₹500.
+  </div>
+</div>
+
+      <!-- Deposit Method -->
+      <div class="mb-6">
+        <label for="depositMethod" class="block mb-2 font-semibold text-white">Deposit Method</label>
+        <div class="grid grid-cols-2 gap-3">
+          <button data-method="qr" class="method-btn py-3 px-4 rounded-xl bg-blue-500/20 border border-blue-400/30 text-white flex items-center justify-center transition-all hover:bg-blue-500/30 hover:border-blue-400">
+            <i class="fas fa-qrcode mr-2"></i> QR Code
+          </button>
+          <button data-method="bank" class="method-btn py-3 px-4 rounded-xl bg-white/5 border border-white/10 text-white flex items-center justify-center transition-all hover:bg-white/10 hover:border-blue-400">
+            <i class="fas fa-university mr-2"></i> Upi Transfer
+          </button>
+        </div>
+        <select id="depositMethod" name="deposit_method" required class="hidden">
+          <option value="qr">QR Code</option>
+          <option value="bank">Bank</option>
+        </select>
+      </div>
+
+      <!-- Payment Details -->
+      <div id="paymentDetails" class="mb-6"></div>
+
+      <!-- Transaction ID -->
+      <div class="mb-6">
+        <label for="transactionId" class="block mb-2 font-semibold text-white">Transaction ID</label>
+        <input type="text" id="transactionId" name="transaction_id" required 
+               class="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:bg-white/10 transition-all" 
+               placeholder="Enter Transaction ID" />
+      </div>
+
+      <!-- Screenshot Upload -->
+      <div class="mb-6">
+        <label for="screenshot" class="block mb-2 font-semibold text-white">Upload Payment Proof</label>
+        <div class="flex items-center justify-center w-full">
+          <label class="flex flex-col w-full h-32 border-2 border-dashed border-white/10 hover:border-blue-400 transition-all rounded-xl cursor-pointer bg-white/5 hover:bg-white/10">
+            <div class="flex flex-col items-center justify-center pt-7">
+              <i class="fas fa-cloud-upload-alt text-3xl text-gray-400 mb-2"></i>
+              <p class="text-sm text-gray-400">Click to upload screenshot</p>
+            </div>
+            <input type="file" id="screenshot" name="screenshot" accept="image/*" required class="opacity-0" />
+          </label>
+        </div>
+        <div id="fileName" class="text-sm text-gray-400 mt-2 hidden"></div>
+      </div>
+
+      <!-- Deposit Button -->
+      <button id="depositBtn" class="w-full btn-gradient btn-shine text-white font-semibold py-3 rounded-xl text-lg flex items-center justify-center">
+        <i class="fas fa-paper-plane mr-2"></i> Submit Deposit Request
+      </button>
+    </div>
+    
+    <!-- History Content -->
+    <div id="historyContent" class="p-6 hidden">
+      <div class="flex justify-between items-center mb-6">
+        <div>
+        <script src="assets/js/shared_bottom_nav.js"></script>
+          <h2 class="text-2xl font-bold text-left text-white">Deposit History</h2>
+          <p class="text-sm text-gray-400 mt-1">View all your deposit transactions</p>
+        </div>
+        <button onclick="window.location.href='index.php'" class="text-gray-300 hover:text-white text-2xl font-bold transition-colors">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+      
+      <div class="mb-4 flex justify-between items-center">
+        <div class="relative w-full">
+          <input type="text" id="historySearch" placeholder="Search transactions..." 
+                 class="w-full px-4 py-2 pl-10 rounded-xl bg-white/5 border border-white/10 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:bg-white/10 transition-all">
+          <i class="fas fa-search absolute left-3 top-3 text-gray-400"></i>
+        </div>
+      </div>
+      
+      <div class="bg-white/5 rounded-xl overflow-hidden border border-white/10">
+        <div class="grid grid-cols-12 bg-white/10 p-4 font-semibold text-white text-sm">
+          <div class="col-span-4">Date</div>
+          <div class="col-span-3">Amount</div>
+          <div class="col-span-3">Status</div>
+          <div class="col-span-2">Action</div>
+        </div>
+        <div id="historyList" class="max-h-96 overflow-y-auto scrollbar-hide">
+          <!-- History items will be loaded here -->
+          <div class="grid grid-cols-12 p-4 text-gray-300 border-b border-white/10 history-item">
+            <div class="col-span-12 flex items-center justify-center py-8">
+              <i class="fas fa-spinner fa-spin mr-2"></i> Loading history...
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="flex justify-between items-center mt-4 text-sm text-gray-400">
+        <div id="historyCount">Showing 0 transactions</div>
+        <div class="flex space-x-2">
+          <button id="prevPage" class="px-3 py-1 rounded bg-white/5 border border-white/10 disabled:opacity-50" disabled>
+            <i class="fas fa-chevron-left"></i>
+          </button>
+          <span id="pageInfo">Page 1 of 1</span>
+          <button id="nextPage" class="px-3 py-1 rounded bg-white/5 border border-white/10 disabled:opacity-50" disabled>
+            <i class="fas fa-chevron-right"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Result Modal -->
+  <div id="resultModal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-70 z-50 hidden animate__animated animate__fadeIn">
+    <div class="glass-effect rounded-3xl p-8 shadow-2xl text-center w-80 max-w-sm border-gradient">
+      <div class="mb-4">
+        <div class="w-16 h-16 bg-green-500/20 rounded-full flex items-center justify-center mx-auto mb-3 glow">
+          <i class="fas fa-check-circle text-3xl text-green-400"></i>
+        </div>
+        <div id="resultTitle" class="text-2xl font-bold mb-2 text-white"></div>
+        <div id="resultAmount" class="text-lg mb-2 text-gray-300"></div>
+        <div id="resultNote" class="text-sm text-gray-400">You can check status in deposit history</div>
+      </div>
+      <button id="closeModalBtn" class="w-full btn-gradient text-white px-6 py-3 rounded-xl font-semibold mt-4">
+        <i class="fas fa-check mr-2"></i> Continue
+      </button>
+    </div>
+  </div>
+
+  <!-- Loading Modal -->
+  <div id="loadingModal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-70 z-50 hidden">
+    <div class="glass-effect rounded-3xl p-8 shadow-2xl text-center w-80 max-w-sm border-gradient">
+      <div class="mb-4">
+        <div class="inline-block animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-400 mb-4"></div>
+        <div class="text-white text-lg">Processing your deposit...</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Deposit Details Modal -->
+  <div id="detailsModal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-70 z-50 hidden animate__animated animate__fadeIn">
+    <div class="glass-effect rounded-3xl p-6 shadow-2xl w-full max-w-md border-gradient">
+      <div class="flex justify-between items-center mb-4">
+        <h3 class="text-xl font-bold text-white">Deposit Details</h3>
+        <button id="closeDetailsModal" class="text-gray-400 hover:text-white">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+      <div id="detailsContent" class="space-y-4 text-gray-300">
+        <!-- Details will be loaded here -->
+      </div>
+      <div class="mt-6 flex justify-end">
+        <button id="closeDetailsBtn" class="btn-gradient text-white px-4 py-2 rounded-lg font-medium">
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Login/Register Modal -->
+  <div id="authModal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-70 z-50 hidden animate__animated animate__fadeIn">
+    <div class="glass-effect rounded-3xl p-8 shadow-2xl text-center w-80 max-w-sm border-gradient">
+      <div class="mb-6">
+        <div class="w-16 h-16 bg-blue-500/20 rounded-full flex items-center justify-center mx-auto mb-3 glow">
+          <i id="authIcon" class="fas fa-user-lock text-3xl text-blue-400"></i>
+        </div>
+        <div id="authTitle" class="text-2xl font-bold text-white">Login</div>
+      </div>
+      <div class="space-y-4 mb-6">
+        <div class="relative">
+          <i class="fas fa-user absolute left-3 top-3 text-gray-400"></i>
+          <input id="authUsername" type="text" placeholder="Username" 
+                 class="w-full px-4 py-3 pl-10 rounded-xl bg-white/5 border border-white/10 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:bg-white/10 transition-all" />
+        </div>
+        <div class="relative">
+          <i class="fas fa-lock absolute left-3 top-3 text-gray-400"></i>
+          <input id="authPassword" type="password" placeholder="Password" 
+                 class="w-full px-4 py-3 pl-10 rounded-xl bg-white/5 border border-white/10 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:bg-white/10 transition-all" />
+        </div>
+      </div>
+      <div id="authError" class="text-red-300 text-sm mb-4 hidden"></div>
+      <button id="authActionBtn" class="w-full btn-gradient text-white px-6 py-3 rounded-xl font-semibold mb-4">
+        <i id="authActionIcon" class="fas fa-sign-in-alt mr-2"></i> Login
+      </button>
+      <div class="text-sm text-gray-400">
+        <span id="toggleAuthMode" class="text-blue-400 hover:text-blue-300 cursor-pointer transition-colors">
+          Don't have an account? Register
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+  <script>
+    // Global variables
+    let selectedMethod = 'qr';
+    let minAmount = 10;
+    let maxAmount = 10000;
+    let settings = {};
+    let currentPage = 1;
+    let totalPages = 1;
+    
+    // DOM Content Loaded
+    document.addEventListener('DOMContentLoaded', function() {
+      // Initialize UI components
+      initTabs();
+      initMethodButtons();
+      initFileUpload();
+      initHistoryControls();
+      initParticles();
+      initFloatingButton();
+      
+      // Check auth and load data
+      requireLogin();
+    });
+    
+    // Initialize particles.js
+    function initParticles() {
+      particlesJS("particles-js", {
+        "particles": {
+          "number": {
+            "value": 80,
+            "density": {
+              "enable": true,
+              "value_area": 800
+            }
+          },
+          "color": {
+            "value": "#3b82f6"
+          },
+          "shape": {
+            "type": "circle",
+            "stroke": {
+              "width": 0,
+              "color": "#000000"
+            },
+            "polygon": {
+              "nb_sides": 5
+            }
+          },
+          "opacity": {
+            "value": 0.5,
+            "random": false,
+            "anim": {
+              "enable": false,
+              "speed": 1,
+              "opacity_min": 0.1,
+              "sync": false
+            }
+          },
+          "size": {
+            "value": 3,
+            "random": true,
+            "anim": {
+              "enable": false,
+              "speed": 40,
+              "size_min": 0.1,
+              "sync": false
+            }
+          },
+          "line_linked": {
+            "enable": true,
+            "distance": 150,
+            "color": "#3b82f6",
+            "opacity": 0.2,
+            "width": 1
+          },
+          "move": {
+            "enable": true,
+            "speed": 2,
+            "direction": "none",
+            "random": false,
+            "straight": false,
+            "out_mode": "out",
+            "bounce": false,
+            "attract": {
+              "enable": false,
+              "rotateX": 600,
+              "rotateY": 1200
+            }
+          }
+        },
+        "interactivity": {
+          "detect_on": "canvas",
+          "events": {
+            "onhover": {
+              "enable": true,
+              "mode": "grab"
+            },
+            "onclick": {
+              "enable": true,
+              "mode": "push"
+            },
+            "resize": true
+          },
+          "modes": {
+            "grab": {
+              "distance": 140,
+              "line_linked": {
+                "opacity": 1
+              }
+            },
+            "bubble": {
+              "distance": 400,
+              "size": 40,
+              "duration": 2,
+              "opacity": 8,
+              "speed": 3
+            },
+            "repulse": {
+              "distance": 200,
+              "duration": 0.4
+            },
+            "push": {
+              "particles_nb": 4
+            },
+            "remove": {
+              "particles_nb": 2
+            }
+          }
+        },
+        "retina_detect": true
+      });
+    }
+    
+    // Floating action button
+    function initFloatingButton() {
+      const fab = document.getElementById('historyFAB');
+      fab.addEventListener('click', function() {
+        document.getElementById('historyTab').click();
+        fab.classList.add('animate__bounceOut');
+        setTimeout(() => {
+          fab.classList.remove('animate__bounceOut');
+          fab.classList.add('hidden');
+        }, 500);
+      });
+      
+      // Show FAB when on deposit tab
+      document.getElementById('depositTab').addEventListener('click', function() {
+        fab.classList.remove('hidden');
+        fab.classList.add('animate__bounceIn');
+      });
+    }
+    
+    // Tab functionality
+    function initTabs() {
+      const depositTab = document.getElementById('depositTab');
+      const historyTab = document.getElementById('historyTab');
+      const depositContent = document.getElementById('depositContent');
+      const historyContent = document.getElementById('historyContent');
+      
+      depositTab.addEventListener('click', function() {
+        depositTab.classList.add('border-blue-400');
+        historyTab.classList.remove('border-blue-400');
+        depositContent.classList.remove('hidden');
+        historyContent.classList.add('hidden');
+      });
+      
+      historyTab.addEventListener('click', function() {
+        historyTab.classList.add('border-blue-400');
+        depositTab.classList.remove('border-blue-400');
+        historyContent.classList.remove('hidden');
+        depositContent.classList.add('hidden');
+        loadHistory();
+      });
+    }
+    
+    // Deposit method buttons
+    function initMethodButtons() {
+      const methodButtons = document.querySelectorAll('.method-btn');
+      const depositMethodSelect = document.getElementById('depositMethod');
+      
+      methodButtons.forEach(button => {
+        button.addEventListener('click', function() {
+          // Remove active class from all buttons
+          methodButtons.forEach(btn => {
+            btn.classList.remove('bg-blue-500/20', 'border-blue-400');
+          });
+          
+          // Add active class to clicked button
+          this.classList.add('bg-blue-500/20', 'border-blue-400');
+          
+          // Update selected method
+          selectedMethod = this.dataset.method;
+          depositMethodSelect.value = selectedMethod;
+          updatePaymentDetails();
+        });
+      });
+      
+      // Activate first method by default
+      methodButtons[0].click();
+    }
+    
+    // File upload preview
+    function initFileUpload() {
+      const screenshotInput = document.getElementById('screenshot');
+      const fileNameDiv = document.getElementById('fileName');
+      
+      screenshotInput.addEventListener('change', function() {
+        if (this.files && this.files[0]) {
+          fileNameDiv.textContent = this.files[0].name;
+          fileNameDiv.classList.remove('hidden');
+        } else {
+          fileNameDiv.classList.add('hidden');
+        }
+      });
+    }
+    
+    // History controls
+    function initHistoryControls() {
+      const historySearch = document.getElementById('historySearch');
+      const prevPage = document.getElementById('prevPage');
+      const nextPage = document.getElementById('nextPage');
+      
+      // Search functionality
+      historySearch.addEventListener('input', function() {
+        currentPage = 1;
+        loadHistory();
+      });
+      
+      // Pagination
+      prevPage.addEventListener('click', function() {
+        if (currentPage > 1) {
+          currentPage--;
+          loadHistory();
+        }
+      });
+      
+      nextPage.addEventListener('click', function() {
+        if (currentPage < totalPages) {
+          currentPage++;
+          loadHistory();
+        }
+      });
+    }
+    
+    // Auth integration
+    function showAuthModal() {
+      document.getElementById('authModal').classList.remove('hidden');
+      document.getElementById('authError').classList.add('hidden');
+    }
+    
+    function hideAuthModal() {
+      document.getElementById('authModal').classList.add('hidden');
+    }
+    
+    function fetchUser() {
+      return fetch('api/user.php').then(r => r.json());
+    }
+    
+    function requireLogin() {
+      fetchUser().then(data => {
+        if (!data.success) showAuthModal();
+        else loadSettings();
+      });
+    }
+    
+    // Auth modal logic
+    let authMode = 'login';
+    document.getElementById('toggleAuthMode').onclick = function() {
+      authMode = authMode === 'login' ? 'register' : 'login';
+      document.getElementById('authTitle').textContent = authMode === 'login' ? 'Login' : 'Register';
+      document.getElementById('authActionBtn').innerHTML = authMode === 'login' 
+        ? '<i class="fas fa-sign-in-alt mr-2"></i> Login' 
+        : '<i class="fas fa-user-plus mr-2"></i> Register';
+      document.getElementById('authIcon').className = authMode === 'login' 
+        ? 'fas fa-user-lock text-3xl text-blue-400' 
+        : 'fas fa-user-edit text-3xl text-blue-400';
+      document.getElementById('toggleAuthMode').textContent = authMode === 'login' 
+        ? 'Don\'t have an account? Register' 
+        : 'Already have an account? Login';
+    };
+    
+    document.getElementById('authActionBtn').onclick = function() {
+      const username = document.getElementById('authUsername').value.trim();
+      const password = document.getElementById('authPassword').value;
+      const errorDiv = document.getElementById('authError');
+      errorDiv.classList.add('hidden');
+      
+      if (!username || !password) {
+        errorDiv.textContent = 'Please fill in all fields';
+        errorDiv.classList.remove('hidden');
+        return;
+      }
+      
+      let url = authMode === 'login' ? 'api/login.php' : 'api/register.php';
+      let body = authMode === 'login' ? { username, password } : { username, email: username, password };
+      
+      // Show loading state
+      const authBtn = document.getElementById('authActionBtn');
+      const originalText = authBtn.innerHTML;
+      authBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Processing...';
+      authBtn.disabled = true;
+      
+      fetch(url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body)
+      })
+      .then(r => r.json())
+      .then(data => {
+        if (data.success) {
+          hideAuthModal();
+          loadSettings();
+        } else {
+          errorDiv.textContent = data.error || 'Authentication failed.';
+          errorDiv.classList.remove('hidden');
+        }
+      })
+      .catch(() => {
+        errorDiv.textContent = 'Network error.';
+        errorDiv.classList.remove('hidden');
+      })
+      .finally(() => {
+        authBtn.innerHTML = originalText;
+        authBtn.disabled = false;
+      });
+    };
+
+    // Load settings
+    function loadSettings() {
+      fetch('api/settings.php')
+        .then(r => r.json())
+        .then(data => {
+          if (data.success) {
+            settings = data.settings;
+            minAmount = parseFloat(settings.min_deposit) || 10;
+            maxAmount = parseFloat(settings.max_deposit) || 10000;
+            updateMinMaxInfo();
+            updatePaymentDetails();
+          }
+        })
+        .catch(() => {
+          console.log('Failed to load settings');
+        });
+    }
+    
+    function updateMinMaxInfo() {
+      document.getElementById('minMaxInfo').textContent = `Minimum: ₹${minAmount} | Maximum: ₹${maxAmount}`;
+    }
+    
+    function updatePaymentDetails() {
+      const amount = parseFloat(document.getElementById('depositAmount').value) || 0;
+      const detailsDiv = document.getElementById('paymentDetails');
+      
+      if (selectedMethod === 'qr') {
+        detailsDiv.innerHTML = `
+          <div class="bg-white/5 border border-white/10 rounded-xl p-4 flex flex-col items-center">
+            <h4 class="text-white font-medium mb-3 flex items-center">
+              <i class="fas fa-qrcode mr-2"></i> Scan QR to Pay
+            </h4>
+            ${settings.qr_code ? `
+              <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(`upi://pay?pa=${settings.upi_id}&pn=ChickenRoad&am=${amount}&cu=INR`)}" 
+                   alt="QR Code" class="w-40 h-40 rounded-lg mb-3 bg-white p-2 qr-animation">
+              <div class="bg-white/5 rounded-lg p-3 w-full text-center border border-white/10">
+                <div class="text-gray-400 text-sm mb-1">UPI ID</div>
+                <div class="text-white font-semibold break-all">${settings.upi_id || 'Not set'}</div>
+              </div>
+            ` : `
+              <div class="w-40 h-40 flex items-center justify-center bg-white/10 rounded-lg mb-3 text-gray-500 border border-white/10">
+                <i class="fas fa-qrcode text-4xl"></i>
+              </div>
+              <div class="text-gray-400">QR code not available</div>
+            `}
+            <div class="text-xs text-gray-400 mt-3 text-center">Scan the QR code or use the UPI ID to make payment</div>
+          </div>
+        `;
+      } else if (selectedMethod === 'bank') {
+        detailsDiv.innerHTML = `
+          <div class="bg-white/5 border border-white/10 rounded-xl p-4">
+            <h4 class="text-white font-medium mb-3 flex items-center">
+              <i class="fas fa-university mr-2"></i> Upi Transfer Details
+            </h4>
+            ${settings.bank_details ? `
+              <div class="bg-white/5 rounded-lg p-4 whitespace-pre-line text-gray-300 font-mono text-sm border border-white/10">
+                ${settings.bank_details}
+              </div>
+              <div class="text-xs text-gray-400 mt-2">Transfer the amount to above Upi account</div>
+            ` : `
+              <div class="text-gray-400 text-center py-4 border border-white/10 rounded-lg">
+                <i class="fas fa-exclamation-circle mr-2"></i> Bank details not configured
+              </div>
+            `}
+          </div>
+        `;
+      } else {
+        detailsDiv.innerHTML = '';
+      }
+    }
+    
+    // Update QR code when amount changes
+    document.getElementById('depositAmount').addEventListener('input', function() {
+      if (selectedMethod === 'qr') {
+        updatePaymentDetails();
+      }
+    });
+    
+    // Load deposit history
+    function loadHistory() {
+      const historyList = document.getElementById('historyList');
+      const searchTerm = document.getElementById('historySearch').value.toLowerCase();
+      
+      // Show loading state
+      historyList.innerHTML = `
+        <div class="grid grid-cols-12 p-4 text-gray-300 border-b border-white/10 history-item">
+          <div class="col-span-12 flex items-center justify-center py-8">
+            <i class="fas fa-spinner fa-spin mr-2"></i> Loading history...
+          </div>
+        </div>
+      `;
+      
+      fetch(`api/deposit_history.php?page=${currentPage}&search=${encodeURIComponent(searchTerm)}`)
+        .then(r => r.json())
+        .then(data => {
+          if (data.success) {
+            renderHistory(data.deposits, data.pagination);
+          } else {
+            historyList.innerHTML = `
+              <div class="grid grid-cols-12 p-4 text-gray-300 border-b border-white/10 history-item">
+                <div class="col-span-12 text-center py-4">
+                  <i class="fas fa-exclamation-circle mr-2"></i> ${data.error || 'Failed to load history'}
+                </div>
+              </div>
+            `;
+          }
+        })
+        .catch(() => {
+          historyList.innerHTML = `
+            <div class="grid grid-cols-12 p-4 text-gray-300 border-b border-white/10 history-item">
+              <div class="col-span-12 text-center py-4">
+                <i class="fas fa-exclamation-circle mr-2"></i> Network error
+              </div>
+            </div>
+          `;
+        });
+    }
+    
+    // Render history
+    function renderHistory(deposits, pagination) {
+      const historyList = document.getElementById('historyList');
+      const historyCount = document.getElementById('historyCount');
+      const pageInfo = document.getElementById('pageInfo');
+      const prevPage = document.getElementById('prevPage');
+      const nextPage = document.getElementById('nextPage');
+      
+      totalPages = pagination.total_pages;
+      currentPage = pagination.current_page;
+      
+      // Update pagination info
+      historyCount.textContent = `Showing ${pagination.from}-${pagination.to} of ${pagination.total} transactions`;
+      pageInfo.textContent = `Page ${currentPage} of ${totalPages}`;
+      prevPage.disabled = currentPage <= 1;
+      nextPage.disabled = currentPage >= totalPages;
+      
+      if (deposits.length === 0) {
+        historyList.innerHTML = `
+          <div class="grid grid-cols-12 p-4 text-gray-300 border-b border-white/10 history-item">
+            <div class="col-span-12 text-center py-8">
+              <i class="fas fa-inbox mr-2"></i> No transactions found
+            </div>
+          </div>
+        `;
+        return;
+      }
+      
+      historyList.innerHTML = '';
+      deposits.forEach(deposit => {
+        const date = new Date(deposit.created_at);
+        const formattedDate = date.toLocaleDateString() + ' ' + date.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+        
+        const statusClass = deposit.status === 'approved' ? 'bg-green-500/10 text-green-400 border border-green-500/20' :
+                          deposit.status === 'pending' ? 'bg-yellow-500/10 text-yellow-400 border border-yellow-500/20' :
+                          'bg-red-500/10 text-red-400 border border-red-500/20';
+        
+        const statusIcon = deposit.status === 'approved' ? 'fa-check-circle' :
+                          deposit.status === 'pending' ? 'fa-clock' : 'fa-times-circle';
+        
+        const historyItem = document.createElement('div');
+        historyItem.className = 'grid grid-cols-12 p-4 text-gray-300 border-b border-white/10 history-item hover:bg-white/5 transition-colors';
+        historyItem.innerHTML = `
+          <div class="col-span-4 flex items-center text-sm">${formattedDate}</div>
+          <div class="col-span-3 flex items-center font-medium text-green-400">₹${parseFloat(deposit.amount).toFixed(2)}</div>
+          <div class="col-span-3 flex items-center">
+            <span class="${statusClass} px-3 py-1 rounded-full text-xs font-medium">
+              <i class="fas ${statusIcon} mr-1"></i> ${deposit.status.charAt(0).toUpperCase() + deposit.status.slice(1)}
+            </span>
+          </div>
+          <div class="col-span-2 flex items-center justify-end">
+            <button onclick="viewDepositDetails('${deposit.id}')" class="text-blue-400 hover:text-blue-300 transition-colors">
+              <i class="fas fa-eye"></i>
+            </button>
+          </div>
+        `;
+        historyList.appendChild(historyItem);
+      });
+    }
+    
+    // View deposit details
+    function viewDepositDetails(id) {
+      // Show loading state
+      const detailsContent = document.getElementById('detailsContent');
+      detailsContent.innerHTML = `
+        <div class="flex justify-center py-8">
+          <i class="fas fa-spinner fa-spin text-2xl text-blue-400"></i>
+        </div>
+      `;
+      
+      document.getElementById('detailsModal').classList.remove('hidden');
+      
+      fetch(`api/deposit_details.php?id=${id}`)
+        .then(r => r.json())
+        .then(data => {
+          if (data.success) {
+            const deposit = data.deposit;
+            const date = new Date(deposit.created_at);
+            const formattedDate = date.toLocaleDateString() + ' ' + date.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+            
+            const statusClass = deposit.status === 'approved' ? 'bg-green-500/10 text-green-400 border border-green-500/20' :
+                              deposit.status === 'pending' ? 'bg-yellow-500/10 text-yellow-400 border border-yellow-500/20' :
+                              'bg-red-500/10 text-red-400 border border-red-500/20';
+            
+            detailsContent.innerHTML = `
+              <div class="space-y-3">
+                <div class="flex justify-between">
+                  <span class="text-gray-400">Date:</span>
+                  <span class="text-white">${formattedDate}</span>
+                </div>
+                <div class="flex justify-between">
+                  <span class="text-gray-400">Amount:</span>
+                  <span class="text-green-400 font-medium">₹${parseFloat(deposit.amount).toFixed(2)}</span>
+                </div>
+                <div class="flex justify-between">
+                  <span class="text-gray-400">Method:</span>
+                  <span class="text-white">${deposit.method === 'qr' ? 'QR Code' : 'Bank Transfer'}</span>
+                </div>
+                <div class="flex justify-between">
+                  <span class="text-gray-400">Status:</span>
+                  <span class="${statusClass} px-3 py-1 rounded-full text-xs font-medium">
+                    <i class="fas ${deposit.status === 'approved' ? 'fa-check-circle' : deposit.status === 'pending' ? 'fa-clock' : 'fa-times-circle'} mr-1"></i>
+                    ${deposit.status.charAt(0).toUpperCase() + deposit.status.slice(1)}
+                  </span>
+                </div>
+                <div class="flex justify-between">
+                  <span class="text-gray-400">Transaction ID:</span>
+                  <span class="text-white font-mono text-sm">${deposit.transaction_id}</span>
+                </div>
+              </div>
+              
+              ${deposit.screenshot ? `
+                <div class="pt-4">
+                  <div class="text-gray-400 mb-2">Payment Proof:</div>
+                  <img src="uploads/${deposit.screenshot}" alt="Payment Proof" class="w-full rounded-lg border border-white/10">
+                </div>
+              ` : ''}
+              
+              ${deposit.admin_note ? `
+                <div class="pt-4">
+                  <div class="text-gray-400 mb-2">Admin Note:</div>
+                  <div class="bg-white/5 p-3 rounded-lg border border-white/10 text-sm">
+                    ${deposit.admin_note}
+                  </div>
+                </div>
+              ` : ''}
+            `;
+          } else {
+            detailsContent.innerHTML = `
+              <div class="text-center py-8 text-gray-400">
+                <i class="fas fa-exclamation-circle mr-2"></i> ${data.error || 'Failed to load details'}
+              </div>
+            `;
+          }
+        })
+        .catch(() => {
+          detailsContent.innerHTML = `
+            <div class="text-center py-8 text-gray-400">
+              <i class="fas fa-exclamation-circle mr-2"></i> Network error
+            </div>
+          `;
+        });
+    }
+    
+    // Close details modal
+    document.getElementById('closeDetailsModal').addEventListener('click', function() {
+      document.getElementById('detailsModal').classList.add('hidden');
+    });
+    
+    document.getElementById('closeDetailsBtn').addEventListener('click', function() {
+      document.getElementById('detailsModal').classList.add('hidden');
+    });
+    
+    // Handle deposit form submission
+    const depositBtn = document.getElementById('depositBtn');
+    depositBtn.addEventListener('click', function(e) {
+      e.preventDefault();
+      const amount = parseFloat(document.getElementById('depositAmount').value);
+      const method = document.getElementById('depositMethod').value;
+      const transactionId = document.getElementById('transactionId').value.trim();
+      const screenshot = document.getElementById('screenshot').files[0];
+      
+      // Validation
+      if (!amount || amount < minAmount || amount > maxAmount) {
+        showAlert(`Please enter a valid amount between ₹${minAmount} and ₹${maxAmount}`);
+        return;
+      }
+      if (!transactionId) {
+        showAlert('Please enter the Transaction ID');
+        return;
+      }
+      if (!screenshot) {
+        showAlert('Please upload a payment proof screenshot');
+        return;
+      }
+      
+      // Prepare form data
+      const formData = new FormData();
+      formData.append('amount', amount);
+      formData.append('deposit_method', method);
+      formData.append('transaction_id', transactionId);
+      formData.append('screenshot', screenshot);
+      
+      // Show loading modal
+      document.getElementById('loadingModal').classList.remove('hidden');
+      
+      // Show loading state on button
+      const originalText = depositBtn.innerHTML;
+      depositBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Processing...';
+      depositBtn.disabled = true;
+      
+      // Submit deposit
+      fetch('api/deposit.php', {
+        method: 'POST',
+        body: formData
+      })
+        .then(r => r.json())
+        .then(data => {
+          document.getElementById('loadingModal').classList.add('hidden');
+          
+          if (data.success) {
+            // Show success modal
+            document.getElementById('resultTitle').textContent = 'Deposit Request Submitted!';
+            document.getElementById('resultAmount').textContent = `Amount: ₹${amount.toFixed(2)}`;
+            document.getElementById('resultModal').classList.remove('hidden');
+            
+            // Reset form
+            document.getElementById('depositAmount').value = '';
+            document.getElementById('transactionId').value = '';
+            document.getElementById('screenshot').value = '';
+            document.getElementById('fileName').classList.add('hidden');
+            
+            // Reload history
+            loadHistory();
+          } else {
+            showAlert(data.error || 'Failed to submit deposit request.');
+          }
+        })
+        .catch(() => {
+          document.getElementById('loadingModal').classList.add('hidden');
+          showAlert('Network error. Please try again.');
+        })
+        .finally(() => {
+          depositBtn.innerHTML = originalText;
+          depositBtn.disabled = false;
+        });
+    });
+
+    // Close modal
+    document.getElementById('closeModalBtn').addEventListener('click', function() {
+      document.getElementById('resultModal').classList.add('hidden');
+    });
+    
+    // Helper function to show alerts
+    function showAlert(message) {
+      const alertDiv = document.createElement('div');
+      alertDiv.className = 'fixed top-4 right-4 bg-red-500 text-white px-4 py-2 rounded-lg shadow-lg z-50 animate__animated animate__fadeInRight';
+      alertDiv.innerHTML = `<i class="fas fa-exclamation-circle mr-2"></i> ${message}`;
+      document.body.appendChild(alertDiv);
+      
+      setTimeout(() => {
+        alertDiv.classList.add('animate__fadeOutRight');
+        setTimeout(() => alertDiv.remove(), 500);
+      }, 3000);
+    }
+  </script>
+</body>
+</html>

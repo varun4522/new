@@ -1,0 +1,120 @@
+@charset "UTF-8";
+
+.content[data-v-5335a7a5] {
+    background: #fff
+}
+
+.top[data-v-5335a7a5] {
+    width: 100%;
+    height: 284px;
+    background: url('/photo_2025-06-28_13-36-43.jpg') no-repeat;
+    background-size: 100% 100%
+}
+
+.passport-tab-wrap[data-v-5335a7a5] {
+    width: 100%;
+    height: 48px;
+    margin-top: -48px;
+    display: flex;
+    justify-content: space-between
+}
+
+.passport-tab-wrap .tab-item[data-v-5335a7a5] {
+    height: 48px;
+    font-size: 18px
+}
+
+.passport-tab-wrap .tab-item .tab-content[data-v-5335a7a5] {
+    width: 182px;
+    text-align: center;
+    line-height: 48px;
+    position: relative
+}
+
+.passport-tab-wrap .tab-item .tab-content .dot[data-v-5335a7a5] {
+    width: 24px;
+    height: 3px;
+    background: #2dc065;
+    border-radius: 4px;
+    position: absolute;
+    bottom: 4px;
+    left: 50%;
+    -webkit-transform: translateX(-50%);
+    transform: translateX(-50%)
+}
+
+.passport-tab-wrap .login[data-v-5335a7a5] {
+    flex: 2
+}
+
+.passport-tab-wrap .register[data-v-5335a7a5] {
+    flex: 3;
+    background: url('/public/static/login-tab-right-bg.png') no-repeat;
+    background-size: 100% 100%;
+    color: #2dc065;
+    font-weight: 700
+}
+
+.form-wrap[data-v-5335a7a5] {
+    width: 330px;
+    margin-top: 14px
+}
+
+.form-wrap .form-item[data-v-5335a7a5] {
+    width: 330px;
+    margin-top: 19px
+}
+
+.form-wrap .form-item .form-content[data-v-5335a7a5] {
+    width: 330px;
+    height: 43px;
+    margin-top: 6px;
+    border: 1px solid #ddd;
+    border-radius: 7px;
+    box-sizing: border-box;
+    overflow: hidden;
+    transition: border-color .3s
+        /* 边框颜色变化过渡效果 */
+}
+
+.form-wrap .form-item .form-content .area[data-v-5335a7a5] {
+    width: 41px;
+    height: 41px;
+    background: #ddd;
+    text-align: center;
+    line-height: 41px
+}
+
+.form-wrap .form-item .form-content .captcha[data-v-5335a7a5] {
+    width: 87px;
+    height: 41px
+}
+
+.form-wrap .form-item .form-content .form-input[data-v-5335a7a5] {
+    flex: 1;
+    height: 41px;
+    line-height: 41px;
+    text-indent: 9px
+}
+
+.form-wrap .form-item .form-content[data-v-5335a7a5]:focus-within {
+    border-color: #2ecc71
+        /* 选中输入框时的边框颜色 */
+}
+
+.form-wrap .form-item .form-content:focus-within .placeholder[data-v-5335a7a5] {
+    color: #2ecc71
+}
+
+.passport-tab-wrap .register[data-v-5335a7a5] {
+    flex: 3;
+    background: url('/public/static/login-tab-right-bg.png') no-repeat;
+    background-size: 100% 100%;
+    color: #2dc065;
+    font-weight: 700;
+}
+
+.common-btn[data-v-5335a7a5] {
+    width: 330px;
+    margin-top: 48px
+}

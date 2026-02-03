@@ -1,0 +1,85 @@
+@charset "UTF-8";
+
+.user-wrap[data-v-4ae790c9] {
+    width: 343px;
+    margin-top: 14px
+}
+
+.user-wrap .avatar[data-v-4ae790c9] {
+    width: 58px;
+    height: 58px;
+    border-radius: 49px;
+    margin-right: 14px
+}
+
+.finance[data-v-4ae790c9] {
+    width: 343px;
+    height: 93px;
+    background: url(https://solar-turbine.com/public/static/me_bg-0ef7d93c.png) no-repeat;
+    background-size: 100% 100%;
+    margin-top: 14px
+}
+
+.menu-wrap[data-v-4ae790c9] {
+    width: 343px;
+    margin-top: 14px
+}
+
+.menu-wrap .menu-item[data-v-4ae790c9] {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 12px
+}
+
+.menu-wrap .menu-item .menu-img[data-v-4ae790c9] {
+    width: 56px;
+    height: 56px;
+    background: #fff;
+    border-radius: 7px;
+    display: flex;
+    align-items: center;
+    justify-content: center
+}
+
+.menu-wrap .menu-item uni-image[data-v-4ae790c9] {
+    width: 21px
+}
+
+.tool-wrap[data-v-4ae790c9] {
+    width: 343px;
+    margin-top: 19px;
+    background: #fff;
+    border-radius: 7px;
+    padding: 9px 14px;
+    box-sizing: border-box
+}
+
+.tool-wrap .tool[data-v-4ae790c9] {
+    width: 100%;
+    height: 46px;
+    border-bottom: 1px solid #f1f2f3;
+    font-size: 13px;
+    font-weight: 500
+}
+
+.tool-wrap .tool .tool-icon[data-v-4ae790c9] {
+    width: 19px;
+    margin-right: 9px
+}
+
+.tool-wrap .tool[data-v-4ae790c9]:last-child {
+    border: none
+}
+
+.logout[data-v-4ae790c9] {
+    width: 343px;
+    margin-top: 14px;
+    height: 39px;
+    background: #000;
+    border-radius: 7px;
+    text-align: center;
+    line-height: 39px;
+    margin-bottom: 49px
+}

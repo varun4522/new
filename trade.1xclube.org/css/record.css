@@ -1,0 +1,404 @@
+.my_record_result {
+    /* padding:0px 5px; */
+}
+.my_record_box{
+    min-height: 50px;
+    margin: 12px 10px;
+    border-radius: 7px;
+    background-color: var(--pb2);
+    -webkit-box-shadow: 1px 1px 2px 0.05px rgb(0 0 0 / 10%);
+    box-shadow: 1px 1px 2px 0.05px rgb(0 0 0 / 10%);
+    padding: 10px;
+    background: #ffffff;
+    text-align: left;
+    position: relative;
+    overflow: hidden;
+    display: block;
+    /* font-family: 'Barlow'; */
+    border: 1px solid var(--border);
+}
+.my_record_box_in{
+    padding: 15px 10px;
+    background: var(--pb3);
+    border-radius: 7px;
+    position: relative;
+
+}
+.my_record_t{
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    /* background: #2c166b; */
+    width: 100%;
+    text-align: left;
+    padding-bottom: 5px;
+}
+.my_record_t h5{
+    -webkit-box-flex: 1;
+        -ms-flex: 1;
+            flex: 1;
+    text-align: right;
+    color: var(--t3);
+    font-size: 10px;
+    font-weight: 600;
+}
+.my_record_t h5 i{
+    margin-left: 5px;
+    color: rgba(0, 0, 0, 0.3);
+    -webkit-transition: ease-in-out 0.2s all;
+    -o-transition: ease-in-out 0.2s all;
+    transition: ease-in-out 0.2s all;
+}
+.my_record_t h5 i:hover {
+    opacity: 1;
+    -webkit-transform: scale(1.1);
+        -ms-transform: scale(1.1);
+            transform: scale(1.1);
+}
+.my_record_t h5 span{
+    color: var(--t);
+    font-weight: 600;
+}
+.my_record_status{
+    position: absolute;
+    top: 0;
+    left: 0;
+    background: linear-gradient(90deg, var(--p) 0%, var(--pb) 100%);
+    border-radius: 0 0 7px 0;
+    overflow: hidden;
+}
+.my_record_status aside{
+    font-size: 10px;
+    padding: 4px 6px;
+    width: 60px;
+    text-align: center;
+    text-transform: uppercase;
+}
+.my_record_status aside i{
+    font-size: 8px;
+    margin-right: 4px;
+    display: none;
+}
+.my_record_status aside span{
+    font-weight: 600;
+    font-family: 'Rubik';
+}
+.my_record_status_process{
+    /* background-color: rgba(0, 142, 255, 0.15); */
+    color: #ffffff;
+}
+.my_record_status_success{
+    /* background-color: rgba(0, 184, 0, 0.15); */
+    color: #ffffff;
+}
+.my_record_status_reject{
+    /* background-color: rgba(255, 152, 0, 0.15); */
+    color: #ffffff;    
+}
+.my_record_status_resubmit{
+    /* background-color: rgba(140, 0, 202, 0.15); */
+    color: #ffffff;   
+    
+}
+
+.my_record_amount{
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+}
+.my_record_amount_b1{
+    text-align: left;
+    padding: 5px 10px;
+    padding-left: 0;
+}
+.my_record_amount_b1 img{
+    width: 40px;
+    margin-right: 10px;
+}
+.my_record_amount_b1 h5{
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    text-align: left;
+    font-weight: 400;
+    padding-bottom: 3px;
+    display: none;
+}
+.my_record_amount_b1 h5 span{
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 7px;
+    background: rgba(0,0,0,0.1);
+    padding: 2px 5px;
+    margin-right: 5px;
+    border-radius: 0px;
+    text-transform: uppercase;
+    font-family: 'Rubik';
+}
+/* .my_record_amount_b1 h4{
+    padding-top: 3px;
+    font-size: 8px;
+    font-weight: 400;
+    font-family: 'Poppins';
+    text-align: left;
+} */
+.my_record_amount_b1 h2{
+    text-align: left;
+    padding-right: 10px;
+    font-size: 22px;
+    font-weight: 600;
+    white-space: nowrap;
+    text-shadow: 1px 2px 1px rgba(0, 0, 0, 0.1);
+    color: #29ad00;
+    display: flex;
+    align-items: center;
+}
+.my_record_amount_b1 h2 i{
+    font-size: 17px;
+    margin-top: 2px;
+    margin-right: 2px;
+    position: relative;
+}
+/* h2.my_record_withdrawal{
+    background-image: linear-gradient(150deg, #bee8c0 0%, #00b707 100%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+h2.my_record_withdrawal i{
+    background-image: linear-gradient(300deg, #bee8c0 0%, #00b707 100%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+} */
+h2.my_record_deposit{
+    background: linear-gradient(90deg, #0070c9, #67bcff);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+h2.my_record_deposit i{
+    background: linear-gradient(180deg, #0070c9, #67bcff);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+.my_record_amount_b2{
+    margin-left: auto;
+    text-align: right;
+}
+.my_record_amount_fee{
+    font-size: 12px;
+    color: var(--t3);
+    padding-bottom: 2px;
+}
+.my_record_amount_fee i{
+    font-size: 10px;
+    margin-right: 2px;
+}
+.my_record_amount_fee small{
+    opacity: 0.8;
+    color: #000;
+}
+.my_record_date{
+    padding-top: 5px;
+    font-size: 10px;
+    color: var(--t7);
+    font-style: italic;
+    font-weight: 500;
+}
+.my_record_b1{
+    -webkit-box-flex: 1;
+        -ms-flex: 1;
+            flex: 1;
+}
+.my_record_box article{
+    padding:0 5px;
+    color: #b1b1b1;
+    font-size: 10px;
+    line-height: 14px;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    text-align: left;
+    word-break: break-all;
+    display: flex;
+}
+.my_record_box article b{
+    color: var(--t7);
+    text-decoration: underline;
+}
+
+.my_record_result .MoreLimit, .my_record_result .MoreLimit2{
+    display: block;
+    margin: 0 auto;
+    outline: none;
+    border: none;
+    margin: 10px auto;
+    margin-bottom: 50px;
+    font-size: 14px;
+    padding: 10px 15px;
+    border-radius: 7px;
+    color: #fff;
+    -webkit-transition: ease-in-out 0.2s all;
+    -o-transition: ease-in-out 0.2s all;
+    transition: ease-in-out 0.2s all;
+    text-transform: uppercase;
+    background-color: #5aaa41;
+    border: 2px solid var(--t3);
+    -webkit-box-shadow: 0 2px 5px 0.05px rgb(0 0 0/20%);
+            box-shadow: 0 2px 5px 0.05px rgb(0 0 0/20%);
+    font-weight: 700;
+    cursor: pointer;
+    font-family: 'Barlow';
+}
+.my_record_result .MoreLimit:active, .my_record_result .MoreLimit2:active{
+    background-image: -o-linear-gradient(top,#2f49ff 0%,#19b4f0 51%,#2f49ff 100%);
+    background-image: -webkit-gradient(linear,left top, left bottom,from(#2f49ff),color-stop(51%, #19b4f0),to(#2f49ff));
+    background-image: linear-gradient(180deg,#2f49ff 0%,#19b4f0 51%,#2f49ff 100%);
+}
+
+.my_trade_choose{
+    position: fixed;
+    top: 50px;
+    left: 0;
+    right: 0;
+    z-index: 2;
+	display: -webkit-box;
+	display: -ms-flexbox;
+	display: flex;
+    -ms-flex-line-pack: center;
+        align-content: center;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+
+}
+.my_trade_choose section{
+	-webkit-box-flex: 1;
+	    -ms-flex: 1;
+	        flex: 1;
+	text-align: center;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+	display: flex;
+    align-items: center;
+    align-content: center;
+	font-size: 14px;
+	color: var(--t);
+	/* border: 2px solid rgba(255, 255, 255, 0.2); */
+	margin: inherit;
+	padding: 10px;
+	border-radius: 0px;
+	/* opacity: 0.8; */
+	margin-bottom: 5px;
+    font-family: 'Barlow';
+    font-weight: 600;
+}
+.my_trade_choose section:hover{
+	cursor: pointer;
+}
+.my_trade_choose section i{
+	margin-right: 4px;
+}
+.my_trade_choose section img{
+	width: 20px;
+	height: 20px;
+    margin-top: -2px;
+	margin-right: 5px;
+}
+.INRMode{
+	background-color: #151515;
+}
+.CRYPTOMode{
+	background-color: #151515;
+}
+.my_trade_choose_active{
+	background-color: #4CAF50;
+	opacity: 1;
+	position: relative;
+	color: #000 !important;
+    background: linear-gradient(to right, #9E9E9E, #9E9E9E 5%, #9E9E9E, #c9c9c9, #c9c9c9, #c9c9c9, #9E9E9E, #9E9E9E 100%);
+}
+.my_trade_choose_active:before {
+    border-color: #c9c9c9 transparent  transparent  transparent  ;
+    content: "";
+    width: 0;
+    height: 0;
+    border-width: 13px;
+    border-style: solid;
+    position: absolute;
+    left: 50%;
+    bottom: -25px;
+	-webkit-transform: translateX(-50%);
+	    -ms-transform: translateX(-50%);
+	        transform: translateX(-50%);
+}
+/***Info-Popup***S*/
+.crypto_utr{
+    overflow: hidden;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: end;
+        -ms-flex-align: end;
+            align-items: flex-end;
+    line-height: 12px;
+    margin-top: 3px;
+}
+.crypto_utr_no{
+    font-size: 8px;
+    padding-right: 5px;
+    margin-right: auto;
+    color: var(--t3);
+    flex: 1;
+}
+.crypto_utr_no b{
+    display: block;
+    font-size: 8px;
+    font-weight: 500;
+}
+.crypto_utr_btn{
+    display: flex;
+    flex-direction: column;
+    padding-left: 10px;
+    padding-top: 10px;
+}
+.crypto_utr_btn button{
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 8px;
+    background: rgba(255, 255, 255, 0.1);
+    color: var(--t);
+    /* border: solid 1px #fff; */
+    padding: 4px 4px;
+    border-radius: 7px;
+    font-weight: 600;
+    transform: scale(0.89);
+    position: relative;
+    border: 1px solid var(--t);
+    opacity: 0.8;
+    transition: ease-in-out 0.2s all;
+    margin-bottom: 3px;
+}
+.crypto_utr_btn button i{
+    display: none;
+}
+.crypto_utr_btn button:hover{
+    cursor: pointer;
+    opacity: 1;
+}
+.crypto_utr_btn button:active{
+    background-color: var(--t);
+    color: var(--w);
+    transform: translate(3px,3px);
+}
+
+/***Info-Popup***E*/

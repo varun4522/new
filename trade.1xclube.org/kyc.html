@@ -1,0 +1,924 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>KYC Verification - Chicken Road Game</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+    
+    * {
+      font-family: 'Inter', sans-serif;
+    }
+    
+    body {
+      background: #0f0f13;
+      color: #e0e0e0;
+    }
+    
+    .gradient-bg {
+      background: linear-gradient(135deg, #0f0f13 0%, #1a1a24 100%);
+    }
+    
+    .glass-effect {
+      background: rgba(15, 15, 25, 0.7);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    }
+    
+    .btn-gradient {
+      background: linear-gradient(135deg, #6e45e2 0%, #88d3ce 100%);
+      transition: all 0.3s ease;
+      color: white;
+      font-weight: 600;
+      border: none;
+    }
+    
+    .btn-gradient:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 25px rgba(110, 69, 226, 0.4);
+    }
+    
+    .slide-in {
+      animation: slideIn 0.5s ease-out;
+    }
+    
+    @keyframes slideIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    .file-upload {
+      position: relative;
+      overflow: hidden;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    
+    .file-upload:hover {
+      border-color: rgba(110, 69, 226, 0.5) !important;
+    }
+    
+    .file-upload input[type=file] {
+      position: absolute;
+      opacity: 0;
+      cursor: pointer;
+      height: 100%;
+      width: 100%;
+    }
+    
+    .preview-image {
+      max-width: 200px;
+      max-height: 200px;
+      object-fit: cover;
+      border-radius: 8px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    /* Animated background elements */
+    .particle {
+      position: fixed;
+      border-radius: 50%;
+      background: linear-gradient(135deg, rgba(110, 69, 226, 0.2) 0%, rgba(136, 211, 206, 0.2) 100%);
+      animation: float 15s infinite linear;
+      z-index: 0;
+    }
+    
+    @keyframes float {
+      0% { transform: translateY(0) rotate(0deg); }
+      50% { transform: translateY(-20px) rotate(180deg); }
+      100% { transform: translateY(0) rotate(360deg); }
+    }
+    
+    /* Glowing border effect */
+    .glow-border {
+      position: relative;
+    }
+    
+    .glow-border::after {
+      content: '';
+      position: absolute;
+      top: -2px;
+      left: -2px;
+      right: -2px;
+      bottom: -2px;
+      border-radius: inherit;
+      background: linear-gradient(135deg, #6e45e2, #88d3ce, #6e45e2);
+      background-size: 200% 200%;
+      z-index: -1;
+      animation: glow 3s ease infinite;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    
+    .glow-border:hover::after {
+      opacity: 0.7;
+    }
+    
+    @keyframes glow {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    
+    /* Input focus effect */
+    .input-focus-effect:focus {
+      box-shadow: 0 0 0 2px rgba(110, 69, 226, 0.3);
+      border-color: rgba(110, 69, 226, 0.5);
+    }
+    
+    /* Status badges */
+    .status-badge {
+      display: inline-block;
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    
+    .status-pending {
+      background: rgba(234, 179, 8, 0.1);
+      color: #eab308;
+      border: 1px solid rgba(234, 179, 8, 0.3);
+    }
+    
+    .status-approved {
+      background: rgba(34, 197, 94, 0.1);
+      color: #22c55e;
+      border: 1px solid rgba(34, 197, 94, 0.3);
+    }
+    
+    .status-rejected {
+      background: rgba(239, 68, 68, 0.1);
+      color: #ef4444;
+      border: 1px solid rgba(239, 68, 68, 0.3);
+    }
+    
+    /* Pulse animation for important elements */
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+      100% { transform: scale(1); }
+    }
+    
+    .pulse-animation {
+      animation: pulse 2s infinite;
+    }
+    
+    /* Scrollbar styling */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+    
+    ::-webkit-scrollbar-track {
+      background: rgba(255, 255, 255, 0.05);
+    }
+    
+    ::-webkit-scrollbar-thumb {
+      background: rgba(110, 69, 226, 0.5);
+      border-radius: 4px;
+    }
+    
+    ::-webkit-scrollbar-thumb:hover {
+      background: rgba(110, 69, 226, 0.7);
+    }
+  </style>
+</head>
+<body class="min-h-screen flex items-center justify-center p-4 overflow-x-hidden">
+  <!-- Animated Background Particles -->
+  <div id="particles" class="fixed inset-0 overflow-hidden pointer-events-none"></div>
+  
+  <!-- Main Container -->
+  <div class="glass-effect rounded-2xl p-8 w-full max-w-xl relative z-10 slide-in transform transition-all duration-300 hover:shadow-xl">
+    <div class="flex justify-between items-center mb-8">
+      <div>
+        <h2 class="text-3xl font-bold text-white mb-1">Identity Verification</h2>
+        <p class="text-sm text-gray-400">Secure your account with KYC</p>
+      </div>
+      <button onclick="window.location.href='index.php'" class="text-gray-400 hover:text-white text-2xl font-bold transition-colors">
+        &times;
+      </button>
+    </div>
+    
+    <!-- KYC Disabled State -->
+    <div id="kycDisabled" class="hidden mb-6">
+      <div class="bg-red-900/30 border border-red-700/50 text-red-300 px-4 py-3 rounded-lg flex items-center">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
+          <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd" />
+        </svg>
+        KYC verification is currently disabled by the administrator.
+      </div>
+    </div>
+    
+    <!-- KYC Status -->
+    <div id="kycStatus" class="mb-8">
+      <div class="bg-gradient-to-r from-gray-900/50 to-gray-800/50 border border-gray-700 rounded-xl p-5">
+        <p class="text-gray-400 text-sm mb-2">VERIFICATION STATUS</p>
+        <div class="flex justify-between items-center">
+          <p class="text-xl font-bold text-white" id="statusText">Not Submitted</p>
+          <span id="statusBadge" class="status-badge hidden"></span>
+        </div>
+        <div class="mt-3 pt-3 border-t border-gray-700/50">
+          <p class="text-sm text-gray-400" id="statusDescription">Complete KYC verification to access all features</p>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Loading State -->
+    <div id="loadingState" class="text-center py-8 hidden">
+      <div class="flex flex-col items-center justify-center">
+        <div class="w-12 h-12 border-4 border-gray-700 border-t-indigo-500 rounded-full animate-spin mb-4"></div>
+        <p class="text-gray-400">Loading verification information...</p>
+      </div>
+    </div>
+    
+    <!-- Error State -->
+    <div id="errorState" class="text-center py-8 hidden">
+      <div class="bg-red-900/30 border border-red-700/50 rounded-lg p-4 inline-flex items-start max-w-md">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 mt-0.5 flex-shrink-0" viewBox="0 0 20 20" fill="currentColor">
+          <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd" />
+        </svg>
+        <p class="text-red-300 text-sm" id="errorMessage"></p>
+      </div>
+    </div>
+    
+    <!-- KYC Form -->
+    <div id="kycForm" class="hidden">
+      <form id="kycFormElement" class="space-y-6">
+        <!-- Full Name -->
+        <div>
+          <label class="block mb-2 font-medium text-gray-300">Full Name <span class="text-red-400">*</span></label>
+          <input type="text" id="fullName" name="fullName" required
+                 class="w-full px-4 py-3 rounded-lg bg-gray-800/50 border border-gray-700 text-white placeholder-gray-500 focus:outline-none focus:border-indigo-500 input-focus-effect transition-all" 
+                 placeholder="As shown on your ID document" />
+        </div>
+        
+        <!-- Date of Birth -->
+        <div>
+          <label class="block mb-2 font-medium text-gray-300">Date of Birth <span class="text-red-400">*</span></label>
+          <input type="date" id="dateOfBirth" name="dateOfBirth" required
+                 class="w-full px-4 py-3 rounded-lg bg-gray-800/50 border border-gray-700 text-white focus:outline-none focus:border-indigo-500 input-focus-effect transition-all" />
+        </div>
+        
+        <!-- Selfie Upload -->
+        <div>
+          <label class="block mb-2 font-medium text-gray-300">Selfie Photo <span class="text-red-400">*</span></label>
+          <div class="file-upload bg-gray-800/50 border-2 border-dashed border-gray-700 rounded-lg p-6 text-center hover:border-indigo-500/50 transition-all glow-border">
+            <input type="file" id="selfieFile" name="selfieFile" accept="image/*" required />
+            <div class="text-gray-400">
+              <div class="text-4xl mb-3">📸</div>
+              <p class="text-sm font-medium">Upload a clear selfie</p>
+              <p class="text-xs text-gray-500 mt-1">JPG, PNG (Max 5MB)</p>
+            </div>
+          </div>
+          <div id="selfiePreview" class="mt-3 text-center hidden">
+            <img id="selfiePreviewImg" class="preview-image mx-auto border-2 border-indigo-500/30" />
+            <button type="button" onclick="clearPreview('selfie')" class="text-xs text-red-400 mt-2 hover:text-red-300 transition-colors">
+              Remove image
+            </button>
+          </div>
+        </div>
+        
+        <!-- Government ID Upload -->
+        <div>
+          <label class="block mb-2 font-medium text-gray-300">ID Document <span class="text-red-400">*</span></label>
+          <div class="file-upload bg-gray-800/50 border-2 border-dashed border-gray-700 rounded-lg p-6 text-center hover:border-indigo-500/50 transition-all glow-border">
+            <input type="file" id="idFile" name="idFile" accept="image/*,.pdf" required />
+            <div class="text-gray-400">
+              <div class="text-4xl mb-3">🆔</div>
+              <p class="text-sm font-medium">Upload ID document</p>
+              <p class="text-xs text-gray-500 mt-1">JPG, PNG, PDF (Max 5MB)</p>
+            </div>
+          </div>
+          <div id="idPreview" class="mt-3 text-center hidden">
+            <img id="idPreviewImg" class="preview-image mx-auto border-2 border-indigo-500/30" />
+            <button type="button" onclick="clearPreview('id')" class="text-xs text-red-400 mt-2 hover:text-red-300 transition-colors">
+              Remove document
+            </button>
+          </div>
+        </div>
+        
+        <!-- Terms Checkbox -->
+        <div class="flex items-start">
+          <div class="flex items-center h-5">
+            <input id="termsCheckbox" type="checkbox" required
+                   class="w-4 h-4 rounded bg-gray-800 border-gray-700 text-indigo-600 focus:ring-indigo-500 focus:ring-offset-gray-800">
+          </div>
+          <label for="termsCheckbox" class="ml-3 text-sm text-gray-400">
+            I certify that all information provided is accurate and I agree to the 
+            <a href="#" class="text-indigo-400 hover:text-indigo-300 transition-colors">Terms of Service</a> and 
+            <a href="#" class="text-indigo-400 hover:text-indigo-300 transition-colors">Privacy Policy</a>.
+          </label>
+        </div>
+        
+        <!-- Submit Button -->
+        <button type="submit" class="w-full btn-gradient text-white font-semibold py-3.5 rounded-lg text-lg mt-6 pulse-animation">
+          Submit Verification
+        </button>
+      </form>
+    </div>
+    
+    <!-- KYC Submitted State -->
+    <div id="kycSubmitted" class="hidden">
+      <div class="text-center">
+        <div class="w-20 h-20 bg-yellow-500/10 border-2 border-yellow-500/30 rounded-full mx-auto mb-6 flex items-center justify-center pulse-animation">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-yellow-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+        </div>
+        <h3 class="text-2xl font-bold text-white mb-3">Verification Submitted</h3>
+        <p class="text-gray-400 mb-6 max-w-md mx-auto">Your documents are under review. We'll notify you once the verification process is complete.</p>
+        
+        <div class="bg-gray-800/50 border border-gray-700 rounded-xl p-5 text-left mb-6">
+          <h4 class="text-white font-medium mb-3 flex items-center">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-indigo-400" viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd" />
+            </svg>
+            What happens next?
+          </h4>
+          <ul class="text-gray-400 text-sm space-y-2">
+            <li class="flex items-start">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2 mt-0.5 text-indigo-400 flex-shrink-0" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+              </svg>
+              <span>Our security team will review your documents</span>
+            </li>
+            <li class="flex items-start">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2 mt-0.5 text-indigo-400 flex-shrink-0" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+              </svg>
+              <span>Verification typically takes 24-48 hours</span>
+            </li>
+            <li class="flex items-start">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2 mt-0.5 text-indigo-400 flex-shrink-0" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+              </svg>
+              <span>You'll receive an email notification with updates</span>
+            </li>
+          </ul>
+        </div>
+        
+        <button onclick="window.location.href='index.php'" class="text-indigo-400 hover:text-indigo-300 text-sm font-medium transition-colors">
+          Back to Dashboard
+        </button>
+      </div>
+    </div>
+    
+    <!-- KYC Approved State -->
+    <div id="kycApproved" class="hidden">
+      <div class="text-center">
+        <div class="w-20 h-20 bg-green-500/10 border-2 border-green-500/30 rounded-full mx-auto mb-6 flex items-center justify-center">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-green-400" viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+          </svg>
+        </div>
+        <h3 class="text-2xl font-bold text-white mb-3">Verification Complete!</h3>
+        <p class="text-gray-400 mb-6 max-w-md mx-auto">Your identity has been successfully verified. You now have full access to all platform features.</p>
+        
+        <div class="bg-gray-800/50 border border-gray-700 rounded-xl p-5 mb-6">
+          <div class="flex items-center justify-center space-x-4">
+            <div class="bg-indigo-500/10 p-3 rounded-lg">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-indigo-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+              </svg>
+            </div>
+            <div class="text-left">
+              <p class="text-sm text-gray-400">Verified on</p>
+              <p class="font-medium text-white" id="verifiedDate">June 15, 2023</p>
+            </div>
+          </div>
+        </div>
+        
+        <button onclick="window.location.href='index.php'" class="w-full btn-gradient text-white font-semibold py-3.5 rounded-lg text-lg">
+          Continue to Dashboard
+        </button>
+      </div>
+    </div>
+    
+    <!-- KYC Rejected State -->
+    <div id="kycRejected" class="hidden">
+      <div class="text-center">
+        <div class="w-20 h-20 bg-red-500/10 border-2 border-red-500/30 rounded-full mx-auto mb-6 flex items-center justify-center">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-red-400" viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd" />
+          </svg>
+        </div>
+        <h3 class="text-2xl font-bold text-white mb-3">Verification Rejected</h3>
+        <p class="text-gray-400 mb-6 max-w-md mx-auto" id="rejectionReason">We couldn't verify your identity with the provided documents.</p>
+        
+        <div class="bg-gray-800/50 border border-gray-700 rounded-xl p-5 text-left mb-6">
+          <h4 class="text-white font-medium mb-3 flex items-center">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-indigo-400" viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd" />
+            </svg>
+            How to resolve
+          </h4>
+          <ul class="text-gray-400 text-sm space-y-2">
+            <li class="flex items-start">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2 mt-0.5 text-indigo-400 flex-shrink-0" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+              </svg>
+              <span>Ensure all documents are clear and readable</span>
+            </li>
+            <li class="flex items-start">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2 mt-0.5 text-indigo-400 flex-shrink-0" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+              </svg>
+              <span>Make sure your selfie matches your ID photo</span>
+            </li>
+            <li class="flex items-start">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2 mt-0.5 text-indigo-400 flex-shrink-0" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+              </svg>
+              <span>Check that all information matches exactly</span>
+            </li>
+          </ul>
+        </div>
+        
+        <button onclick="resetKYC()" class="w-full btn-gradient text-white font-semibold py-3.5 rounded-lg text-lg">
+          Resubmit Verification
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Login/Register Modal -->
+  <div id="authModal" class="fixed inset-0 flex items-center justify-center bg-black/70 z-50 hidden backdrop-blur-sm">
+    <div class="glass-effect rounded-xl p-8 shadow-2xl w-96 max-w-full slide-in">
+      <div class="flex justify-between items-center mb-6">
+        <div id="authTitle" class="text-2xl font-bold text-white">Welcome Back</div>
+        <button onclick="hideAuthModal()" class="text-gray-400 hover:text-white text-2xl font-bold transition-colors">
+          &times;
+        </button>
+      </div>
+      
+      <div class="space-y-4 mb-6">
+        <div>
+          <label class="block mb-2 text-sm font-medium text-gray-300">Username or Email</label>
+          <input id="authUsername" type="text" placeholder="Enter your username or email" 
+                 class="w-full px-4 py-3 rounded-lg bg-gray-800/50 border border-gray-700 text-white placeholder-gray-500 focus:outline-none focus:border-indigo-500 input-focus-effect transition-all" />
+        </div>
+        <div>
+          <label class="block mb-2 text-sm font-medium text-gray-300">Password</label>
+          <input id="authPassword" type="password" placeholder="Enter your password" 
+                 class="w-full px-4 py-3 rounded-lg bg-gray-800/50 border border-gray-700 text-white placeholder-gray-500 focus:outline-none focus:border-indigo-500 input-focus-effect transition-all" />
+        </div>
+      </div>
+      
+      <div id="authError" class="bg-red-900/30 border border-red-700/50 rounded-lg p-3 mb-4 text-sm text-red-300 hidden"></div>
+      
+      <button id="authActionBtn" class="w-full btn-gradient text-white px-6 py-3.5 rounded-lg font-semibold mb-4">
+        Sign In
+      </button>
+      
+      <div class="text-center text-sm text-gray-400">
+        <span id="toggleAuthMode" class="text-indigo-400 hover:text-indigo-300 cursor-pointer transition-colors">
+          Don't have an account? Register
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Create animated background particles
+    function createParticles() {
+      const container = document.getElementById('particles');
+      const particleCount = 15;
+      
+      for (let i = 0; i < particleCount; i++) {
+        const particle = document.createElement('div');
+        particle.classList.add('particle');
+        
+        // Random size between 100px and 300px
+        const size = Math.random() * 200 + 100;
+        particle.style.width = `${size}px`;
+        particle.style.height = `${size}px`;
+        
+        // Random position
+        particle.style.left = `${Math.random() * 100}%`;
+        particle.style.top = `${Math.random() * 100}%`;
+        
+        // Random animation duration and delay
+        const duration = Math.random() * 20 + 10;
+        const delay = Math.random() * 10;
+        particle.style.animationDuration = `${duration}s`;
+        particle.style.animationDelay = `-${delay}s`;
+        
+        container.appendChild(particle);
+      }
+    }
+    
+    // Initialize particles when DOM is loaded
+    document.addEventListener('DOMContentLoaded', createParticles);
+    
+    let kycData = null;
+    
+    // Auth integration
+    function showAuthModal() {
+      document.getElementById('authModal').classList.remove('hidden');
+      document.getElementById('authError').classList.add('hidden');
+    }
+    
+    function hideAuthModal() {
+      document.getElementById('authModal').classList.add('hidden');
+    }
+    
+    function fetchUser() {
+      return fetch('api/user.php').then(r => r.json());
+    }
+    
+    function requireLogin() {
+      fetchUser().then(data => {
+        if (!data.success) showAuthModal();
+        else loadKYCData();
+      });
+    }
+    
+    window.addEventListener('DOMContentLoaded', requireLogin);
+    
+    // Auth modal logic
+    let authMode = 'login';
+    document.getElementById('toggleAuthMode').onclick = function() {
+      authMode = authMode === 'login' ? 'register' : 'login';
+      document.getElementById('authTitle').textContent = authMode === 'login' ? 'Welcome Back' : 'Create Account';
+      document.getElementById('authActionBtn').textContent = authMode === 'login' ? 'Sign In' : 'Register';
+    };
+    
+    document.getElementById('authActionBtn').onclick = function() {
+      const username = document.getElementById('authUsername').value.trim();
+      const password = document.getElementById('authPassword').value;
+      const errorDiv = document.getElementById('authError');
+      
+      errorDiv.classList.add('hidden');
+      
+      if (!username || !password) {
+        errorDiv.textContent = 'Please fill in all fields';
+        errorDiv.classList.remove('hidden');
+        return;
+      }
+      
+      let url = authMode === 'login' ? 'api/login.php' : 'api/register.php';
+      let body = authMode === 'login' ? { username, password } : { username, email: username, password };
+      
+      fetch(url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body)
+      })
+      .then(r => r.json())
+      .then(data => {
+        if (data.success) {
+          hideAuthModal();
+          loadKYCData();
+        } else {
+          errorDiv.textContent = data.error || 'Authentication failed. Please try again.';
+          errorDiv.classList.remove('hidden');
+        }
+      })
+      .catch(() => {
+        errorDiv.textContent = 'Network error. Please check your connection.';
+        errorDiv.classList.remove('hidden');
+      });
+    };
+
+    // Load KYC data
+    function loadKYCData() {
+      const loadingState = document.getElementById('loadingState');
+      const errorState = document.getElementById('errorState');
+      
+      loadingState.classList.remove('hidden');
+      errorState.classList.add('hidden');
+      
+      fetch('api/kyc.php')
+        .then(response => {
+          if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+          }
+          return response.json();
+        })
+        .then(data => {
+          loadingState.classList.add('hidden');
+          if (data.success) {
+            kycData = data.kyc;
+            displayKYCStatus();
+          } else {
+            showError(data.error || 'Failed to load verification data');
+          }
+        })
+        .catch(error => {
+          loadingState.classList.add('hidden');
+          console.error('Error loading KYC data:', error);
+          showError('Network error. Please try again later.');
+        });
+    }
+    
+    function displayKYCStatus() {
+      const statusText = document.getElementById('statusText');
+      const statusBadge = document.getElementById('statusBadge');
+      const statusDescription = document.getElementById('statusDescription');
+      const kycForm = document.getElementById('kycForm');
+      const kycSubmitted = document.getElementById('kycSubmitted');
+      const kycApproved = document.getElementById('kycApproved');
+      const kycRejected = document.getElementById('kycRejected');
+      
+      // Hide all states first
+      kycForm.classList.add('hidden');
+      kycSubmitted.classList.add('hidden');
+      kycApproved.classList.add('hidden');
+      kycRejected.classList.add('hidden');
+      
+      if (!kycData) {
+        // No KYC submitted
+        statusText.textContent = 'Not Verified';
+        statusDescription.textContent = 'Complete identity verification to access all features';
+        statusBadge.classList.add('hidden');
+        kycForm.classList.remove('hidden');
+      } else {
+        switch(kycData.status) {
+          case 'pending':
+            statusText.textContent = 'Pending Review';
+            statusDescription.textContent = 'Your documents are being reviewed by our team';
+            statusBadge.textContent = 'Pending';
+            statusBadge.className = 'status-badge status-pending';
+            statusBadge.classList.remove('hidden');
+            kycSubmitted.classList.remove('hidden');
+            break;
+          case 'approved':
+            statusText.textContent = 'Verified';
+            statusDescription.textContent = 'Your identity has been successfully verified';
+            statusBadge.textContent = 'Verified';
+            statusBadge.className = 'status-badge status-approved';
+            statusBadge.classList.remove('hidden');
+            
+            // Format verification date if available
+            if (kycData.verified_at) {
+              const date = new Date(kycData.verified_at);
+              document.getElementById('verifiedDate').textContent = date.toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+              });
+            }
+            
+            kycApproved.classList.remove('hidden');
+            break;
+          case 'rejected':
+            statusText.textContent = 'Rejected';
+            statusDescription.textContent = 'Please review and resubmit your documents';
+            statusBadge.textContent = 'Rejected';
+            statusBadge.className = 'status-badge status-rejected';
+            statusBadge.classList.remove('hidden');
+            
+            document.getElementById('rejectionReason').textContent = 
+              kycData.reason || 'We couldn\'t verify your identity with the provided documents.';
+            
+            kycRejected.classList.remove('hidden');
+            break;
+          default:
+            statusText.textContent = 'Not Verified';
+            statusDescription.textContent = 'Complete identity verification to access all features';
+            statusBadge.classList.add('hidden');
+            kycForm.classList.remove('hidden');
+        }
+      }
+    }
+    
+    function showError(message) {
+      const errorState = document.getElementById('errorState');
+      const errorMessage = document.getElementById('errorMessage');
+      errorMessage.textContent = message;
+      errorState.classList.remove('hidden');
+    }
+    
+    function resetKYC() {
+      kycData = null;
+      document.getElementById('kycFormElement').reset();
+      document.getElementById('selfiePreview').classList.add('hidden');
+      document.getElementById('idPreview').classList.add('hidden');
+      displayKYCStatus();
+    }
+    
+    // File preview functionality
+    document.getElementById('selfieFile').addEventListener('change', function(e) {
+      const file = e.target.files[0];
+      if (file) {
+        if (file.size > 5 * 1024 * 1024) {
+          showError('Selfie image must be less than 5MB');
+          e.target.value = '';
+          return;
+        }
+        
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          document.getElementById('selfiePreviewImg').src = e.target.result;
+          document.getElementById('selfiePreview').classList.remove('hidden');
+        };
+        reader.readAsDataURL(file);
+      }
+    });
+    
+    document.getElementById('idFile').addEventListener('change', function(e) {
+      const file = e.target.files[0];
+      if (file) {
+        if (file.size > 5 * 1024 * 1024) {
+          showError('ID document must be less than 5MB');
+          e.target.value = '';
+          return;
+        }
+        
+        if (file.type.startsWith('image/')) {
+          const reader = new FileReader();
+          reader.onload = function(e) {
+            document.getElementById('idPreviewImg').src = e.target.result;
+            document.getElementById('idPreview').classList.remove('hidden');
+          };
+          reader.readAsDataURL(file);
+        } else {
+          document.getElementById('idPreview').classList.remove('hidden');
+          document.getElementById('idPreviewImg').src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgdmlld0JveD0iMCAwIDIwMCAyMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIyMDAiIGhlaWdodD0iMjAwIiBmaWxsPSIjMzc0MTUxIi8+CjxwYXRoIGQ9Ik01MCAxMDBMMTAwIDUwTDE1MCAxMDBMMTAwIDE1MFY1MFoiIGZpbGw9IiM2Qjc0ODAiLz4KPC9zdmc+';
+        }
+      }
+    });
+    
+    function clearPreview(type) {
+      if (type === 'selfie') {
+        document.getElementById('selfieFile').value = '';
+        document.getElementById('selfiePreview').classList.add('hidden');
+      } else {
+        document.getElementById('idFile').value = '';
+        document.getElementById('idPreview').classList.add('hidden');
+      }
+    }
+    
+    // Form submission
+    document.getElementById('kycFormElement').addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      const fullName = document.getElementById('fullName').value.trim();
+      const dateOfBirth = document.getElementById('dateOfBirth').value;
+      const selfieFile = document.getElementById('selfieFile').files[0];
+      const idFile = document.getElementById('idFile').files[0];
+      
+      if (!fullName || !dateOfBirth || !selfieFile || !idFile) {
+        showError('Please fill in all required fields');
+        return;
+      }
+      
+      if (!document.getElementById('termsCheckbox').checked) {
+        showError('You must agree to the terms and conditions');
+        return;
+      }
+      
+      const formData = new FormData();
+      formData.append('fullName', fullName);
+      formData.append('dateOfBirth', dateOfBirth);
+      formData.append('selfieFile', selfieFile);
+      formData.append('idFile', idFile);
+      
+      // Show loading state
+      const submitBtn = e.target.querySelector('button[type="submit"]');
+      const originalBtnText = submitBtn.textContent;
+      submitBtn.innerHTML = '<span class="flex items-center justify-center"><svg class="animate-spin -ml-1 mr-2 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg> Processing...</span>';
+      submitBtn.disabled = true;
+      
+      fetch('api/kyc.php', {
+        method: 'POST',
+        body: formData
+      })
+      .then(response => response.json())
+      .then(data => {
+        submitBtn.textContent = originalBtnText;
+        submitBtn.disabled = false;
+        
+        if (data.success) {
+          kycData = data.kyc;
+          displayKYCStatus();
+        } else {
+          showError(data.error || 'Failed to submit verification');
+        }
+      })
+      .catch(error => {
+        submitBtn.textContent = originalBtnText;
+        submitBtn.disabled = false;
+        console.error('Error submitting KYC:', error);
+        showError('Network error. Please try again later.');
+      });
+    });
+
+    async function checkKYCEnabled() {
+      try {
+        const res = await fetch('api/settings.php');
+        const data = await res.json();
+        if (data.success && data.settings && data.settings.kyc_enabled === false) {
+          document.getElementById('kycDisabled').classList.remove('hidden');
+          document.getElementById('kycStatus').classList.add('hidden');
+          document.getElementById('kycForm').classList.add('hidden');
+        } else {
+          document.getElementById('kycDisabled').classList.add('hidden');
+        }
+      } catch (e) {
+        console.error('Error checking KYC status:', e);
+      }
+    }
+    
+    document.addEventListener('DOMContentLoaded', checkKYCEnabled);
+  </script>
+</body>
+</html>
+<!-- Premium GV-Style Bottom Navigation (Large Icons) -->
+<style>
+  .gv-bottom-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: rgba(17, 24, 39, 0.95);
+    backdrop-filter: blur(12px);
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 12px 0;
+    z-index: 1000;
+    box-shadow: 0 -5px 15px rgba(0, 0, 0, 0.6);
+    border-top-left-radius: 16px;
+    border-top-right-radius: 16px;
+  }
+  .gv-bottom-nav a {
+    flex: 1;
+    text-align: center;
+    font-size: 13px;
+    color: #aaa;
+    text-decoration: none;
+    transition: all 0.3s ease;
+  }
+  .gv-bottom-nav a .icon-wrap {
+    background: rgba(129, 140, 248, 0.08);
+    width: 48px;
+    height: 48px;
+    margin: 0 auto 6px;
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+  }
+  .gv-bottom-nav a .icon-wrap i {
+    font-size: 20px;
+    transition: transform 0.3s ease, color 0.3s ease;
+  }
+  .gv-bottom-nav a:hover .icon-wrap {
+    background: rgba(129, 140, 248, 0.2);
+    transform: scale(1.1);
+  }
+  .gv-bottom-nav a.active {
+    color: #a78bfa;
+    font-weight: 600;
+  }
+  .gv-bottom-nav a.active .icon-wrap {
+    background: #a78bfa20;
+    animation: pulseGlow 1.8s infinite;
+  }
+  .gv-bottom-nav a.active .icon-wrap i {
+    color: #a78bfa;
+  }
+
+  @keyframes pulseGlow {
+    0%, 100% {
+      box-shadow: 0 0 5px #a78bfa, 0 0 10px #a78bfa;
+    }
+    50% {
+      box-shadow: 0 0 15px #c084fc, 0 0 25px #c084fc;
+    }
+  }
+</style>
+
+<div class="gv-bottom-nav">
+  <a href="index.php" class="<?= basename($_SERVER['PHP_SELF']) == 'index.php' ? 'active' : '' ?>">
+    <div class="icon-wrap"><i class="fas fa-home"></i></div>
+    Main
+  </a>
+  <a href="deposit.html" class="<?= basename($_SERVER['PHP_SELF']) == 'deposit.html' ? 'active' : '' ?>">
+    <div class="icon-wrap"><i class="fas fa-arrow-down"></i></div>
+    Deposit
+  </a>
+  <a href="refer.php" class="<?= basename($_SERVER['PHP_SELF']) == 'refer.php' ? 'active' : '' ?>">
+    <div class="icon-wrap"><i class="fas fa-bullhorn"></i></div>
+    Promotion
+  </a>
+  <a href="withdraw.html" class="<?= basename($_SERVER['PHP_SELF']) == 'withdraw.html' ? 'active' : '' ?>">
+    <div class="icon-wrap"><i class="fas fa-arrow-up"></i></div>
+    Withdraw
+  </a>
+  <a href="main.php" class="<?= basename($_SERVER['PHP_SELF']) == 'main.php' ? 'active' : '' ?>">
+    <div class="icon-wrap"><i class="fas fa-gamepad"></i></div>
+    Games
+  </a>
+</div>
+
+<!-- Font Awesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<script src="assets/js/shared_bottom_nav.js"></script>

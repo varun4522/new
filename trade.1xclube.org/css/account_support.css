@@ -1,0 +1,216 @@
+.my_supp_top{
+        background: #ffffff;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgb(0 0 0 / 5%);
+    border: 1px solid #8BC34A;
+    margin: 15px;
+    margin-top: 10px;
+    margin-bottom: 5px;
+    position: relative;
+    overflow: hidden;
+}
+.my_supp_top_b1{
+    min-height: 40px;
+}
+.my_supp_top_b1 section{
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    padding: 0px 10px;
+}
+.my_supp_top_b1 section dd{
+    font-size: 44px;
+    color: #fff;
+}
+.my_supp_top_b1 section dd img{
+    width: 100px;
+    margin-top: 10px;
+    /* height: 45px; */
+}
+.my_supp_top_b1 section dl{
+    -webkit-box-flex: 1;
+        -ms-flex: 1;
+            flex: 1;
+    text-align: left;
+    color: var(--t3);
+    padding-left: 15px;
+}
+.my_supp_top_b1 section dl h4{
+    font-weight: 300;
+    opacity: 0.6;
+    padding-bottom: 2px;
+    color: var(--t6);
+}
+.my_supp_top_b1 section dl h2{
+    font-weight: 400;
+    font-size: 18px;
+}
+.my_supp_top_b1 aside{
+    color: #fff;
+    font-size: 11px;
+    line-height: 14px;
+    padding: 10px 10px;
+    text-align: center;
+    opacity: 0.5;
+    font-weight: 300;
+}
+.my_supp_top_b2{
+    background-color: rgb(69 0 150 / 40%);
+    margin: 0px 20px;
+    height: 20px;
+    border-radius: 0px 0px 15px 15px;
+
+}
+.my_supp_top_b3{
+    background-color: rgb(97 0 150 / 10%);
+    height: 35px;
+    margin: 0px 25px;
+    border-radius: 0px 0px 15px 15px;
+}
+
+.my_supp{
+    padding: 3px 8px;
+    display: flex;
+    flex-wrap: wrap;
+}
+.my_supp section{
+    flex: 1 0 30%;
+    /* background: rgba(255, 255, 255, 0.95); */
+    backdrop-filter: blur(10px);
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    margin: 5px 5px;
+    /* -webkit-box-shadow: 0px 1px 2px 0.05px rgb(0 0 0 / 20%);
+    box-shadow: 0px 1px 2px 0.05px rgb(0 0 0 / 20%); */
+    border-radius: 3px;
+    padding: 10px 10px;
+    border: 1px solid rgb(214, 255, 168);
+    border-radius: 15px;
+}
+.my_supp section dd{
+    text-align: left;
+}
+.my_supp section dd h5{
+    font-size: 12px;
+    color: var(--t6);
+    font-weight: 400;
+    padding-bottom: 3px;
+}
+.my_supp section dd h1{
+    font-weight: 600;
+    color: var(--t3);
+    font-size: 14px;
+}
+.my_supp section a{
+    font-size: 16px;
+    color: var(--t3);
+    border-radius: 7px;
+    padding: 8px 0px;
+    padding-left: 5px;
+    margin-left: auto;
+    /* -ms-flex-preferred-size: 40px;
+        flex-basis: 40px; */
+    -webkit-transition: ease-in-out 0.2s all;
+    -o-transition: ease-in-out 0.2s all;
+    transition: ease-in-out 0.2s all;
+}
+.my_supp section a i{
+    font-size: 16px;
+}
+.my_supp section a:hover{
+    cursor: pointer;
+    color: var(--t3);
+    background-color: rgba(255, 255, 255, 0.05)
+}
+
+.my_account_tab6{
+    display: flex;
+    margin:15px 10px;
+    margin-bottom: 5px;
+}
+.my_account_tab6_tab{
+    flex: 1;
+    position: relative;
+    overflow: hidden;
+    text-align: left;
+    padding-right: 30px;
+    box-shadow: 0 4px 15px rgb(0 0 0 / 5%);
+    padding: 10px 10px;
+    margin: 0 4px;
+    border-radius: 15px;
+}
+.my_account_tab6_tab h1{
+    font-size: 16px;
+    color: #fff;
+    font-weight: 600;
+    position: relative;
+    z-index: 1;
+    text-shadow: 1px 2px 1px rgba(0, 0, 0, 0.1);
+}
+.my_account_tab6_tab p{
+    font-size: 10px;
+    color: #000;
+    padding-top: 3px;
+}
+.my_daily_bonus{
+    background: linear-gradient(0deg, #00ff15, #45cf00);
+    -webkit-box-shadow: 0px 2px 6px 0.05px rgba(31, 244, 3, 0.5);
+    box-shadow: 0px 2px 6px 0.05px rgba(31, 244, 3, 0.5);
+    
+}
+.my_daily_bonus::after{
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 10px;
+    bottom: 0;
+    background: url(../icon/whatsapp2.png) right no-repeat;
+    background-size: 25%;
+    opacity: 0.6;
+    animation: Bell_Ring 2s linear infinite;
+}
+.my_daily_bonus:hover::after{
+    opacity: 1;
+}
+
+.my_telegram_body{
+    color: #fff;
+    -webkit-box-shadow: 0px 2px 6px 0.05px rgba(3, 169, 244, 0.5);
+    box-shadow: 0px 2px 6px 0.05px rgba(3, 169, 244, 0.5);
+    background: -webkit-gradient(linear, left bottom, left top, color-stop(.14%, #03a9f4), color-stop(99.92%, rgba(3, 169, 244, 0.5)));
+    background: -o-linear-gradient(bottom, #03a9f4 .14%, rgba(3, 169, 244, 0.5) 99.92%);
+    background: linear-gradient(0deg, #03a9f4 .14%, rgba(3, 169, 244, 0.5) 99.92%);
+}
+.my_telegram_body::after{
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 10px;
+    bottom: 0;
+    background: url(../icon/telegram2.png) right no-repeat;
+    background-size: 25%;
+    opacity: 0.6;
+    animation: Bell_Ring 3s linear infinite;
+}
+
+@keyframes Bell_Ring {
+    0% { transform: rotate(0); }
+    10% { transform: rotate(15deg); }
+    20% { transform: rotate(-10deg); }
+    30% { transform: rotate(7deg); }
+    40% { transform: rotate(-4deg); }
+    50% { transform: rotate(2deg); }
+    60% { transform: rotate(-1deg); }
+    70% { transform: rotate(1deg); }
+    80% { transform: rotate(0deg); }
+    100% { transform: rotate(0deg); }
+}

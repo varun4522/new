@@ -1,0 +1,43 @@
+.my_record_amount_b1{
+    padding: 0;
+}
+.my_record_amount_b2{
+    flex: 1;
+    text-align: left;
+    padding-right: 5px;
+}
+.my_record_amount_b1 h2{
+    padding: 0;
+}
+.my_record_amount_b1 h2{
+    color: var(--t2);
+    font-size: 20px;
+    align-items: center;
+    background-image:none;
+    background-clip: unset;
+    -webkit-text-fill-color:unset;
+}
+.my_record_amount_b1 h2 i{
+    font-size: 14px;
+    background-image:none;
+    background-clip: unset;
+    -webkit-text-fill-color:unset;
+}
+.my_record_amount_t5{
+    /* font-family: 'Teko', 'Vidaloka', 'Fjalla One', 'Barlow', 'Agdasima', Arial, sans-serif; */
+    color: #000000;
+    font-size: 16px;
+    font-weight: 500;
+    padding-bottom: 1px;
+
+}
+.my_record_amount_t6{
+    font-size: 8px;
+    padding-bottom: 5px;
+    color: var(--t3);
+    /* font-family: 'Roboto Slab'; */
+    font-weight: 400
+}
+/* .my_record_date{    
+    color: #607D8B;
+} */

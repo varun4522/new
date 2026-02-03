@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Bet History - Chicken Road Game</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+    
+    * {
+      font-family: 'Inter', sans-serif;
+    }
+    
+    .gradient-bg {
+      background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+    }
+    
+    .glass-effect {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+    
+    .btn-gradient {
+      background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+      transition: all 0.3s ease;
+    }
+    
+    .btn-gradient:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 25px rgba(30, 60, 114, 0.3);
+    }
+    
+    .slide-in {
+      animation: slideIn 0.5s ease-out;
+    }
+    
+    @keyframes slideIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body class="gradient-bg min-h-screen flex items-center justify-center p-4">
+  <!-- Background Elements -->
+  <div class="fixed inset-0 overflow-hidden pointer-events-none">
+    <div class="absolute -top-40 -right-40 w-80 h-80 bg-white opacity-10 rounded-full blur-3xl"></div>
+    <div class="absolute -bottom-40 -left-40 w-80 h-80 bg-purple-300 opacity-10 rounded-full blur-3xl"></div>
+  </div>
+
+  <div class="glass-effect rounded-3xl p-8 shadow-2xl w-[800px] max-w-full relative z-10 slide-in">
+    <div class="flex justify-between items-center mb-6">
+      <h2 class="text-2xl font-bold text-left text-white">Bet History</h2>
+      <button onclick="window.location.href='index.php'" class="text-gray-300 hover:text-white text-2xl font-bold ml-4 transition-colors">×</button>
+    </div>
+    
+    <!-- Filter Buttons -->
+    <div class="mb-6 flex flex-wrap gap-3">
+      <div class="relative">
+        <button id="filterDropdown" class="btn-gradient text-white px-4 py-2 rounded-xl text-sm font-medium flex items-center gap-2">
+          <span id="filterText">All Bets</span>
+          <span class="text-sm">▼</span>
+        </button>
+        <div id="filterOptions" class="absolute top-full left-0 mt-2 bg-gray-800 border border-gray-600 rounded-xl overflow-hidden hidden z-50 min-w-[200px] shadow-lg">
+          <div class="filter-option px-4 py-3 text-white hover:bg-gray-700 cursor-pointer transition-colors" data-result="">All Bets</div>
+          <div class="filter-option px-4 py-3 text-white hover:bg-gray-700 cursor-pointer transition-colors" data-result="cashout">Cashouts</div>
+          <div class="filter-option px-4 py-3 text-white hover:bg-gray-700 cursor-pointer transition-colors" data-result="crash">Crashes</div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Loading State -->
+    <div id="loadingState" class="text-center py-8 hidden">
+      <div class="text-gray-300 text-lg">Loading bet history...</div>
+    </div>
+    
+    <!-- Error State -->
+    <div id="errorState" class="text-center py-8 hidden">
+      <div class="text-red-300 text-lg" id="errorMessage"></div>
+    </div>
+    
+    <div class="overflow-x-auto">
+      <table class="min-w-full text-sm">
+        <thead>
+          <tr class="border-b border-white/20">
+            <th class="px-6 py-4 text-left text-white font-semibold">Bet Amount</th>
+            <th class="px-6 py-4 text-left text-white font-semibold">Difficulty</th>
+            <th class="px-6 py-4 text-left text-white font-semibold">Result</th>
+            <th class="px-6 py-4 text-left text-white font-semibold">Multiplier</th>
+            <th class="px-6 py-4 text-left text-white font-semibold">Profit/Loss</th>
+            <th class="px-6 py-4 text-left text-white font-semibold">Date/Time</th>
+          </tr>
+        </thead>
+        <tbody id="betHistoryTable">
+        </tbody>
+      </table>
+    </div>
+    
+    <!-- Pagination -->
+    <div id="pagination" class="mt-6 flex justify-center gap-3 hidden">
+      <button id="prevBtn" class="bg-white/10 border border-white/20 text-white px-4 py-2 rounded-xl text-sm font-medium hover:bg-white/20 transition-all disabled:opacity-50">Previous</button>
+      <span id="pageInfo" class="px-4 py-2 text-sm text-white font-small"></span>
+      <button id="nextBtn" class="bg-white/10 border border-white/20 text-white px-4 py-2 rounded-xl text-sm font-medium hover:bg-white/20 transition-all disabled:opacity-50">Next</button>
+    </div>
+  </div>
+  
+  <!-- Login/Register Modal -->
+  <div id="authModal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50 hidden">
+    <div class="glass-effect rounded-3xl p-8 shadow-2xl text-center w-80 slide-in">
+      <div id="authTitle" class="text-2xl font-bold mb-6 text-white">Login</div>
+      <div class="space-y-4 mb-6">
+        <input id="authUsername" type="text" placeholder="Username" class="w-full px-4 py-3 rounded-xl bg-white/10 border border-white/20 text-white placeholder-gray-300 focus:outline-none focus:bg-white/15 focus:border-blue-400 transition-all" />
+        <input id="authPassword" type="password" placeholder="Password" class="w-full px-4 py-3 rounded-xl bg-white/10 border border-white/20 text-white placeholder-gray-300 focus:outline-none focus:bg-white/15 focus:border-blue-400 transition-all" />
+      </div>
+      <div id="authError" class="text-red-300 text-sm mb-4 hidden"></div>
+      <button id="authActionBtn" class="w-full btn-gradient text-white px-6 py-3 rounded-xl font-semibold mb-4">Login</button>
+      <div class="text-sm text-gray-300"><span id="toggleAuthMode" class="text-blue-400 hover:text-blue-300 cursor-pointer transition-colors">Don't have an account? Register</span></div>
+    </div>
+  </div>
+
+  <script>
+    let currentPage = 1;
+    let currentFilter = '';
+    let totalPages = 1;
+    
+    // Auth integration
+    function showAuthModal() {
+      document.getElementById('authModal').classList.remove('hidden');
+      document.getElementById('authError').classList.add('hidden');
+    }
+    function hideAuthModal() {
+      document.getElementById('authModal').classList.add('hidden');
+    }
+    function fetchUser() {
+      return fetch('api/user.php').then(r => r.json());
+    }
+    function requireLogin() {
+      fetchUser().then(data => {
+        if (!data.success) showAuthModal();
+        else loadBetHistory();
+      });
+    }
+    window.addEventListener('DOMContentLoaded', requireLogin);
+    
+    // Auth modal logic
+    let authMode = 'login';
+    document.getElementById('toggleAuthMode').onclick = function() {
+      authMode = authMode === 'login' ? 'register' : 'login';
+      document.getElementById('authTitle').textContent = authMode === 'login' ? 'Login' : 'Register';
+      document.getElementById('authActionBtn').textContent = authMode === 'login' ? 'Login' : 'Register';
+    };
+    document.getElementById('authActionBtn').onclick = function() {
+      const username = document.getElementById('authUsername').value.trim();
+      const password = document.getElementById('authPassword').value;
+      const errorDiv = document.getElementById('authError');
+      errorDiv.classList.add('hidden');
+      let url = authMode === 'login' ? 'api/login.php' : 'api/register.php';
+      let body = authMode === 'login' ? { username, password } : { username, email: username, password };
+      fetch(url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body)
+      })
+      .then(r => r.json())
+      .then(data => {
+        if (data.success) {
+          hideAuthModal();
+          loadBetHistory();
+        } else {
+          errorDiv.textContent = data.error || 'Authentication failed.';
+          errorDiv.classList.remove('hidden');
+        }
+      })
+      .catch(() => {
+        errorDiv.textContent = 'Network error.';
+        errorDiv.classList.remove('hidden');
+      });
+    };
+
+    // Load bet history
+    function loadBetHistory() {
+      const loadingState = document.getElementById('loadingState');
+      const errorState = document.getElementById('errorState');
+      const table = document.getElementById('betHistoryTable');
+      
+      loadingState.classList.remove('hidden');
+      errorState.classList.add('hidden');
+      table.innerHTML = '';
+      
+      let url = `api/bet_history.php?page=${currentPage}&limit=10`;
+      if (currentFilter) url += `&result=${currentFilter}`;
+      
+      fetch(url)
+        .then(r => r.json())
+        .then(data => {
+          loadingState.classList.add('hidden');
+          if (data.success) {
+            displayBetHistory(data.bets);
+            updatePagination(data.pagination);
+          } else {
+            showError(data.error || 'Failed to load bet history');
+          }
+        })
+        .catch(() => {
+          loadingState.classList.add('hidden');
+          showError('Network error');
+        });
+    }
+    
+    function displayBetHistory(bets) {
+      const table = document.getElementById('betHistoryTable');
+      table.innerHTML = '';
+      
+      if (bets.length === 0) {
+        const tr = document.createElement('tr');
+        tr.innerHTML = '<td colspan="6" class="px-6 py-8 text-center text-gray-300">No bets found</td>';
+        table.appendChild(tr);
+        return;
+      }
+      
+      bets.forEach(bet => {
+        const tr = document.createElement('tr');
+        tr.className = 'border-b border-white/10 hover:bg-white/5 transition-colors';
+        const resultClass = getResultClass(bet.result);
+        const profitLoss = parseFloat(bet.profit || bet.profit_loss || 0);
+        const profitLossText = profitLoss >= 0 ? `+₹${profitLoss.toFixed(2)}` : `₹${profitLoss.toFixed(2)}`;
+        const profitLossClass = profitLoss >= 0 ? 'text-green-300' : 'text-red-300';
+        const multiplierText = bet.multiplier === '0x' ? 'CRASH' : 'x' + parseFloat(bet.multiplier).toFixed(2);
+        const multiplierClass = getMultiplierClass(bet.multiplier);
+        
+        tr.innerHTML = `
+          <td class="px-6 py-4">
+            <div class="font-semibold text-white">₹${parseFloat(bet.bet_amount).toFixed(2)}</div>
+          </td>
+          <td class="px-6 py-4">
+            <div class="text-gray-300">${bet.difficulty || 'Unknown'}</div>
+          </td>
+          <td class="px-6 py-4">
+            <span class="${resultClass} px-3 py-1 rounded-full text-xs font-medium">${bet.result.toUpperCase()}</span>
+          </td>
+          <td class="px-6 py-4">
+            <span class="${multiplierClass} px-3 py-1 rounded-full text-xs font-medium">${multiplierText}</span>
+          </td>
+          <td class="px-6 py-4">
+            <span class="font-semibold ${profitLossClass}">${profitLossText}</span>
+          </td>
+          <td class="px-6 py-4 text-sm text-gray-300">${new Date(bet.created_at).toLocaleString()}</td>
+        `;
+        table.appendChild(tr);
+      });
+    }
+    
+    function getResultClass(result) {
+      switch(result) {
+        case 'cashout': return 'bg-green-500/20 text-green-300 border border-green-500/30';
+        case 'crash': return 'bg-red-500/20 text-red-300 border border-red-500/30';
+        default: return 'bg-gray-500/20 text-gray-300 border border-gray-500/30';
+      }
+    }
+    
+    function getMultiplierClass(multiplier) {
+      const mult = parseFloat(multiplier);
+      if (multiplier === '0x') return 'bg-red-500/20 text-red-300 border border-red-500/30';
+      if (mult >= 2) return 'bg-green-500/20 text-green-300 border border-green-500/30';
+      if (mult >= 1.5) return 'bg-yellow-500/20 text-yellow-300 border border-yellow-500/30';
+      return 'bg-blue-500/20 text-blue-300 border border-blue-500/30';
+    }
+    
+    function updatePagination(pagination) {
+      const paginationDiv = document.getElementById('pagination');
+      const pageInfo = document.getElementById('pageInfo');
+      const prevBtn = document.getElementById('prevBtn');
+      const nextBtn = document.getElementById('nextBtn');
+      
+      totalPages = pagination.total_pages;
+      currentPage = pagination.current_page;
+      
+      pageInfo.textContent = `Page ${currentPage} of ${totalPages}`;
+      prevBtn.disabled = !pagination.has_prev;
+      nextBtn.disabled = !pagination.has_next;
+      
+      paginationDiv.classList.remove('hidden');
+    }
+    
+    function showError(message) {
+      const errorState = document.getElementById('errorState');
+      const errorMessage = document.getElementById('errorMessage');
+      errorMessage.textContent = message;
+      errorState.classList.remove('hidden');
+    }
+    
+    // Filter dropdown functionality
+    document.getElementById('filterDropdown').addEventListener('click', function(e) {
+      e.stopPropagation();
+      const options = document.getElementById('filterOptions');
+      options.classList.toggle('hidden');
+    });
+    
+    // Close dropdown when clicking outside
+    document.addEventListener('click', function(event) {
+      const dropdown = document.getElementById('filterDropdown');
+      const options = document.getElementById('filterOptions');
+      if (!dropdown.contains(event.target) && !options.contains(event.target)) {
+        options.classList.add('hidden');
+      }
+    });
+    
+    // Filter option selection
+    document.querySelectorAll('.filter-option').forEach(option => {
+      option.addEventListener('click', function() {
+        const selectedResult = this.dataset.result;
+        const filterText = selectedResult === '' ? 'All Bets' : selectedResult.charAt(0).toUpperCase() + selectedResult.slice(1);
+        document.getElementById('filterText').textContent = filterText;
+        currentFilter = selectedResult;
+        currentPage = 1;
+        loadBetHistory();
+        document.getElementById('filterOptions').classList.add('hidden');
+      });
+    });
+    
+    // Pagination buttons
+    document.getElementById('prevBtn').addEventListener('click', function() {
+      if (currentPage > 1) {
+        currentPage--;
+        loadBetHistory();
+      }
+    });
+    
+    document.getElementById('nextBtn').addEventListener('click', function() {
+      if (currentPage < totalPages) {
+        currentPage++;
+        loadBetHistory();
+      }
+    });
+  </script>
+</body>
+</html> 
+<!-- Premium GV-Style Bottom Navigation (Large Icons) -->
+<style>
+  .gv-bottom-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: rgba(17, 24, 39, 0.95);
+    backdrop-filter: blur(12px);
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 12px 0;
+    z-index: 1000;
+    box-shadow: 0 -5px 15px rgba(0, 0, 0, 0.6);
+    border-top-left-radius: 16px;
+    border-top-right-radius: 16px;
+  }
+  .gv-bottom-nav a {
+    flex: 1;
+    text-align: center;
+    font-size: 13px;
+    color: #aaa;
+    text-decoration: none;
+    transition: all 0.3s ease;
+  }
+  .gv-bottom-nav a .icon-wrap {
+    background: rgba(129, 140, 248, 0.08);
+    width: 48px;
+    height: 48px;
+    margin: 0 auto 6px;
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+  }
+  .gv-bottom-nav a .icon-wrap i {
+    font-size: 20px;
+    transition: transform 0.3s ease, color 0.3s ease;
+  }
+  .gv-bottom-nav a:hover .icon-wrap {
+    background: rgba(129, 140, 248, 0.2);
+    transform: scale(1.1);
+  }
+  .gv-bottom-nav a.active {
+    color: #a78bfa;
+    font-weight: 600;
+  }
+  .gv-bottom-nav a.active .icon-wrap {
+    background: #a78bfa20;
+    animation: pulseGlow 1.8s infinite;
+  }
+  .gv-bottom-nav a.active .icon-wrap i {
+    color: #a78bfa;
+  }
+
+  @keyframes pulseGlow {
+    0%, 100% {
+      box-shadow: 0 0 5px #a78bfa, 0 0 10px #a78bfa;
+    }
+    50% {
+      box-shadow: 0 0 15px #c084fc, 0 0 25px #c084fc;
+    }
+  }
+</style>
+
+<div class="gv-bottom-nav">
+  <a href="index.php" class="<?= basename($_SERVER['PHP_SELF']) == 'index.php' ? 'active' : '' ?>">
+    <div class="icon-wrap"><i class="fas fa-home"></i></div>
+    Main
+  </a>
+  <a href="deposit.html" class="<?= basename($_SERVER['PHP_SELF']) == 'deposit.html' ? 'active' : '' ?>">
+    <div class="icon-wrap"><i class="fas fa-arrow-down"></i></div>
+    Deposit
+  </a>
+  <a href="refer.php" class="<?= basename($_SERVER['PHP_SELF']) == 'refer.php' ? 'active' : '' ?>">
+    <div class="icon-wrap"><i class="fas fa-bullhorn"></i></div>
+    Promotion
+  </a>
+  <a href="withdraw.html" class="<?= basename($_SERVER['PHP_SELF']) == 'withdraw.html' ? 'active' : '' ?>">
+    <div class="icon-wrap"><i class="fas fa-arrow-up"></i></div>
+    Withdraw
+  </a>
+</div>
+
+<script src="assets/js/shared_bottom_nav.js"></script>
+  <a href="main.php" class="<?= basename($_SERVER['PHP_SELF']) == 'main.php' ? 'active' : '' ?>">
+    <div class="icon-wrap"><i class="fas fa-gamepad"></i></div>
+    Games
+  </a>
+</div>
+
+<!-- Font Awesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+ 

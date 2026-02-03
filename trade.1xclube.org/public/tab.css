@@ -1,0 +1,84 @@
+.tab-menu {
+    margin-top: 0px;
+}
+
+.tab-menu ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+}
+
+.tab-menu ul li {
+    -ms-flex-preferred-size: 0;
+    flex-basis: 0;
+    -ms-flex-positive: 1;
+    flex-grow: 1;
+    max-width: 100%;
+    text-align: center;
+}
+
+.tab-menu ul li a {
+    color: #fff;
+    text-transform: unset;
+    letter-spacing: 0.44px;
+    font-family: 'Oswald';
+    font-weight: bold;
+    display: inline-block;
+    padding: 11px 26px;
+    display: block;
+    text-decoration: none;
+    transition: 0.5s all;
+    background: #d0d062;
+    border: 2px solid #d0d062;
+    border-bottom: 0;
+}
+
+.tab-menu ul li a:hover {
+    background: #d0d062;
+    color: #fff;
+    text-decoration: none;
+}
+.tab-menu ul li a.active {
+    background: #35C75A;
+    color: #fff;
+    text-decoration: none;
+    border: none;
+    border-radius: 6px;
+}
+.tab-box {
+    display: none;
+}
+
+.tab-teaser {
+    max-width: 100%;
+    width: 100%;
+    margin: 0 auto;
+    font-family: 'Oswald';
+}
+
+.tab-main-box {
+    background: #f4fcce;
+    padding: 10px 10px;
+    border: 2px solid #d0d062;
+    margin-top: -2px
+}
+
+.product-list[data-v-1c49ced6] {
+    padding: 0 0px;
+}
+
+.tab-menu ul li a {
+    color: #35C75A;
+    background: #eaeeff;
+    border: none;
+}
+.tab-main-box {
+    background: transparent;
+    padding: 10px;
+    border: none;
+    margin-top: -2px;
+}

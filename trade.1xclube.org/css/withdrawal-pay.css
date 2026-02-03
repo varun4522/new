@@ -1,0 +1,851 @@
+.my_thead_icon dl a{
+    height: auto;
+    font-size: 12px;
+    border: 1px solid #fff;
+    margin-right: 10px;
+    padding: 8px 8px;
+    border-radius: 7px;
+    background-color: rgba(0, 0, 0, 0.05);
+}
+.my_thead_icon dl a i{
+    margin-right: 3px;
+}
+.my_invite_team_body{
+    background: #ffffff;
+    border-radius: 15px;
+    padding: 10px;
+    box-shadow: 0 4px 15px rgb(0 0 0 / 5%);
+    border: 1px solid #8BC34A;
+    margin: 15px;
+    margin-top: 10px;
+    position: relative;
+    overflow: hidden;
+}
+
+.my_invite_team_body::before {
+    position: absolute;
+    content: '';
+    top: 0;
+    left: 0;
+    background: rgba(255,255,255, 0.04);
+    z-index: 0;
+    clip-path: polygon(100% 0, 100% 40%, 50% 80%, 0 40%, 0 0);
+    width: 100%;
+    height: 40px;
+}
+
+.my_invite_team_in{
+    position: relative;
+    background-color: var(--pb3);
+    border-radius: 5px;
+    padding: 5px;
+    margin: 5px;
+}
+.my_invite_team_right{
+    text-align: right !important;
+}
+.my_account_refresh{
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 20px;
+    color: var(--t3);
+    z-index: 2;
+}
+
+.my_account_refresh:hover{
+	opacity: 1;
+	cursor: pointer;
+}.my_account_refresh em {
+    -webkit-transition: ease-in-out 0.2s all;
+    -o-transition: ease-in-out 0.2s all;
+    transition: ease-in-out 0.2s all;
+}
+.my_account_refresh em:active{
+	-webkit-transform: rotate(90deg);
+	    -ms-transform: rotate(90deg);
+	        transform: rotate(90deg);
+}
+.my_invite_team_box{
+    display: flex;
+    align-items: stretch;
+    position: relative;
+    z-index: 1;
+}
+.my_invite_team_box section{
+    flex: 1;
+    padding: 5px 5px;
+    text-align: left;
+    margin: 5px;
+    border-radius: 7px;
+    /* opacity: 0; */
+}
+.my_invite_team_box section h3{
+    font-size: 12px;
+    color: var(--t3);
+    font-weight: 400;
+    padding-bottom: 7px;    
+}
+.my_invite_team_box section h2{
+    font-size: 18px;
+    font-weight: 500;
+    border-radius: 5px;
+    color: var(--t6);
+    transition: ease-in-out 0.2s all;
+    text-shadow: 1px 2px 4px rgba(0, 0, 0, 0.18);
+}
+.my_invite_team_box section h2 i{
+    font-size: 14px;
+    margin-right: 2px;
+}
+
+.my_invite_team_t{
+    background: var(--t3);
+    color: #fff;
+    font-size: 14px;
+    padding: 4px;
+    font-weight: 500;
+    margin-top: -10px;
+    margin-left: -10px;
+    margin-right: -10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 15px;
+}
+
+.my_invite_team_t span{
+    
+}
+.my_invite_team_t span b{
+    font-weight: 400;
+}
+.my_invite_team_t i{
+    font-size: 12px;
+    margin-left: 5px;
+    color: #fff;
+    opacity: 0.2;
+    -webkit-transition: ease-in-out 0.2s all;
+    -o-transition: ease-in-out 0.2s all;
+    transition: ease-in-out 0.2s all;
+}
+.my_invite_team_t i:hover{
+    opacity: 1;
+    -webkit-transform: scale(1.1);
+        -ms-transform: scale(1.1);
+            transform: scale(1.1);
+}
+
+
+.my_record_result {
+    padding:5px 5px;
+    /* background: rgba(255, 255, 255, 0.2); */
+    backdrop-filter: blur(5px);
+}
+
+
+.my_record_box{
+    min-height: 50px;
+    margin: 10px;
+    border-radius: 7px;
+    background-color: var(--pb2);
+    -webkit-box-shadow: 0px 2px 5px 0.05px rgb(0 0 0 / 20%);
+    box-shadow: 0px 2px 5px 0.05px rgb(0 0 0 / 20%);
+    padding: 10px;
+    background: linear-gradient(to right, var(--pb2), #0f0f0f);
+    text-align: left;
+    position: relative;
+    overflow: hidden;
+    display: block;
+    font-family: 'Barlow';
+}
+.my_record_t{
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    /* background: #2c166b; */
+    width: 100%;
+    text-align: left;
+    padding-bottom: 5px;
+}
+.my_record_t h5{
+    -webkit-box-flex: 1;
+        -ms-flex: 1;
+            flex: 1;
+    text-align: left;
+    color: #fff;
+    font-size: 10px;
+    font-weight: 400;
+    font-family: 'Barlow';
+}
+.my_record_t h5 i{
+    margin-left: 5px;
+    color: rgba(255, 255, 255, 0.1);
+    -webkit-transition: ease-in-out 0.2s all;
+    -o-transition: ease-in-out 0.2s all;
+    transition: ease-in-out 0.2s all;
+}
+.my_record_t h5 i:hover {
+    opacity: 1;
+    -webkit-transform: scale(1.1);
+        -ms-transform: scale(1.1);
+            transform: scale(1.1);
+}
+.my_record_t h5 span{
+    background: linear-gradient(90deg, var(--c1) 0%, var(--c2) 100%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-weight: 600;
+}
+.my_record_status{
+    margin-left: auto;
+}
+.my_record_status aside{
+    font-size: 10px;
+    padding: 4px 4px;
+    border-radius: 15px;
+    width: 60px;
+    text-align: center;
+    text-transform: uppercase;
+}
+.my_record_status aside i{
+    font-size: 8px;
+    margin-right: 4px;
+}
+.my_record_status aside span{
+    font-weight: 600;
+}
+.my_record_status_process{
+    background-color: rgba(0, 142, 255, 0.15);
+    color: rgba(0, 142, 255, 1);
+}
+.my_record_status_success{
+    background-color: rgba(0, 184, 0, 0.15);
+    color: rgba(0, 184, 0, 1);
+}
+.my_record_status_reject{
+    background-color: rgba(255, 152, 0, 0.15);
+    color: #FF9800;    
+}
+.my_record_status_resubmit{
+    background-color: rgba(140, 0, 202, 0.15);
+    color: #8d00ca;   
+    
+}
+
+.my_record_amount{
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+}
+.my_record_amount_b1{
+    text-align: left;
+    padding: 5px 10px;
+    padding-left: 0;
+}
+.my_record_amount_b1 img{
+    width: 40px;
+    margin-right: 10px;
+}
+.my_record_amount_b1 h5{
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    text-align: left;
+    font-weight: 400;
+    padding-bottom: 3px;
+}
+.my_record_amount_b1 h5 span{
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 7px;
+    background: rgba(0,0,0,0.1);
+    padding: 2px 5px;
+    margin-right: 5px;
+    border-radius: 0px;
+    text-transform: uppercase;
+    font-family: 'Rubik';
+}
+/* .my_record_amount_b1 h4{
+    padding-top: 3px;
+    font-size: 8px;
+    font-weight: 400;
+    font-family: 'Poppins';
+    text-align: left;
+} */
+.my_record_amount_b1 h2{
+    text-align: left;
+    padding-right: 10px;
+    font-size: 22px;
+    font-weight: 600;
+    white-space: nowrap;
+    font-family: 'Agdasima', 'Fjalla One', 'Roboto';
+    text-shadow: 2px 3px 1px rgba(0, 0, 0, 0.1);
+    color: var(--w);
+    display: flex;
+    align-items: center;
+    background-image: linear-gradient(45deg, #9a9a9a 0%, #fff 100%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+.my_record_amount_b1 h2 i{
+    font-size: 17px;
+    margin-top: 2px;
+    margin-right: 2px;
+    position: relative;
+    background-image: linear-gradient(90deg, #9a9a9a 0%, #fff 100%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+h2.my_record_withdrawal{
+    background-image: linear-gradient(150deg, #bee8c0 0%, #00b707 100%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+h2.my_record_withdrawal i{
+    background-image: linear-gradient(300deg, #bee8c0 0%, #00b707 100%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+h2.my_record_deposit{
+    background: linear-gradient(90deg, #0070c9, #67bcff);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+h2.my_record_deposit i{
+    background: linear-gradient(180deg, #0070c9, #67bcff);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+.my_record_amount_b2{
+    margin-left: auto;
+    text-align: right;
+}
+.my_record_amount_fee{
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.5);
+    padding-bottom: 2px;
+}
+.my_record_amount_fee i{
+    font-size: 10px;
+    margin-right: 2px;
+}
+.my_record_amount_fee small{
+    opacity: 0.8;
+}
+.my_record_date{
+    padding-top: 5px;
+    font-size: 10px;
+    color: rgba(255, 255, 255, 0.3);
+    font-style: italic;
+}
+.my_record_b1{
+    -webkit-box-flex: 1;
+        -ms-flex: 1;
+            flex: 1;
+}
+.my_record_box article{
+    padding: 5px;
+    color: #b1b1b1;
+    font-size: 10px;
+    line-height: 14px;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    text-align: left;
+    word-break: break-all;
+    display: flex;
+}
+.my_record_box article b{
+    color: #ff4545;
+    text-decoration: underline;
+}
+
+.my_record_result .MoreLimit, .my_record_result .MoreLimit2{
+    display: block;
+    margin: 0 auto;
+    outline: none;
+    border: none;
+    margin: 10px auto;
+    margin-bottom: 50px;
+    font-size: 14px;
+    padding: 10px 15px;
+    border-radius: 7px;
+    color: #fff;
+    -webkit-transition: ease-in-out 0.2s all;
+    -o-transition: ease-in-out 0.2s all;
+    transition: ease-in-out 0.2s all;
+    text-transform: uppercase;
+    background-image: -o-linear-gradient(top,var(--pd) 0%,var(--t) 51%,var(--pd) 100%);
+    background-image: -webkit-gradient(linear,left top, left bottom,from(var(--pd)),color-stop(51%, var(--t)),to(var(--pd)));
+    background-image: linear-gradient(180deg,var(--pd) 0%,var(--t) 51%,var(--pd) 100%);
+    -webkit-box-shadow: 0 2px 5px 0.05px rgb(0 0 0/20%);
+            box-shadow: 0 2px 5px 0.05px rgb(0 0 0/20%);
+    font-weight: 700;
+    cursor: pointer;
+    font-family: 'Barlow';
+}
+.my_record_result .MoreLimit:active, .my_record_result .MoreLimit2:active{
+    background-image: -o-linear-gradient(top,#2f49ff 0%,#19b4f0 51%,#2f49ff 100%);
+    background-image: -webkit-gradient(linear,left top, left bottom,from(#2f49ff),color-stop(51%, #19b4f0),to(#2f49ff));
+    background-image: linear-gradient(180deg,#2f49ff 0%,#19b4f0 51%,#2f49ff 100%);
+}
+
+.my_reelprofile{
+    background: white;
+    border-radius: 15px;
+    padding: 15px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 15px rgb(0 0 0 / 5%);
+    border: 1px solid var(--border);
+    margin: 0 15px;
+    margin-bottom: 15px;
+}
+.my_reelprofile h1{    
+    padding: 5px 5px;
+    text-align: center;
+    font-size: 16px;
+    background: rgba(0, 0, 0, 0.1);
+    color: var(--t6);
+    opacity: 0.8;
+    font-weight: 600;
+}
+.my_reelprofile h1 b{
+    color: #2695a5;
+    margin-right: 5px;
+    padding-left: 3px;
+}
+.my_reelprofile h1 b i{
+    font-size: 10px;
+    margin-right: 2px;
+}
+.my_reelprofile h1 span{
+    color: var(--t);
+    -webkit-transition: ease-in-out 0.2s all;
+    -o-transition: ease-in-out 0.2s all;
+    transition: ease-in-out 0.2s all;
+    font-size: 12px;
+}
+.my_reelprofile h1 span:hover{
+    cursor: pointer;
+}
+.my_reelprofile h1 span:active{
+	-webkit-transform: rotate(90deg);
+	    -ms-transform: rotate(90deg);
+	        transform: rotate(90deg);
+}
+
+.my_invite_title{
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 15px;
+    color: #000;
+    display: flex;
+    align-items: center;    
+}
+.my_invite_title i{
+    margin-right: 10px;
+    color: var(--t3);
+}
+
+.my_reelprofile_input{
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    background-color: rgba(0, 0, 0, 0.05);
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    overflow: hidden;
+    border-radius: 5px;
+}
+.my_reelprofile_input span{
+    border-right: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 0px 10px;
+    font-size: 22px;
+    color: var(--t7);
+    align-items: center;
+}
+.my_reelprofile_input input{
+    -webkit-box-flex: 1;
+        -ms-flex: 1;
+            flex: 1;
+    padding:10px 10px;
+    text-align: left;
+    outline: none;
+    font-size: 20px;
+    color: var(--t7);
+    background: none;
+    border: none;
+    width: 100%;
+    font-weight: 600;
+}
+.my_reelprofile_input input::-webkit-input-placeholder{
+    color: rgba(0,0,0, 0.2);
+    font-size: 16px;
+    font-weight: 400;
+}
+.my_reelprofile_input input::-moz-placeholder{
+    color: rgba(0,0,0, 0.2);
+    font-size: 16px;
+    font-weight: 400;
+}
+.my_reelprofile_input input:-ms-input-placeholder{
+    color: rgba(0,0,0, 0.2);
+    font-size: 16px;
+    font-weight: 400;
+}
+.my_reelprofile_input input::-ms-input-placeholder{
+    color: rgba(0,0,0, 0.2);
+    font-size: 16px;
+    font-weight: 400;
+}
+.my_reelprofile_input input::placeholder{
+    color: rgba(0,0,0, 0.2);
+    font-size: 16px;
+    font-weight: 400;
+}
+.my_withdrawal_note{
+    font-size: 10px;
+    text-align: left;
+    padding: 5px 10px;
+    color: var(--t7);
+    opacity: 0.8;
+    padding-left: 0;
+}
+.my_withdrawal_note i{
+    font-size: 8px;
+}
+.my_reelprofile2 {
+    background-color: #ffffff;
+}
+
+
+
+.my_recharge_btn{
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    padding: 10px;
+    position: fixed;
+    bottom: 5px;
+    left: 5px;
+    right: 5px;
+    z-index: 1;
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(7px);
+    border-radius: 7px;
+}
+
+
+.my_recharge_btn button, .my_recharge_btn a, .my_recharge_btn input[type=submit]{
+    overflow: hidden;
+    position: relative;
+    /* overflow: hidden; */
+    -webkit-box-flex: 1;
+        -ms-flex: 1;
+            flex: 1;
+	display:-webkit-box;
+	display:-ms-flexbox;
+	display:flex;
+    justify-content: center;
+    align-items: center;
+	margin:0 auto;
+	outline:none;
+	border:none;	
+	font-size:20px;
+	-webkit-transition:ease-in-out 0.2s all;
+	-o-transition:ease-in-out 0.2s all;
+	transition:ease-in-out 0.2s all;
+	text-transform:uppercase;
+	width:100%;
+    font-weight: 600;
+	cursor:pointer;    
+    color: #ffffff;
+    padding: 10px;
+    text-shadow: 2px 2px 3px rgb(0 0 0 / 10%);
+    border-radius: 5px;
+    background-color: #5aaa41;
+    border: 2px solid var(--t3);
+    letter-spacing: 1px;
+    box-shadow: 0px 1px 4px 0.05px rgba(0, 0, 0, 0.2);
+}
+
+.my_recharge_btn a:after {
+    content: "";
+    width: 20px;
+    height: 100%;
+    background: #fff;
+    position: absolute;
+    top: 0;
+    left: -30px;
+    -webkit-filter: blur(10px);
+    filter: blur(10px);
+    opacity: 0.3;
+    -webkit-transform: rotate(10deg);
+    -ms-transform: rotate(10deg);
+    transform: rotate(10deg);
+    -webkit-animation: btn-scroll 1.5s infinite linear;
+    animation: btn-scroll 1.5s infinite linear;
+}
+.my_recharge_btn button:hover, .my_recharge_btn a:hover, .my_recharge_btn input[type=submit]:hover{    
+    background-size: 320%;
+    background-position: right center;
+}
+.my_recharge_btn i{
+    font-size: 20px;
+    color: var(--w);
+    -webkit-transition: ease-in-out 0.3s all;
+    -o-transition: ease-in-out 0.3s all;
+    transition: ease-in-out 0.3s all;
+    margin-left: 5px;
+}
+.my_recharge_btn a:active i{
+    right: -20px;
+}
+.my_recharge_btn button:active, .my_recharge_btn a:active, .my_recharge_btn input[type=submit]:active{
+    -webkit-box-shadow: none;
+            box-shadow: none;
+    -webkit-transform: translate(3px, 3px);
+        -ms-transform: translate(3px, 3px);
+            transform: translate(3px, 3px);
+}
+.my_out_choose_body{    
+    background: white;
+    border-radius: 15px;
+    padding: 15px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 15px rgb(0 0 0 / 5%);
+    border: 1px solid var(--border);
+    margin: 0 15px;
+    margin-bottom: 15px;
+}
+.my_out_choose_in{
+    overflow: hidden;
+}
+
+
+.my_bank{
+    margin-bottom: 0px;
+    overflow: hidden;
+    background-color: var(--pb2);
+    -webkit-box-shadow: 0 1px 6px 0 rgba(0, 0, 0, 0.1);
+            box-shadow: 0 1px 6px 0 rgba(0, 0, 0, 0.1);
+    border-radius: 0px 3px 3px 3px;
+    position: relative;
+}
+.my_bank_t {
+    padding: 5px 5px;
+    text-align: center;
+    font-size: 16px;
+    background: rgba(0, 0, 0, 0.05);
+    color: var(--t6);
+    opacity: 0.8;
+    font-weight: 600;
+}
+.my_bank_add{    
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    background-color: var(--pb3);
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    overflow: hidden;
+    padding: 10px 10px;
+    margin: 10px;
+    border-radius: 5px;
+    position: relative;
+    overflow: hidden;
+}
+.my_bank_add:after {
+    content: "";
+    width: 20px;
+    height: 100%;
+    background: #88ff64;
+    position: absolute;
+    top: 0;
+    left: -30px;
+    -webkit-filter: blur(10px);
+    filter: blur(10px);
+    opacity: 0.3;
+    -webkit-transform: rotate(10deg);
+    -ms-transform: rotate(10deg);
+    transform: rotate(10deg);
+    -webkit-animation: btn-scroll 1.5s infinite linear;
+    animation: btn-scroll 1.5s infinite linear;
+}
+.my_bank_add dl{
+    -webkit-box-flex: 1;
+        -ms-flex: 1;
+            flex: 1;
+    text-align: center;
+    padding: 10px;
+    font-size: 18px;
+    padding-left: 10px;
+    font-family: 'Kanit','Poppins', 'Lato', Calibri, Arial, sans-serif;
+    color: var(--t);
+    font-weight: 500;
+}
+.my_bank_add dd{
+    border-right: 1px solid rgba(255, 255, 255, 0.05);
+    padding: 0px 10px;
+    padding-left: 0;
+    font-size: 45px;
+    color: var(--t3);
+    opacity: 0.8;
+    display: none;
+}
+
+.my_bank_info{
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    margin: 5px 5px;
+    background-color: rgba(255,255,255,0.02);
+    border-radius: 5px;
+    overflow: hidden;
+
+}
+
+.my_bank_info dl{
+    -webkit-box-flex: 1;
+        -ms-flex: 1;
+            flex: 1;
+    padding: 5px;
+    display: flex;
+    flex-wrap: wrap;
+}
+.my_bank_info dl aside{
+    flex: 1 0 50%;
+}
+.my_bank_info dl h5{
+    font-size: 10px;
+    /* background-color: rgba(255,255,255,0.03); */
+    color: rgba(0, 0, 0, 0.8);
+    padding: 2px 10px;
+    border-radius: 2px 2px 0px 0px;
+    display: block;
+    font-weight: 400;
+    text-align: left;
+}
+.my_bank_info dl h2 {
+    display: block;
+    font-weight: 500;
+    color: var(--t3);
+    text-align: left;
+    padding: 5px 10px;
+    font-size: 12px;
+    word-break: break-word;
+}
+.my_bank_info a{
+    /* border-left: 1px solid rgba(255, 255, 255, 0.07); */
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: start;
+        -ms-flex-align: start;
+            align-items: flex-start;
+    background-color: rgba(255,255,255,0.05);
+    color: var(--t6);
+    padding: 5px 15px;
+    font-size: 14px;
+    opacity: 0.8;
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+.my_bank_info a i{
+    font-size: 12px;
+    margin-bottom: 3px;
+}
+.my_bank_info a:hover{
+    cursor: pointer;
+    opacity: 1;
+}
+
+
+.my_bank_type{
+    position: relative;
+    margin-bottom: 0;
+}
+
+
+.my_trade_choose{
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-line-pack: center;
+    align-content: center;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: flex-start;
+    position: relative;
+}
+
+.my_trade_choose section{
+    flex: 1;
+    text-transform: uppercase;
+    background: rgba(0, 0, 0, 0.1);
+	text-align: center;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+	font-size: 14px;
+	color: var(--t6);
+	padding: 5px 10px;
+	opacity: 0.8;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    line-height: 21px;
+    overflow: hidden;
+    border-radius: 5px 5px 0 0;
+}
+.my_trade_choose section:hover{
+	cursor: pointer;
+}
+.my_trade_choose section img{
+	margin-right: 4px;
+    width: 20px;
+    height: 20px;
+}
+.my_trade_choose section i{
+    margin-right: 5px;
+    visibility: hidden;
+    display: none;
+}
+.my_trade_choose section:last-child{
+    margin-left: 5px;
+}
+
+section.my_trade_choose_active {
+    background-color: rgba(255, 255, 255, 0.5);
+    opacity: 1;
+    position: relative;
+    color: #fff;
+    text-shadow: 1px 1px 1px rgb(0 0 0 / 10%);
+    background-image: linear-gradient(150deg, var(--p) 0%, var(--pb) 70%);
+    background-size: 300%;
+    background-position: left center;
+    /* border: 2px solid rgba(255, 255, 255, 0.08); */
+    margin-bottom: 0;
+    border-bottom: 0;
+}
+section.my_trade_choose_active i{
+    visibility: visible;
+}

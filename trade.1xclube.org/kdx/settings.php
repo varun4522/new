@@ -1,0 +1,768 @@
+<?php
+// Include config only from safe, application-relative locations. Suppress warnings when probing.
+$candidates = [__DIR__ . '/../config.php', __DIR__ . '/config.php'];
+$loaded = false;
+foreach ($candidates as $p) { if (@file_exists($p) && @is_readable($p)) { require_once $p; $loaded = true; break; } }
+if (!$loaded) { http_response_code(500); die('Configuration file not found.'); }
+
+// Check if user is admin
+if (!isLoggedIn() || !$_SESSION['is_admin']) {
+    header('Location: login.php');
+    exit;
+}
+
+$success_message = '';
+$error_message = '';
+
+// Get current settings first
+try {
+    $stmt = $pdo->prepare("SELECT setting_key, setting_value FROM admin_settings");
+    $stmt->execute();
+    $settings = [];
+    while ($row = $stmt->fetch()) {
+        $settings[$row['setting_key']] = $row['setting_value'];
+    }
+} catch (Exception $e) {
+    $error_message = "Failed to load settings: " . $e->getMessage();
+}
+
+// Handle settings update
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    try {
+        // Validate and sanitize inputs
+        $min_bet = floatval($_POST['min_bet'] ?? 10);
+        $max_bet = floatval($_POST['max_bet'] ?? 10000);
+        $referral_bonus = floatval($_POST['referral_bonus'] ?? 100);
+        $maintenance_mode = isset($_POST['maintenance_mode']) ? 'true' : 'false';
+        $kyc_enabled = isset($_POST['kyc_enabled']) ? 'true' : 'false';
+        $referral_enabled = isset($_POST['referral_enabled']) ? 'true' : 'false';
+        $upi_id = trim($_POST['upi_id'] ?? '');
+        $qr_code_path = $settings['qr_code'] ?? '';
+        $signup_bonus = floatval($_POST['signup_bonus'] ?? 0);
+        $refer_bonus = floatval($_POST['refer_bonus'] ?? 0);
+        $min_deposit = floatval($_POST['min_deposit'] ?? 100);
+        $max_deposit = floatval($_POST['max_deposit'] ?? 50000);
+        $min_withdrawal = floatval($_POST['min_withdrawal'] ?? 500);
+        $max_withdrawal = floatval($_POST['max_withdrawal'] ?? 100000);
+        $preset_btn_1 = floatval($_POST['preset_btn_1'] ?? 0.5);
+        $preset_btn_2 = floatval($_POST['preset_btn_2'] ?? 1);
+        $preset_btn_3 = floatval($_POST['preset_btn_3'] ?? 2);
+        $preset_btn_4 = floatval($_POST['preset_btn_4'] ?? 7);
+        $site_title = trim($_POST['site_title'] ?? 'CHICKEN ROAD');
+        $logo_path = $settings['logo'] ?? 'images/chicken.png';
+        $powered_by_logo_path = $settings['powered_by_logo'] ?? 'images/chicken.png';
+
+        // Handle QR code upload
+        if (isset($_FILES['qr_code']) && $_FILES['qr_code']['error'] === UPLOAD_ERR_OK) {
+            $target = '../avatar/qr_code.png';
+            if (move_uploaded_file($_FILES['qr_code']['tmp_name'], $target)) {
+                $qr_code_path = 'avatar/qr_code.png';
+            }
+        }
+
+        // Handle logo upload
+        if (isset($_FILES['logo']) && $_FILES['logo']['error'] === UPLOAD_ERR_OK) {
+            // Validate file type
+            $allowed_types = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif'];
+            if (!in_array($_FILES['logo']['type'], $allowed_types)) {
+                throw new Exception('Invalid logo file type. Only JPG, PNG, and GIF are allowed.');
+            }
+            
+            // Validate file size (max 5MB)
+            if ($_FILES['logo']['size'] > 5 * 1024 * 1024) {
+                throw new Exception('Logo file is too large. Maximum size is 5MB.');
+            }
+            
+            // Ensure images directory exists
+            if (!is_dir('../images/')) {
+                mkdir('../images/', 0755, true);
+            }
+            
+            $target = '../images/logo.png';
+            if (move_uploaded_file($_FILES['logo']['tmp_name'], $target)) {
+                $logo_path = 'images/logo.png';
+                error_log("Logo uploaded successfully to: " . $target);
+            } else {
+                throw new Exception('Failed to upload logo file.');
+            }
+        }
+
+        // Handle Powered By logo upload
+        if (isset($_FILES['powered_by_logo']) && $_FILES['powered_by_logo']['error'] === UPLOAD_ERR_OK) {
+            // Validate file type
+            $allowed_types = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif'];
+            if (!in_array($_FILES['powered_by_logo']['type'], $allowed_types)) {
+                throw new Exception('Invalid Powered By logo file type. Only JPG, PNG, and GIF are allowed.');
+            }
+            
+            // Validate file size (max 5MB)
+            if ($_FILES['powered_by_logo']['size'] > 5 * 1024 * 1024) {
+                throw new Exception('Powered By logo file is too large. Maximum size is 5MB.');
+            }
+            
+            // Ensure images directory exists
+            if (!is_dir('../images/')) {
+                mkdir('../images/', 0755, true);
+            }
+            
+            $target = '../images/powered_by_logo.png';
+            if (move_uploaded_file($_FILES['powered_by_logo']['tmp_name'], $target)) {
+                $powered_by_logo_path = 'images/powered_by_logo.png';
+                error_log("Powered By logo uploaded successfully to: " . $target);
+            } else {
+                throw new Exception('Failed to upload Powered By logo file.');
+            }
+        }
+
+        // Update settings
+        $settings_arr = [
+            'min_bet' => $min_bet,
+            'max_bet' => $max_bet,
+            'referral_bonus' => $referral_bonus,
+            'maintenance_mode' => $maintenance_mode,
+            'kyc_enabled' => $kyc_enabled,
+            'referral_enabled' => $referral_enabled,
+            'upi_id' => $upi_id,
+            'qr_code' => $qr_code_path,
+            'bank_details' => trim($_POST['bank_details'] ?? ''),
+            'signup_bonus' => $signup_bonus,
+            'refer_bonus' => $refer_bonus,
+            'min_deposit' => $min_deposit,
+            'max_deposit' => $max_deposit,
+            'min_withdrawal' => $min_withdrawal,
+            'max_withdrawal' => $max_withdrawal,
+            'support_link' => trim($_POST['support_link'] ?? ''),
+            'whatsapp_support' => trim($_POST['whatsapp_support'] ?? ''),
+            'email_support' => trim($_POST['email_support'] ?? ''),
+            'preset_btn_1' => $preset_btn_1,
+            'preset_btn_2' => $preset_btn_2,
+            'preset_btn_3' => $preset_btn_3,
+            'preset_btn_4' => $preset_btn_4,
+            'site_title' => $site_title,
+            'logo' => $logo_path,
+            'powered_by_logo' => $powered_by_logo_path
+        ];
+        
+        // Update each setting in database
+        foreach ($settings_arr as $key => $value) {
+            $stmt = $pdo->prepare("INSERT INTO admin_settings (setting_key, setting_value) VALUES (?, ?) ON DUPLICATE KEY UPDATE setting_value = ?");
+            $stmt->execute([$key, $value, $value]);
+        }
+        
+        $success_message = "Settings updated successfully!";
+        
+        // Reload settings after update
+        $stmt = $pdo->prepare("SELECT setting_key, setting_value FROM admin_settings");
+        $stmt->execute();
+        $settings = [];
+        while ($row = $stmt->fetch()) {
+            $settings[$row['setting_key']] = $row['setting_value'];
+        }
+    } catch (Exception $e) {
+        $error_message = "Failed to update settings: " . $e->getMessage();
+        error_log("Settings update error: " . $e->getMessage());
+    }
+}
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings - Admin Panel</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {
+                            50: '#f0f9ff',
+                            100: '#e0f2fe',
+                            200: '#bae6fd',
+                            300: '#7dd3fc',
+                            400: '#38bdf8',
+                            500: '#0ea5e9',
+                            600: '#0284c7',
+                            700: '#0369a1',
+                            800: '#075985',
+                            900: '#0c4a6e',
+                        },
+                        dark: {
+                            800: '#1e293b',
+                            900: '#0f172a',
+                        }
+                    },
+                    animation: {
+                        'fade-in': 'fadeIn 0.3s ease-in-out',
+                        'slide-up': 'slideUp 0.3s ease-out',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .animate-delay-100 {
+            animation-delay: 0.1s;
+        }
+        
+        .animate-delay-200 {
+            animation-delay: 0.2s;
+        }
+        
+        .dark .bg-gray-100 {
+            background-color: #0f172a;
+        }
+        
+        .dark .bg-white {
+            background-color: #1e293b;
+            color: #f8fafc;
+        }
+        
+        .dark .text-gray-800 {
+            color: #f8fafc;
+        }
+        
+        .dark .text-gray-600 {
+            color: #94a3b8;
+        }
+        
+        .dark .border-gray-200 {
+            border-color: #334155;
+        }
+        
+        .dark .divide-gray-200 {
+            border-color: #334155;
+        }
+        
+        .dark .bg-gray-50 {
+            background-color: #334155;
+            color: #f8fafc;
+        }
+        
+        .dark .text-gray-900 {
+            color: #f8fafc;
+        }
+        
+        .dark .text-gray-500 {
+            color: #94a3b8;
+        }
+        
+        .dark .hover\:bg-gray-50:hover {
+            background-color: #334155;
+        }
+        
+        .dark .bg-blue-500 {
+            background-color: #0ea5e9;
+        }
+        
+        .dark .bg-gray-800 {
+            background-color: #020617;
+        }
+        
+        .dark .text-white {
+            color: #f8fafc;
+        }
+        
+        .dark .text-gray-300 {
+            color: #94a3b8;
+        }
+        
+        .dark .hover\:bg-gray-700:hover {
+            background-color: #1e293b;
+        }
+        
+        .dark .bg-gray-700 {
+            background-color: #1e293b;
+        }
+        
+        .transition-all {
+            transition-property: all;
+            transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+            transition-duration: 150ms;
+        }
+        
+        .custom-checkbox {
+            appearance: none;
+            -webkit-appearance: none;
+            width: 20px;
+            height: 20px;
+            border: 2px solid #d1d5db;
+            border-radius: 4px;
+            outline: none;
+            transition: all 0.2s;
+            cursor: pointer;
+            position: relative;
+        }
+        
+        .custom-checkbox:checked {
+            background-color: #3b82f6;
+            border-color: #3b82f6;
+        }
+        
+        .custom-checkbox:checked::after {
+            content: "✓";
+            position: absolute;
+            color: white;
+            font-size: 14px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        
+        .dark .custom-checkbox {
+            border-color: #4b5563;
+        }
+        
+        .dark .custom-checkbox:checked {
+            background-color: #1d4ed8;
+            border-color: #1d4ed8;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 dark:bg-gray-900 transition-all duration-300">
+    <div class="min-h-screen flex">
+        <!-- Sidebar -->
+        <div class="bg-gray-800 text-white w-64 py-6 flex-shrink-0">
+            <div class="px-6">
+                <h1 class="text-2xl font-bold animate__animated animate__fadeIn">Admin Panel</h1>
+                <p class="text-gray-400 text-sm animate__animated animate__fadeIn animate-delay-100">Mines Game Management</p>
+            </div>
+            <nav class="mt-8 space-y-1">
+                <a href="index.php" class="block px-6 py-3 text-gray-300 hover:bg-gray-700 transition-all duration-200 rounded-r-lg animate__animated animate__fadeInLeft animate-delay-100">Dashboard</a>
+                <a href="users.php" class="block px-6 py-3 text-gray-300 hover:bg-gray-700 transition-all duration-200 rounded-r-lg animate__animated animate__fadeInLeft animate-delay-150">Users</a>
+                <a href="transactions.php" class="block px-6 py-3 text-gray-300 hover:bg-gray-700 transition-all duration-200 rounded-r-lg animate__animated animate__fadeInLeft animate-delay-200">Transactions</a>
+                <a href="bets.php" class="block px-6 py-3 text-gray-300 hover:bg-gray-700 transition-all duration-200 rounded-r-lg animate__animated animate__fadeInLeft animate-delay-250">Bet History</a>
+                <a href="kyc.php" class="block px-6 py-3 text-gray-300 hover:bg-gray-700 transition-all duration-200 rounded-r-lg animate__animated animate__fadeInLeft animate-delay-300">KYC Management</a>
+                <a href="referral_details.php" class="block px-6 py-3 text-gray-300 hover:bg-gray-700 transition-all duration-200 rounded-r-lg animate__animated animate__fadeInLeft animate-delay-350">Referrals</a>
+                <a href="settings.php" class="block px-6 py-3 bg-gray-700 text-white transition-all duration-200 rounded-r-lg animate__animated animate__fadeInLeft animate-delay-400">Settings</a>
+                <a href="controlled_crash.php" class="block px-6 py-3 text-gray-300 hover:bg-gray-700 transition-all duration-200 rounded-r-lg animate__animated animate__fadeInLeft animate-delay-450">Controlled Crash</a>
+                <a href="logout.php" class="block px-6 py-3 text-red-400 hover:bg-gray-700 transition-all duration-200 rounded-r-lg animate__animated animate__fadeInLeft animate-delay-500">Logout</a>
+            </nav>
+            
+            <!-- Dark mode toggle -->
+            <div class="absolute bottom-4 left-4">
+                <button id="darkModeToggle" class="p-2 rounded-full bg-gray-700 text-gray-300 hover:bg-gray-600 transition-all">
+                    <svg id="darkIcon" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
+                    </svg>
+                    <svg id="lightIcon" class="w-5 h-5 hidden" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clip-rule="evenodd"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="flex-1 p-8 animate__animated animate__fadeIn animate-delay-100">
+            <div class="mb-8">
+                <div class="flex justify-between items-center">
+                    <div>
+                        <h2 class="text-3xl font-bold text-gray-800 dark:text-white">Settings</h2>
+                        <p class="text-gray-600 dark:text-gray-400">Manage game settings and configurations</p>
+                    </div>
+                    <div class="flex items-center space-x-4">
+                        <span class="text-sm text-gray-500 dark:text-gray-400"><?php echo date('l, F j, Y'); ?></span>
+                    </div>
+                </div>
+            </div>
+
+            <?php if ($success_message): ?>
+                <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-4 animate__animated animate__fadeIn dark:bg-green-900 dark:border-green-700 dark:text-green-100">
+                    <?php echo htmlspecialchars($success_message); ?>
+                </div>
+            <?php endif; ?>
+
+            <?php if ($error_message): ?>
+                <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4 animate__animated animate__fadeIn dark:bg-red-900 dark:border-red-700 dark:text-red-100">
+                    <?php echo htmlspecialchars($error_message); ?>
+                </div>
+            <?php endif; ?>
+
+            <!-- Settings Form -->
+            <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6 transition-all duration-300 animate__animated animate__fadeIn animate-delay-200">
+                <form method="POST" enctype="multipart/form-data" class="space-y-8">
+                    <!-- Branding Section -->
+                    <div class="space-y-6">
+                        <div class="border-b border-gray-200 dark:border-gray-700 pb-4">
+                            <h3 class="text-lg font-medium text-gray-900 dark:text-white">Site Branding</h3>
+                            <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">Customize your site's appearance and identity</p>
+                        </div>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Site Title</label>
+                                <input type="text" name="site_title" value="<?php echo htmlspecialchars($settings['site_title'] ?? 'CHICKEN ROAD'); ?>" 
+                                       class="w-full border border-gray-300 dark:border-gray-600 rounded-lg px-4 py-2 bg-white dark:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                                       placeholder="CHICKEN ROAD">
+                                <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">This will appear in the header next to the logo</p>
+                            </div>
+                            
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Site Logo</label>
+                                <?php if (!empty($settings['logo'])): ?>
+                                    <div class="flex items-center space-x-4 mb-3">
+                                        <img src="<?php echo htmlspecialchars($settings['logo']); ?>" alt="Current Logo" class="h-16 w-16 object-contain border rounded-lg dark:border-gray-600">
+                                        <div class="text-sm text-gray-500 dark:text-gray-400">
+                                            Current logo
+                                        </div>
+                                    </div>
+                                <?php endif; ?>
+                                <div class="flex items-center space-x-2">
+                                    <input type="file" name="logo" accept="image/*" class="w-full border border-gray-300 dark:border-gray-600 rounded-lg px-4 py-2 bg-white dark:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all">
+                                </div>
+                                <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">Upload a new logo (PNG, JPG, GIF). Recommended size: 32x32px</p>
+                            </div>
+                            
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Powered By Logo</label>
+                                <?php if (!empty($settings['powered_by_logo'])): ?>
+                                    <div class="flex items-center space-x-4 mb-3">
+                                        <img src="<?php echo htmlspecialchars($settings['powered_by_logo']); ?>" alt="Current Powered By Logo" class="h-12 w-12 object-contain border rounded-lg dark:border-gray-600">
+                                        <div class="text-sm text-gray-500 dark:text-gray-400">
+                                            Current powered by logo
+                                        </div>
+                                    </div>
+                                <?php endif; ?>
+                                <div class="flex items-center space-x-2">
+                                    <input type="file" name="powered_by_logo" accept="image/*" class="w-full border border-gray-300 dark:border-gray-600 rounded-lg px-4 py-2 bg-white dark:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all">
+                                </div>
+                                <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">Upload logo for "Powered By" section (PNG, JPG, GIF). Recommended size: 24x24px</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Betting Settings -->
+                    <div class="space-y-6">
+                        <div class="border-b border-gray-200 dark:border-gray-700 pb-4">
+                            <h3 class="text-lg font-medium text-gray-900 dark:text-white">Betting Settings</h3>
+                            <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">Configure betting limits and options</p>
+                        </div>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Minimum Bet Amount</label>
+                                <div class="relative rounded-md shadow-sm">
+                                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                        <span class="text-gray-500 dark:text-gray-400">₹</span>
+                                    </div>
+                                    <input type="number" name="min_bet" value="<?php echo $settings['min_bet'] ?? 10; ?>" 
+                                           class="block w-full pl-8 pr-12 border border-gray-300 dark:border-gray-600 rounded-lg px-4 py-2 bg-white dark:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all" 
+                                           min="1" step="0.01">
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Maximum Bet Amount</label>
+                                <div class="relative rounded-md shadow-sm">
+                                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                        <span class="text-gray-500 dark:text-gray-400">₹</span>
+                                    </div>
+                                    <input type="number" name="max_bet" value="<?php echo $settings['max_bet'] ?? 10000; ?>" 
+                                           class="block w-full pl-8 pr-12 border border-gray-300 dark:border-gray-600 rounded-lg px-4 py-2 bg-white dark:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all" 
+                                           min="1" step="0.01">
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Preset Button 1</label>
+                                <div class="relative rounded-md shadow-sm">
+                                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                        <span class="text-gray-500 dark:text-gray-400">₹</span>
+                                    </div>
+                                    <input type="number" name="preset_btn_1" value="<?php echo $settings['preset_btn_1'] ?? 0.5; ?>" 
+                                           class="block w-full pl-8 pr-12 border border-gray-300 dark:border-gray-600 rounded-lg px-4 py-2 bg-white dark:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all" 
+                                           min="0" step="0.01">
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Preset Button 2</label>
+                                <div class="relative rounded-md shadow-sm">
+                                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                        <span class="text-gray-500 dark:text-gray-400">₹</span>
+                                    </div>
+                                    <input type="number" name="preset_btn_2" value="<?php echo $settings['preset_btn_2'] ?? 1; ?>" 
+                                           class="block w-full pl-8 pr-12 border border-gray-300 dark:border-gray-600 rounded-lg px-4 py-2 bg-white dark:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all" 
+                                           min="0" step="0.01">
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Preset Button 3</label>
+                                <div class="relative rounded-md shadow-sm">
+                                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                        <span class="text-gray-500 dark:text-gray-400">₹</span>
+                                    </div>
+                                    <input type="number" name="preset_btn_3" value="<?php echo $settings['preset_btn_3'] ?? 2; ?>" 
+                                           class="block w-full pl-8 pr-12 border border-gray-300 dark:border-gray-600 rounded-lg px-4 py-2 bg-white dark:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all" 
+                                           min="0" step="0.01">
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Preset Button 4</label>
+                                <div class="relative rounded-md shadow-sm">
+                                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                        <span class="text-gray-500 dark:text-gray-400">₹</span>
+                                    </div>
+                                    <input type="number" name="preset_btn_4" value="<?php echo $settings['preset_btn_4'] ?? 7; ?>" 
+                                           class="block w-full pl-8 pr-12 border border-gray-300 dark:border-gray-600 rounded-lg px-4 py-2 bg-white dark:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all" 
+                                           min="0" step="0.01">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Financial Settings -->
+                    <div class="space-y-6">
+                        <div class="border-b border-gray-200 dark:border-gray-700 pb-4">
+                            <h3 class="text-lg font-medium text-gray-900 dark:text-white">Financial Settings</h3>
+                            <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">Configure deposit, withdrawal and bonus settings</p>
+                        </div>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Minimum Deposit Amount</label>
+                                <div class="relative rounded-md shadow-sm">
+                                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                        <span class="text-gray-500 dark:text-gray-400">₹</span>
+                                    </div>
+                                    <input type="number" name="min_deposit" value="<?php echo $settings['min_deposit'] ?? 100; ?>" 
+                                           class="block w-full pl-8 pr-12 border border-gray-300 dark:border-gray-600 rounded-lg px-4 py-2 bg-white dark:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all" 
+                                           min="1" step="0.01">
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Maximum Deposit Amount</label>
+                                <div class="relative rounded-md shadow-sm">
+                                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                        <span class="text-gray-500 dark:text-gray-400">₹</span>
+                                    </div>
+                                    <input type="number" name="max_deposit" value="<?php echo $settings['max_deposit'] ?? 50000; ?>" 
+                                           class="block w-full pl-8 pr-12 border border-gray-300 dark:border-gray-600 rounded-lg px-4 py-2 bg-white dark:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all" 
+                                           min="1" step="0.01">
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Minimum Withdrawal Amount</label>
+                                <div class="relative rounded-md shadow-sm">
+                                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                        <span class="text-gray-500 dark:text-gray-400">₹</span>
+                                    </div>
+                                    <input type="number" name="min_withdrawal" value="<?php echo $settings['min_withdrawal'] ?? 500; ?>" 
+                                           class="block w-full pl-8 pr-12 border border-gray-300 dark:border-gray-600 rounded-lg px-4 py-2 bg-white dark:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all" 
+                                           min="1" step="0.01">
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Maximum Withdrawal Amount</label>
+                                <div class="relative rounded-md shadow-sm">
+                                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                        <span class="text-gray-500 dark:text-gray-400">₹</span>
+                                    </div>
+                                    <input type="number" name="max_withdrawal" value="<?php echo $settings['max_withdrawal'] ?? 100000; ?>" 
+                                           class="block w-full pl-8 pr-12 border border-gray-300 dark:border-gray-600 rounded-lg px-4 py-2 bg-white dark:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all" 
+                                           min="1" step="0.01">
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Signup Bonus Amount</label>
+                                <div class="relative rounded-md shadow-sm">
+                                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                        <span class="text-gray-500 dark:text-gray-400">₹</span>
+                                    </div>
+                                    <input type="number" name="signup_bonus" value="<?php echo $settings['signup_bonus'] ?? 0; ?>" 
+                                           class="block w-full pl-8 pr-12 border border-gray-300 dark:border-gray-600 rounded-lg px-4 py-2 bg-white dark:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all" 
+                                           min="0" step="0.01">
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Refer Bonus Amount</label>
+                                <div class="relative rounded-md shadow-sm">
+                                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                        <span class="text-gray-500 dark:text-gray-400">₹</span>
+                                    </div>
+                                    <input type="number" name="refer_bonus" value="<?php echo $settings['refer_bonus'] ?? 0; ?>" 
+                                           class="block w-full pl-8 pr-12 border border-gray-300 dark:border-gray-600 rounded-lg px-4 py-2 bg-white dark:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all" 
+                                           min="0" step="0.01">
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Referral Bonus Amount</label>
+                                <div class="relative rounded-md shadow-sm">
+                                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                        <span class="text-gray-500 dark:text-gray-400">₹</span>
+                                    </div>
+                                    <input type="number" name="referral_bonus" value="<?php echo $settings['referral_bonus'] ?? 100; ?>" 
+                                           class="block w-full pl-8 pr-12 border border-gray-300 dark:border-gray-600 rounded-lg px-4 py-2 bg-white dark:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all" 
+                                           min="0" step="0.01">
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Deposit UPI ID</label>
+                                <input type="text" name="upi_id" value="<?php echo htmlspecialchars($settings['upi_id'] ?? ''); ?>" 
+                                       class="w-full border border-gray-300 dark:border-gray-600 rounded-lg px-4 py-2 bg-white dark:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all" 
+                                       placeholder="yourname@upi">
+                            </div>
+                            
+                            <div class="md:col-span-2">
+                                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Deposit QR Code</label>
+                                <?php if (!empty($settings['qr_code'])): ?>
+                                    <div class="flex items-center space-x-4 mb-3">
+                                        <img src="<?php echo htmlspecialchars($settings['qr_code']); ?>" alt="QR Code" class="h-32 w-32 object-contain border rounded-lg dark:border-gray-600">
+                                        <div class="text-sm text-gray-500 dark:text-gray-400">
+                                            Current QR code for UPI payments
+                                        </div>
+                                    </div>
+                                <?php endif; ?>
+                                <div class="flex items-center space-x-2">
+                                    <input type="file" name="qr_code" accept="image/*" class="w-full border border-gray-300 dark:border-gray-600 rounded-lg px-4 py-2 bg-white dark:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all">
+                                </div>
+                            </div>
+                            
+                            <div class="md:col-span-2">
+                                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Bank Account Details</label>
+                                <textarea name="bank_details" rows="4" 
+                                          class="w-full border border-gray-300 dark:border-gray-600 rounded-lg px-4 py-2 bg-white dark:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all" 
+                                          placeholder="Bank Name: XXXX Bank&#10;Account Number: XXXXXXXXXX&#10;IFSC Code: XXXXXXXX&#10;Account Holder: Your Name"><?php echo htmlspecialchars($settings['bank_details'] ?? ''); ?></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- System Settings -->
+                    <div class="space-y-6">
+                        <div class="border-b border-gray-200 dark:border-gray-700 pb-4">
+                            <h3 class="text-lg font-medium text-gray-900 dark:text-white">System Settings</h3>
+                            <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">Configure system behavior and features</p>
+                        </div>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <label class="flex items-center space-x-3">
+                                    <input type="checkbox" name="maintenance_mode" 
+                                           <?php echo ($settings['maintenance_mode'] ?? 'false') === 'true' ? 'checked' : ''; ?>
+                                           class="custom-checkbox">
+                                    <span class="text-sm font-medium text-gray-700 dark:text-gray-300">Maintenance Mode</span>
+                                </label>
+                                <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">When enabled, only admins can access the game</p>
+                            </div>
+                            
+                            <div>
+                                <label class="flex items-center space-x-3">
+                                    <input type="checkbox" name="kyc_enabled" 
+                                           <?php echo ($settings['kyc_enabled'] ?? 'true') === 'true' ? 'checked' : ''; ?>
+                                           class="custom-checkbox">
+                                    <span class="text-sm font-medium text-gray-700 dark:text-gray-300">Enable KYC System</span>
+                                </label>
+                                <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">When disabled, KYC submission and management will be hidden/disabled for users</p>
+                            </div>
+                            
+                            <div>
+                                <label class="flex items-center space-x-3">
+                                    <input type="checkbox" name="referral_enabled" 
+                                           <?php echo ($settings['referral_enabled'] ?? 'true') === 'true' ? 'checked' : ''; ?>
+                                           class="custom-checkbox">
+                                    <span class="text-sm font-medium text-gray-700 dark:text-gray-300">Enable Referral System</span>
+                                </label>
+                                <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">When disabled, referral code and bonuses will be hidden/disabled for users</p>
+                            </div>
+                            
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Support Link</label>
+                                <input type="text" name="support_link" value="<?php echo htmlspecialchars($settings['support_link'] ?? ''); ?>" 
+                                       class="w-full border border-gray-300 dark:border-gray-600 rounded-lg px-4 py-2 bg-white dark:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all" 
+                                       placeholder="https://t.me/your_support_link">
+                            </div>
+                            
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">WhatsApp Support</label>
+                                <input type="text" name="whatsapp_support" value="<?php echo htmlspecialchars($settings['whatsapp_support'] ?? ''); ?>" 
+                                       class="w-full border border-gray-300 dark:border-gray-600 rounded-lg px-4 py-2 bg-white dark:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all" 
+                                       placeholder="+919876543210">
+                            </div>
+                            
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Email Support</label>
+                                <input type="email" name="email_support" value="<?php echo htmlspecialchars($settings['email_support'] ?? ''); ?>" 
+                                       class="w-full border border-gray-300 dark:border-gray-600 rounded-lg px-4 py-2 bg-white dark:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all" 
+                                       placeholder="support@example.com">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="pt-6 border-t border-gray-200 dark:border-gray-700">
+                        <button type="submit" class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-all duration-300 transform hover:scale-105">
+                            <svg class="-ml-1 mr-3 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                            </svg>
+                            Save Settings
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Dark mode toggle
+        const darkModeToggle = document.getElementById('darkModeToggle');
+        const darkIcon = document.getElementById('darkIcon');
+        const lightIcon = document.getElementById('lightIcon');
+        
+        // Check for saved user preference or system preference
+        if (localStorage.getItem('darkMode') === 'true' || 
+            (!localStorage.getItem('darkMode') && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+            darkIcon.classList.add('hidden');
+            lightIcon.classList.remove('hidden');
+        }
+        
+        darkModeToggle.addEventListener('click', () => {
+            document.documentElement.classList.toggle('dark');
+            const isDark = document.documentElement.classList.contains('dark');
+            localStorage.setItem('darkMode', isDark);
+            
+            if (isDark) {
+                darkIcon.classList.add('hidden');
+                lightIcon.classList.remove('hidden');
+            } else {
+                darkIcon.classList.remove('hidden');
+                lightIcon.classList.add('hidden');
+            }
+        });
+        
+        // Add animation to form elements on focus
+        document.querySelectorAll('input, textarea, select').forEach(element => {
+            element.addEventListener('focus', () => {
+                element.classList.add('ring-2', 'ring-blue-500');
+            });
+            
+            element.addEventListener('blur', () => {
+                element.classList.remove('ring-2', 'ring-blue-500');
+            });
+        });
+    </script>
+</body>
+</html>

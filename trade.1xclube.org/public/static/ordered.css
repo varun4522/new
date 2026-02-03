@@ -1,0 +1,107 @@
+@charset "UTF-8";
+
+.finance[data-v-4ab5cd18] {
+    width: 343px;
+    height: 93px;
+    background: url('/public/static/me_bg-0ef7d93c.png') no-repeat;
+    background-size: 100% 100%;
+    margin-top: 14px
+}
+
+.tabs-wrap[data-v-4ab5cd18] {
+    width: 343px;
+    margin-top: 14px
+}
+
+.tabs-wrap .tab-item[data-v-4ab5cd18] {
+    width: 166px;
+    height: 32px;
+    background: #fff;
+    border-radius: 29px;
+    box-sizing: border-box;
+    text-align: center;
+    line-height: 32px;
+    border: 1px solid #f1f2f3;
+    box-sizing: border-box;
+    font-size: 13px
+}
+
+.tabs-wrap .tab-item-a[data-v-4ab5cd18] {
+    background: #4ca335;
+    color: #fff;
+    border-color: #4ca335
+}
+
+.product[data-v-4ab5cd18] {
+    width: 343px;
+    margin-top: 14px;
+    background: #fff;
+    border-radius: 7px;
+    padding: 9px;
+    box-sizing: border-box
+}
+
+.product .product-top[data-v-4ab5cd18] {
+    width: 100%;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 9px
+}
+
+.product .product-top .cover[data-v-4ab5cd18] {
+    width: 49px;
+    height: 49px
+}
+
+.product .product-bottom[data-v-4ab5cd18] {
+    margin-top: 9px
+}
+
+.received {
+    background: url('/public/static/me_bg-0ef7d93c.png') no-repeat;
+    width: 200px;
+    border-radius: 50px;
+    text-align: center;
+    padding: 6px;
+    position: absolute;
+    bottom: 100px;
+    right: -40px;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.received_contect {
+    display: flex;
+    justify-content: space-around;
+    padding-right: 50px;
+    align-items: center;
+}
+
+.amountArea {
+    font-size: 15px;
+    font-weight: 700;
+    color: #fff;
+}
+
+.receivedBtn {
+    background: #fff;
+    padding: 2px 10px;
+    border-radius: 6px;
+}
+
+.baddger {
+    background: #ff8a00;
+    color: #fff;
+    position: absolute;
+    z-index: 9;
+    right: 5px;
+    padding: 2px 11px;
+    border-radius: 3px;
+}
+
+.product .product-bottom .common-btn[data-v-4ab5cd18] {
+    width: 88px;
+    height: 29px;
+    text-align: center;
+    line-height: 29px;
+    border-radius: 29px
+}

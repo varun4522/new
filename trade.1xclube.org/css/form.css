@@ -1,0 +1,539 @@
+.my_form{
+	position:relative;
+	z-index:2;
+    background: #ffffff;
+    border-radius: 15px;
+    padding: 10px;
+    box-shadow: 0 4px 15px rgb(0 0 0 / 5%);
+    border: 1px solid #8BC34A;
+    margin: 15px;
+    margin-top: 10px;
+	margin-bottom:20px;
+    overflow: hidden;
+}	
+.my_form_in{
+	padding:7px;
+    /* background-color: rgba(255,255,255,0.03); */
+    border-radius: 7px;
+    position: relative;
+    border-radius: 5px;
+    margin: 5px;
+}
+.my_form_t{
+	font-size:20px;
+	color:var(--t);
+	padding-bottom:30px;
+}
+
+.my_form_t2{
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 7px;
+    color: #000;
+    display: flex;
+    align-items: center;
+}
+.my_form_t2 i {
+    margin-right: 10px;
+    color: var(--t3);
+}
+.my_form section{
+	display:block;
+	padding-bottom:5px;
+	position:relative;
+}
+.my_form section aside{
+	position:relative;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    /* width: 100%; */
+    -ms-flex-wrap: wrap;
+        flex-wrap: wrap;
+    -webkit-box-align: stretch;
+        -ms-flex-align: stretch;
+            align-items: stretch;
+    /*box-shadow: 0 1px 3px rgba(50, 50, 93, .15), 0 1px 0 rgba(0, 0, 0, 0.02);*/
+	overflow:hidden;
+	-webkit-transition:ease-in-out 0.2s all;
+	-o-transition:ease-in-out 0.2s all;
+	transition:ease-in-out 0.2s all;
+	border:2px solid rgba(0,0,0,0.1);
+    background-color: var(--pb3);
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+}
+.my_form section aside:hover{
+    -webkit-box-shadow: 0 1px 8px rgba(50, 50, 93, .15), 0 2px 0 rgba(0, 0, 0, 0.02);
+            box-shadow: 0 1px 8px rgba(50, 50, 93, .15), 0 2px 0 rgba(0, 0, 0, 0.02);
+}
+.my_form section aside input::-webkit-input-placeholdern .my_form section aside textarea::-webkit-input-placeholder{
+    font-family: 'Kanit','Poppins', 'Lato', Calibri, Arial, sans-serif;
+    color: rgba(0, 0, 0, 0.2);
+    font-size: 12px;
+    font-weight: 400;
+}
+.my_form section aside input::-moz-placeholdern .my_form section aside textarea::-moz-placeholder{
+  
+    font-family: 'Kanit','Poppins', 'Lato', Calibri, Arial, sans-serif;
+    color: rgba(0, 0, 0, 0.2);
+    font-size: 12px;
+    font-weight: 400;
+}
+.my_form section aside input:-ms-input-placeholdern .my_form section aside textarea:-ms-input-placeholder{
+ 
+    font-family: 'Kanit','Poppins', 'Lato', Calibri, Arial, sans-serif;
+    color: rgba(0, 0, 0, 0.2);
+    font-size: 12px;
+    font-weight: 400;
+}
+.my_form section aside input::-ms-input-placeholdern .my_form section aside textarea::-ms-input-placeholder{
+  
+    font-family: 'Kanit','Poppins', 'Lato', Calibri, Arial, sans-serif;
+    color: rgba(0, 0, 0, 0.2);
+    font-size: 12px;
+    font-weight: 400;
+}
+.my_form section aside input::placeholdern .my_form section aside textarea::placeholder{
+  
+    font-family: 'Kanit','Poppins', 'Lato', Calibri, Arial, sans-serif;
+    color: rgba(0, 0, 0, 0.2);
+    font-size: 12px;
+    font-weight: 400;
+}
+.my_form section aside input::-webkit-input-placeholder, .my_form section aside textarea::-webkit-input-placeholder {
+    
+    font-family: 'Kanit','Poppins', 'Lato', Calibri, Arial, sans-serif;
+    color: rgba(0, 0, 0, 0.2);
+    font-size: 12px;
+    font-weight: 400;
+
+}
+.my_form section aside input:-o-input-placeholder, .my_form section aside textarea:-o-input-placeholder {
+    color: rgba(0, 0, 0,0.2);
+}
+
+.my_form section aside input::-ms-input-placeholder, .my_form section aside textarea::-ms-input-placeholder {
+    color: rgba(0, 0, 0,0.2);
+}
+.my_form section aside input[type=text], .my_form section aside input[type=password], .my_form section aside input[type=email], .my_form section aside textarea, .my_form section aside select{
+	display:block;
+	background:rgba(0,0,0,0.05);
+	border:none;
+    -webkit-transition: -webkit-box-shadow .15s ease;
+    transition: -webkit-box-shadow .15s ease;
+    -o-transition: box-shadow .15s ease;
+    transition: box-shadow .15s ease;
+    transition: box-shadow .15s ease, -webkit-box-shadow .15s ease;
+    border: 0;
+	height:35px;
+	outline:none;/*
+	padding-left:36px;
+	padding-right:5px;*/
+	font-size:14px;
+	color:var(--t6);
+	position: relative;
+    width: 1%;
+    margin-bottom: 0;
+    -webkit-box-flex: 1;
+        -ms-flex: 1 1 auto;
+            flex: 1 1 auto;
+	padding-right:15px;
+	padding-left:15px;
+    font-family: 'Kanit','Poppins', 'Lato', Calibri, Arial, sans-serif;
+    font-weight: 400;
+    
+}
+.my_form section aside select{
+	color:var(--t6);
+}
+.my_form section aside select{
+	height:37px;
+}
+.my_form section aside textarea{
+	height:60px;
+	padding:10px;
+}
+.my_form section aside span{
+	height:44px;
+	width:30px;
+	line-height:45px;
+	text-align:center;
+	padding-left:5px;
+	padding-right:5px;
+	font-size:20px;
+	color:var(--2);
+	/*position:absolute;
+	top:0px;
+	left:0px;*/
+	z-index:2;
+	font-family: Aqleema-Regular, Lato, sans-serif;
+    display: flow-root;
+	background:rgba(255,255,255,0.1);
+    display: none;
+}
+.my_form section aside:focus{
+	background:#1258c1;
+}
+.my_form section small{
+	display:block;
+	font-size:10px;
+	color:var(--t);
+	padding:4px 2px;
+	border-radius:2px 2px 0px 0px;
+    text-align: left;
+}
+.my_form_btn{
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    /* padding: 10px; */
+    bottom: 5px;
+    left: 5px;
+    right: 5px;
+    z-index: 1;
+    /* background: rgba(0, 0, 0, 0.8); */
+    backdrop-filter: blur(7px);
+    border-radius: 7px;
+    margin-top: 15px;
+}
+.my_form_btn button, .my_form_btn a{
+    overflow: hidden;
+    position: relative;
+    /* overflow: hidden; */
+    -webkit-box-flex: 1;
+    -ms-flex: 1;
+    flex: 1;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
+    outline: none;
+    border: none;
+    font-size: 18px;
+    -webkit-transition: 
+ease-in-out 0.2s all;
+    -o-transition: ease-in-out 0.2s all;
+    transition: 
+ease-in-out 0.2s all;
+    text-transform: uppercase;
+    width: 100%;
+    font-weight: 600;
+    cursor: pointer;
+    color: #ffffff;
+    padding: 10px;
+    text-shadow: 2px 2px 3px rgb(0 0 0 / 10%);
+    border-radius: 5px;
+    background-color: #5aaa41;
+    border: 2px solid var(--t3);
+    letter-spacing: 1px;
+    box-shadow: 0px 1px 4px 0.05px rgba(0, 0, 0, 0.2);
+	
+}
+.my_form_btn button:after {
+    content: "";
+    width: 20px;
+    height: 100%;
+    background: #fff;
+    position: absolute;
+    top: 0;
+    left: -30px;
+    -webkit-filter: blur(10px);
+    filter: blur(10px);
+    opacity: 0.3;
+    -webkit-transform: rotate(10deg);
+    -ms-transform: rotate(10deg);
+    transform: rotate(10deg);
+    -webkit-animation: btn-scroll 1.5s infinite linear;
+    animation: btn-scroll 1.5s infinite linear;
+
+}
+/* 
+.my_form_btn a{
+	border:1px solid var(--p);
+	background:rgba(255,255,255,0.1);
+	color:var(--pd);
+	margin-top:10px;
+	font-size:14px;
+	padding:15px 5px;
+	font-family: 'Lato';
+} */
+.my_form_btn button i{
+    color: var(--w);
+    -webkit-transition: ease-in-out 0.3s all;
+    -o-transition: ease-in-out 0.3s all;
+    transition: ease-in-out 0.3s all;
+    margin-left: 5px;
+}
+.my_form_btn button:hover{
+    background: -webkit-gradient(linear, left top, left bottom, from(#333), to(#ccc));
+    background: -o-linear-gradient(top, #333, #ccc 100%);
+    background: linear-gradient(180deg, #333, #ccc 100%); 
+	cursor:pointer;
+}
+.my_form_btn button:hover i{
+    color: #fff;
+}
+.my_form_btn button:disabled{
+    background: #cccccc;
+}
+.my_form_btn button:active{
+	-webkit-transform:translate(3px,3px);
+	    -ms-transform:translate(3px,3px);
+	        transform:translate(3px,3px);
+}
+.my_form article{
+	padding:0px 0px;
+	text-align:left;
+	padding-bottom:15px;
+}
+.my_form article span{
+	display:inline-block;
+	font-size:18px;
+	color:#666;
+	text-decoration:underline;
+	font-family: 'Poppins';
+	cursor:pointer;
+}
+.my_form section abbr{
+    height: 47px;
+    width: 40px;
+	font-size:16px;
+	color:#919191;
+    line-height: 47px;
+	display:inline-block;
+	position:absolute;
+	top:0;
+	right:0px;
+}
+.my_form section abbr i{
+	opacity:0.4;
+}
+
+.my_form_forgot{
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    margin-bottom: 25px;
+}
+.my_form_forgot a{
+    text-align: right;
+	font-size:14px;
+	color:#2078d1;
+    margin-left: auto;
+}
+.my_form_forgot label {
+    text-align: left;
+    -webkit-box-flex: 1;
+        -ms-flex: 1;
+            flex: 1;
+	font-size:14px;
+    color: var(--t);
+    font-size: 12px;
+    font-weight: 400;
+    vertical-align: middle;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+}
+.my_form_forgot a:hover{
+	text-decoration:underline;
+}
+.my_form_txt{
+    font-weight: 600;
+    font-size: 14px;
+    padding-bottom: 15px;
+    color: var(--t);
+}
+.my_form_txt input{
+    vertical-align: text-top;
+    margin-right: 4px;
+}
+
+
+.sv_msgtxt{
+    padding: 20px;
+}
+.sv_msgtxt img{
+    margin: 0 auto;
+    display: block;
+    width: 40%;
+}
+.sv_msgtxt h1{
+    font-size: 25px;
+    padding: 10px 0px;
+    color: var(--pd);
+    font-family: 'Barlow';
+}
+.sv_msgtxt h4{
+    font-size: 15px;
+    padding: 10px 0px;
+    color: var(--t);
+    font-family: 'Barlow';
+}
+.sv_msgtxt section {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    /* border-top: 1px solid #f2f2f2; */
+    font-size: 14px;
+    text-align: left;
+    padding: 10px 0px;	
+    -webkit-box-pack: center;	
+        -ms-flex-pack: center;	
+            justify-content: center;
+}
+
+.sv_msgtxt section dd{
+	-webkit-box-flex: 1;
+	    -ms-flex: 1;
+	        flex: 1;
+	font-weight: 600;
+	color: #333;
+    padding-right: 15px;
+    border-right: 1px solid #f2f2f2;
+}
+.sv_msgtxt section dl{
+	-webkit-box-flex: 1;
+	    -ms-flex: 1;
+	        flex: 1;
+	color: var(--t);
+    text-align: right;
+    padding-left: 15px;
+}
+.bi_otp_box{
+	display: none;
+}
+/*.my_form_btn{
+	padding-bottom:20px;
+} */
+.my_form_btn button em{
+	font-size:14px;
+}
+.my_form_otpbtn button{
+    outline: none;
+    border: none;
+    display: inline-block;
+    background: -o-linear-gradient(bottom,var(--p),var(--pd) 100%);
+    background: -webkit-gradient(linear,left bottom, left top,from(var(--p)),to(var(--pd)));
+    background: linear-gradient(0deg,var(--p),var(--pd) 100%);
+    color: #FFF;
+    font-size: 16px;
+    padding: 10px 10px;
+    border-radius: 3px;
+    font-family: 'Poppins', 'Lato';
+    -webkit-transition: ease-in-out 0.2s all;
+    -o-transition: ease-in-out 0.2s all;
+    transition: ease-in-out 0.2s all;
+    letter-spacing: 1px;
+    -webkit-box-shadow: 0px 3px 6px 0.05px rgb(0 0 0 / 20%);
+            box-shadow: 0px 3px 6px 0.05px rgb(0 0 0 / 20%);
+    border: 1px solid rgba(255,255,255,0.1);
+    font-weight: 600;
+    text-shadow: 1px 1px 1px rgb(0 0 0 / 10%);
+    cursor: pointer;
+}
+
+
+.sv_msgtxt_btn{
+	text-align:center;
+	display:-webkit-box;
+	display:-ms-flexbox;
+	display:flex;
+	padding: 10px 0px;
+}
+.sv_msgtxt_btn button, .sv_msgtxt_btn a{
+	-webkit-box-flex:1;
+	    -ms-flex:1;
+	        flex:1;
+	outline:none;
+	border:none;
+	display:inline-block;
+	background:-o-linear-gradient(bottom,var(--p),var(--pd) 100%);
+	background:-webkit-gradient(linear,left bottom, left top,from(var(--p)),to(var(--pd)));
+	background:linear-gradient(0deg,var(--p),var(--pd) 100%);
+	color:#FFF;
+	font-size:20px;
+	padding:10px 10px;
+	border-radius:10px;
+	width:70%;
+	font-family: 'Poppins', 'Lato';
+	-webkit-transition:ease-in-out 0.2s all;
+	-o-transition:ease-in-out 0.2s all;
+	transition:ease-in-out 0.2s all;
+	letter-spacing:1px;
+    -webkit-box-shadow: 0px 3px 6px 0.05px rgb(0 0 0 / 20%);
+            box-shadow: 0px 3px 6px 0.05px rgb(0 0 0 / 20%);
+	border:1px solid rgba(255,255,255,0.1);
+	font-weight:600;
+	text-shadow:1px 1px 1px rgba(0,0,0,0.1);
+	
+}
+.sv_msgtxt_btn a{
+	border:1px solid var(--p);
+	background:rgba(255,255,255,0.1);
+	color:var(--pd);
+	margin-top:10px;
+	font-size:14px;
+	padding:15px 5px;
+	font-family: 'Lato';
+}
+.sv_msgtxt_btn button i{
+	margin-right:5px;
+}
+.sv_msgtxt_btn button:hover{
+	background-color:#2D96FF;
+	cursor:pointer;
+}
+.sv_msgtxt_btn button:active{
+	-webkit-transform:translate(3px,3px);
+	    -ms-transform:translate(3px,3px);
+	        transform:translate(3px,3px);
+}
+.my_back{
+	position: fixed;
+	z-index: 2;
+	background-color: rgba(255,255,255,0.1);
+	top: 15px;
+	left: 15px;
+	overflow: hidden;
+	border-radius: 7px;
+}
+.my_back a{
+	display: inline-block;
+	font-size: 20px;
+	color: #333;
+	padding: 13px 15px;
+	color: #f2f2f2;
+	opacity: 0.6;
+}
+.my_back a:hover{
+	opacity: 1;
+	cursor: pointer;
+}
+
+.myCaptcha aside em{
+	position: absolute;
+	z-index: 1;
+    right: 38%;
+    bottom: 12px;
+	color: #333;
+	opacity: 0.6;
+	-webkit-transition: ease-in-out 0.2s all;
+	-o-transition: ease-in-out 0.2s all;
+	transition: ease-in-out 0.2s all;
+}
+.myCaptcha aside:active em, .myCaptcha aside:active em{
+	-webkit-transform: rotate(90deg);
+	    -ms-transform: rotate(90deg);
+	        transform: rotate(90deg);
+}

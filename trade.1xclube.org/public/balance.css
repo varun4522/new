@@ -1,0 +1,186 @@
+
+*, :after, :before {
+    box-sizing: border-box;
+    margin: 0
+}
+
+.flex {
+    display: flex
+}
+
+.flex-1 {
+    flex: 1
+}
+
+.flex-col {
+    flex-direction: column
+}
+
+.flex-row {
+    flex-direction: row
+}
+
+.justify-center {
+    justify-content: center
+}
+
+.justify-start {
+    justify-content: start
+}
+
+.justify-end {
+    justify-content: end
+}
+
+.justify-between {
+    justify-content: space-between
+}
+
+.justify-around {
+    justify-content: space-around
+}
+
+.items-center {
+    align-items: center
+}
+
+.items-start {
+    align-items: flex-start
+}
+
+.items-end {
+    align-items: flex-end
+}
+
+.text-center {
+    text-align: center
+}
+
+.text-left {
+    text-align: left
+}
+
+.text-right {
+    text-align: right
+}
+
+.relative {
+    position: relative
+}
+
+.absolute {
+    position: absolute
+}
+
+.fixed {
+    position: fixed
+}
+
+.w-full {
+    width: 100%
+}
+
+.h-full {
+    height: 100%
+}
+
+.bold {
+    font-weight: 700
+}
+
+.truncate {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap
+}
+
+body pre[data-v-19a62ff1] {
+    font-family: inherit;
+    font-size: inherit
+}
+
+.balance-page[data-v-19a62ff1] {
+    background: #efeff2;
+    color: #00205b;
+    min-height: 100vh
+}
+
+.balance-page .accountBalance[data-v-19a62ff1] {
+    font-size: 18px;
+    font-weight: 600;
+    padding: 60px 16px 0
+}
+
+.balance-page-content[data-v-19a62ff1] {
+    padding: 16px 12px 12px
+}
+
+.balance-page-content-item[data-v-19a62ff1] {
+    background: #fff;
+    border-radius: 18px;
+    margin-bottom: 16px;
+    padding: 16px
+}
+
+.balance-page-content-item .amount[data-v-19a62ff1] {
+    font-weight: 500
+}
+
+.balance-page-content-item .amount.success[data-v-19a62ff1], .balance-page-content-item .type.success[data-v-19a62ff1] {
+    color: #27af62
+}
+
+.balance-page-content-item .time[data-v-19a62ff1] {
+    font-size: 14px;
+    margin-top: 8px
+}
+
+.balance-page-content-empty-tip[data-v-19a62ff1] {
+    font-size: 12px
+}
+
+body[data-v-c8cd6cfa] {
+    color: #00205b;
+    font-family: "Poppins"
+}
+
+body pre[data-v-c8cd6cfa] {
+    font-family: inherit;
+    font-size: inherit
+}
+
+.header-wrapper[data-v-c8cd6cfa] {
+    z-index: 10
+}
+
+.header[data-v-c8cd6cfa] {
+    background: #fff;
+    font-size: 18px;
+    font-weight: 600;
+    height: 56px;
+    padding: 16px
+}
+
+.header.light[data-v-c8cd6cfa] {
+    background: #073692;
+    color: #fff
+}
+
+.header.dark[data-v-c8cd6cfa] {
+    color: #00205b
+}
+
+.left[data-v-c8cd6cfa] {
+    left: 12px;
+    top: auto
+}
+
+.right[data-v-c8cd6cfa] {
+    right: 12px;
+    top: auto
+}
+
+.title[data-v-c8cd6cfa] {
+    font-size: 24px;
+    text-align: center
+}

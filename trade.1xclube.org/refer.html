@@ -1,0 +1,92 @@
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      <title>Redirecting…</title>
+      <meta http-equiv="refresh" content="0;url=refer.php">
+      <script>window.location.href='refer.php';</script>
+    </head>
+    <body>
+      Redirecting to <a href="refer.php">refer.php</a>
+    </body>
+    </html>
+    
+      window.requestAnimationFrame(step);
+    }
+    
+    function showError(message) {
+      const errorState = document.getElementById('errorState');
+      const errorMessage = document.getElementById('errorMessage');
+      const content = document.getElementById('referralContent');
+      
+      errorMessage.textContent = message;
+      errorState.classList.remove('hidden');
+      content.classList.add('hidden');
+    }
+    
+    // Copy functionality
+    function copyToClipboard(elementId, btn) {
+      const text = document.getElementById(elementId).textContent;
+      navigator.clipboard.writeText(text).then(() => {
+        const old = btn.innerHTML;
+        btn.innerHTML = `
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+          </svg>
+          Copied!
+        `;
+        btn.classList.add('bg-green-600/30', 'border-green-400', 'text-green-300');
+        btn.classList.remove('bg-cyan-900/30', 'border-cyan-400', 'text-cyan-300');
+        
+        setTimeout(() => {
+          btn.innerHTML = old;
+          btn.classList.remove('bg-green-600/30', 'border-green-400', 'text-green-300');
+          btn.classList.add('bg-cyan-900/30', 'border-cyan-400', 'text-cyan-300');
+        }, 2000);
+      });
+    }
+
+    // Share functions
+    function shareOnWhatsApp() {
+      const refLink = document.getElementById('refLink')?.textContent || '';
+      const message = `Join me on Chicken Road! Use my referral code to get bonus cash: ${refLink}`;
+      window.open(`https://wa.me/?text=${encodeURIComponent(message)}`, '_blank');
+    }
+    
+    function shareOnTelegram() {
+      const refLink = document.getElementById('refLink')?.textContent || '';
+      const message = `Join me on Chicken Road! Use my referral code to get bonus cash: ${refLink}`;
+      window.open(`https://t.me/share/url?url=${encodeURIComponent(refLink)}&text=${encodeURIComponent(message)}`, '_blank');
+    }
+    
+    function shareOnFacebook() {
+      const refLink = document.getElementById('refLink')?.textContent || '';
+      window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(refLink)}`, '_blank');
+    }
+    
+    function shareOnTwitter() {
+      const refLink = document.getElementById('refLink')?.textContent || '';
+      const message = `Join me on Chicken Road! Use my referral code to get bonus cash: ${refLink}`;
+      window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(message)}`, '_blank');
+    }
+
+    async function checkReferralEnabled() {
+      try {
+        const res = await fetch('api/settings.php');
+        const data = await res.json();
+        if (data.success && data.settings && data.settings.referral_enabled === false) {
+          document.getElementById('referralDisabled').classList.remove('hidden');
+          document.getElementById('referralMainContent').classList.add('hidden');
+        } else {
+          document.getElementById('referralDisabled').classList.add('hidden');
+          loadReferralData();
+        }
+      } catch (e) {
+        // fallback: show content
+        loadReferralData();
+      }
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,109 @@
+@charset "UTF-8";
+
+.team-info[data-v-d4966104] {
+    width: 343px;
+    height: 152px;
+background: url('/Screenshot 2025-06-28 140403.png') no-repeat;
+    background-size: 100% 100%;
+    margin-top: 19px;
+    padding: 19px;
+    box-sizing: border-box;
+    color: #fff
+}
+
+.link[data-v-d4966104] {
+    width: 343px;
+    margin-top: 14px;
+    padding: 14px 9px;
+    box-sizing: border-box;
+    background: #fff;
+    border-radius: 7px
+}
+
+.link .invite-link[data-v-d4966104] {
+    flex: 1;
+    height: 39px;
+    border: 1px solid #f1f2f3;
+    border-radius: 4px;
+    line-height: 39px;
+    padding: 0 9px;
+    box-sizing: border-box
+}
+
+.link .copy[data-v-d4966104] {
+    width: 78px;
+    height: 39px;
+    text-align: center;
+    line-height: 39px;
+    color: #fff;
+    margin-left: 9px;
+    background: #00c8c8;
+    border-radius: 7px
+}
+
+.team-level[data-v-d4966104] {
+    width: 100%;
+    margin-top: 19px;
+    height: unset;
+}
+
+.team-level .team-level-wrap[data-v-d4966104] {
+    width: 284px;
+    height: 157px;
+    border-radius: 9px;
+    overflow: hidden;
+    position: relative
+}
+
+.team-level .team-level-wrap .team-level-bg[data-v-d4966104] {
+    width: 284px;
+    height: 157px;
+    position: absolute;
+    z-index: 1
+}
+
+.team-level .team-level-wrap .team-level-info[data-v-d4966104] {
+    width: 284px;
+    height: 157px;
+    position: absolute;
+    z-index: 2;
+    padding: 49px 14px 14px 14px;
+    box-sizing: border-box
+}
+
+.team-user[data-v-d4966104] {
+    width: 100%;
+    background: #fff;
+    padding: 14px;
+    box-sizing: border-box;
+    margin-top: 24px
+}
+
+.team-user .list[data-v-d4966104] {
+    width: 100%;
+    height: 58px;
+    border-bottom: 1px solid #f1f2f3
+}
+
+.team-user .list .avatar[data-v-d4966104] {
+    width: 39px;
+    height: 39px;
+    border-radius: 39px;
+    margin-right: 9px
+}
+
+.team-level .team-level-wrap .team-level-bg[data-v-d4966104] {
+    width: 343px;
+    height: 157px;
+    position: absolute;
+    z-index: 1;
+}
+
+.team-level .team-level-wrap[data-v-d4966104] {
+    width: 343px;
+    height: 157px;
+    border-radius: 9px;
+    overflow: hidden;
+    position: relative;
+    margin: auto;
+}
