@@ -23,9 +23,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        \Illuminate\Support\Facades\DB::statement("SET foreign_key_checks=0"); 
-        $databaseName = \Illuminate\Support\Facades\DB::getDatabaseName();
-        $tables = \Illuminate\Support\Facades\DB::select("SELECT * FROM information_schema.tables WHERE table_schema = '$databaseName'");
+        // Commented out to avoid database connection errors during Composer install
+        // \Illuminate\Support\Facades\DB::statement("SET foreign_key_checks=0"); 
+        // $databaseName = \Illuminate\Support\Facades\DB::getDatabaseName();
+        // $tables = \Illuminate\Support\Facades\DB::select("SELECT * FROM information_schema.tables WHERE table_schema = '$databaseName'");
                 
  
     }
