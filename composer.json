@@ -63,7 +63,8 @@
         "sort-packages": true,
         "allow-plugins": {
             "pestphp/pest-plugin": true
-        }
+        },
+        "disable-tls": false
     },
     "minimum-stability": "stable",
     "prefer-stable": true
